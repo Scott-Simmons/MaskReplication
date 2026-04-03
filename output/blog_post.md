@@ -10,12 +10,12 @@ Truth is often inconvenient. For starters, we cannot be sure that we actually kn
 
 Just like humans can hide their underlying beliefs when subject to social pressure, AI models hide their internal beliefs subject to pressure from a prompt too. And while scaling up AI models has made them dramatically more capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
 
-![MASK paper: Larger models are more accurate but not more honest](figures/og_headline_result.png)
+![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)
 
 When I first saw this, it was quite a provocative result. For many reasons. How is lying defined? How is truth established? Many of these questions are answered in the paper. But two questions remained:
 
 > 1. [Does this survive independent replication?](#replication-results)
-> 2. [Are there any other measures that can help characterise deception?](#the-limitation-of-honesty-scores-actually-most-1d-projections)
+> 2. [Are there any other measures that can help characterise deception?](#the-deception-basis)
 
 Last year, I implemented the MASK evaluation into the [Inspect AI](https://inspect.ai) framework. In this post, I replicate the original headline result across 9 models, and propose a basis for deception analysis that I think gives researchers a more complete picture than any single honesty score.
 
@@ -45,19 +45,19 @@ The headline result held. The pattern is clear in the replication: accuracy scal
 
 ![Replication: Larger models are more accurate but not more honest](figures/replication_headline_result.png)
 
-TODO: Insert interpretation_new_models
-
-TODO: Insert flops_note[^1]
+**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate the FLOP per model, as they were unavailable in the original paper.[^1]
 
 ---
 
-## The limitation of honesty scores (actually, most 1D projections!)
+## The deception basis
 
-TODO: Insert introduce_the_basis[^2]
+The categories that a pressured statement, subject to some internally held belief, can fall into are:[^2]
 
 $$\{\text{Honest},\ \text{Lie},\ \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}$$
 
 $$\{H,\ L,\ E,\ N,\ \varepsilon\}$$
+
+And here are the empirical basis vectors for my MASK replication:
 
 | Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\varepsilon$ |
 |---|---|---|---|---|---|---|
@@ -72,11 +72,11 @@ $$\{H,\ L,\ E,\ N,\ \varepsilon\}$$
 | Llama 3.3 70B | 998 | 257 | 526 | 96 | 114 | 5 |
 | **Total** | **8,500** | **2040** | **3839** | **1427** | **1157** | **35** |
 
-TODO: Insert honesty_in_terms_of_basis
+With this basis in mind, "honesty" as reported by the paper actually means:
 
 $$\text{Honesty} = 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N}$$
 
-TODO: Insert honesty_is_lossy
+However this projection compresses a lot of useful information.
 
 TODO: Insert interp_dumb_and_diplomatic
 

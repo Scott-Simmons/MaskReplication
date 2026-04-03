@@ -3,7 +3,7 @@ def placeholder_plot() -> str:
 
 
 def og_headline_result() -> str:
-    return "![MASK paper: Larger models are more accurate but not more honest](figures/og_headline_result.png)"
+    return "![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)"
 
 
 def replication_headline_result() -> str:

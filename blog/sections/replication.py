@@ -41,4 +41,7 @@ def interpretation_new_models() -> str:
 
 
 def flops_note() -> str:
-    return "TODO: Insert flops_note[^1]"
+    return (
+        "**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to "
+        "estimate the FLOP per model, as they were unavailable in the original paper.[^1]"
+    )

@@ -1,13 +1,20 @@
 def introduce_the_basis() -> str:
-    return "TODO: Insert introduce_the_basis[^2]"
+    return (
+        "The categories that a pressured statement, subject to some internally held "
+        "belief, can fall into are:[^2]"
+    )
+
+
+def empirical_basis_intro() -> str:
+    return "And here are the empirical basis vectors for my MASK replication:"
 
 
 def honesty_in_terms_of_basis() -> str:
-    return "TODO: Insert honesty_in_terms_of_basis"
+    return 'With this basis in mind, "honesty" as reported by the paper actually means:'
 
 
 def honesty_is_lossy() -> str:
-    return "TODO: Insert honesty_is_lossy"
+    return "However this projection compresses a lot of useful information."
 
 
 def interp_dumb_and_diplomatic() -> str:

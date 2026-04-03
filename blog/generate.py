@@ -20,12 +20,12 @@ STRUCTURE = [
         replication.differences_to_og,
         replication.interpretation,
         figures.replication_headline_result,
-        replication.interpretation_new_models,
         replication.flops_note,
     ]),
-    ("## The limitation of honesty scores (actually, most 1D projections!)", [
+    ("## The deception basis", [
         basis.introduce_the_basis,
         figures.deception_basis,
+        basis.empirical_basis_intro,
         figures.basis_vectors_empirical,
         basis.honesty_in_terms_of_basis,
         figures.honesty_metric,

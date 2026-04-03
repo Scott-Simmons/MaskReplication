@@ -38,7 +38,7 @@ def how_i_reacted() -> str:
         "answered in the paper. But two questions remained:\n\n"
         "> 1. [Does this survive independent replication?](#replication-results)\n"
         "> 2. [Are there any other measures that can help characterise deception?]"
-        "(#the-limitation-of-honesty-scores-actually-most-1d-projections)"
+        "(#the-deception-basis)"
     )
 
 

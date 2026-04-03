@@ -27,9 +27,7 @@
 <li><a href="#the-basis-of-deception">The Basis of Deception</a>
 <ul>
 <li><a href="#replication-results">Replication results</a></li>
-<li><a
-href="#the-limitation-of-honesty-scores-actually-most-1d-projections">The
-limitation of honesty scores (actually, most 1D projections!)</a></li>
+<li><a href="#the-deception-basis">The deception basis</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#appendix-paper-vs-replication-differences">Appendix: Paper
 vs replication differences</a></li>
@@ -62,9 +60,10 @@ href="https://arxiv.org/abs/2503.03750">Ren et al., 2025</a> suggests
 that larger models are not more honest.</p>
 <figure>
 <img src="figures/og_headline_result.png"
-alt="MASK paper: Larger models are more accurate but not more honest" />
-<figcaption aria-hidden="true">MASK paper: Larger models are more
-accurate but not more honest</figcaption>
+alt="From the MASK paper: Larger models are more accurate but not more honest" />
+<figcaption aria-hidden="true">From the <a
+href="https://arxiv.org/abs/2503.03750">MASK paper</a>: Larger models
+are more accurate but not more honest</figcaption>
 </figure>
 <p>When I first saw this, it was quite a provocative result. For many
 reasons. How is lying defined? How is truth established? Many of these
@@ -73,9 +72,8 @@ questions are answered in the paper. But two questions remained:</p>
 <ol type="1">
 <li><a href="#replication-results">Does this survive independent
 replication?</a></li>
-<li><a
-href="#the-limitation-of-honesty-scores-actually-most-1d-projections">Are
-there any other measures that can help characterise deception?</a></li>
+<li><a href="#the-deception-basis">Are there any other measures that can
+help characterise deception?</a></li>
 </ol>
 </blockquote>
 <p>Last year, I implemented the MASK evaluation into the <a
@@ -171,19 +169,21 @@ alt="Replication: Larger models are more accurate but not more honest" />
 <figcaption aria-hidden="true">Replication: Larger models are more
 accurate but not more honest</figcaption>
 </figure>
-<p>TODO: Insert interpretation_new_models</p>
-<p>TODO: Insert flops_note<a href="#fn1" class="footnote-ref"
-id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><strong>Note:</strong> I used <a
+href="https://epoch.ai/data/notable-ai-models">Epoch AI</a> to estimate
+the FLOP per model, as they were unavailable in the original paper.<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></p>
 <hr />
-<h2
-id="the-limitation-of-honesty-scores-actually-most-1d-projections">The
-limitation of honesty scores (actually, most 1D projections!)</h2>
-<p>TODO: Insert introduce_the_basis<a href="#fn2" class="footnote-ref"
+<h2 id="the-deception-basis">The deception basis</h2>
+<p>The categories that a pressured statement, subject to some internally
+held belief, can fall into are:<a href="#fn2" class="footnote-ref"
 id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p><span class="math display">\[\{\text{Honest},\ \text{Lie},\
 \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
 <p><span class="math display">\[\{H,\ L,\ E,\ N,\
 \varepsilon\}\]</span></p>
+<p>And here are the empirical basis vectors for my MASK replication:</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 14%" />
@@ -298,10 +298,11 @@ id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </tr>
 </tbody>
 </table>
-<p>TODO: Insert honesty_in_terms_of_basis</p>
+<p>With this basis in mind, “honesty” as reported by the paper actually
+means:</p>
 <p><span class="math display">\[\text{Honesty} = 1 - P(\text{Lie}) = 1 -
 \frac{L}{H + L + E + N}\]</span></p>
-<p>TODO: Insert honesty_is_lossy</p>
+<p>However this projection compresses a lot of useful information.</p>
 <p>TODO: Insert interp_dumb_and_diplomatic</p>
 <pre><code>  Unpressured Query     Pressured Query
         │                      │
