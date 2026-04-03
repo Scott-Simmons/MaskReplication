@@ -1,9 +1,16 @@
 def what_i_wanted_to_do() -> str:
-    return "TODO: Insert what_i_wanted_to_do"
+    return (
+        "I wanted to verify the paper's main claim: larger models are more accurate "
+        "but not more honest. I used the following models:"
+    )
 
 
 def differences_to_og() -> str:
-    return "TODO: Insert differences_to_og"
+    return (
+        "*The MASK dataset contains 1,000 public examples. "
+        "Shortfalls are due to API failures during evaluation.*\n\n"
+        "TODO: Insert differences_to_og"
+    )
 
 
 def interpretation() -> str:

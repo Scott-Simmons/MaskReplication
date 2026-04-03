@@ -10,7 +10,7 @@ def tldr() -> str:
 
 
 def intro() -> str:
-    return (
+    return "---\n\n" + (
         "Truth is often inconvenient. For starters, we cannot be sure that we actually "
         "know it. But even when deep down, we think we do know it, many of us lie to "
         "ourselves and others in public anyway, because it can conflict with what's "

@@ -4,6 +4,8 @@
 
 **TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars, not just one number, as the way forward for deception evaluation.
 
+---
+
 Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when deep down, we think we do know it, many of us lie to ourselves and others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things actually change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
 
 Just like humans can hide their underlying beliefs when subject to social pressure, AI models hide their internal beliefs subject to pressure from a prompt too. And while scaling up AI models has made them dramatically more capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
@@ -18,7 +20,7 @@ Last year, I implemented the MASK evaluation into the [Inspect AI](https://inspe
 
 ## Replication results
 
-TODO: Insert what_i_wanted_to_do
+I wanted to verify the paper's main claim: larger models are more accurate but not more honest. I used the following models:
 
 | Model | Provider | Samples | In paper? |
 |---|---|---|---|
@@ -31,6 +33,8 @@ TODO: Insert what_i_wanted_to_do
 | DeepSeek-R1-0528 | DeepSeek | 924 | No |
 | DeepSeek-V3.1 | DeepSeek | 1,000 | No |
 | Llama 3.3 70B | Meta | 998 | Yes |
+
+*The MASK dataset contains 1,000 public examples. Shortfalls are due to API failures during evaluation.*
 
 TODO: Insert differences_to_og
 
