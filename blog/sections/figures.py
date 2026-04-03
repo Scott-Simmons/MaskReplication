@@ -21,15 +21,22 @@ def two_d_space_projection_headline() -> str:
     from blog.plots import two_d_space_projection as _plot
     _plot()
     return ("![Model behaviour space with iso-P(Lie) contours. "
-            "Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when "
-            "accounting for error bars, even though o3-mini is actually just a lot more "
-            "evasive.](figures/two_d_space_projection.png)")
+            "Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), "
+            "even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. "
+            "o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely "
+            "honest twice as often (27% vs 14%). The honesty score compresses all of this "
+            "because o3-mini's evasion pulls samples away from the lie bucket."
+            "](figures/two_d_space_projection.png)")
 
 
 def more_2d_projections() -> str:
     from blog.plots import more_2d_projections as _plot
     _plot()
-    return "![Three more basis projections](figures/more_2d_projections.png)"
+    return ("![Three more basis projections. "
+            "Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). "
+            "Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when "
+            "it does not answer, it is mostly because it lacks beliefs, not because it evades)."
+            "](figures/more_2d_projections.png)")
 
 
 def models_used_in_replication() -> str:

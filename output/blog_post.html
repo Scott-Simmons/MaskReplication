@@ -26,6 +26,7 @@
 <ul>
 <li><a href="#the-basis-of-deception">The Basis of Deception</a>
 <ul>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#replication-results">Replication results</a></li>
 <li><a href="#the-deception-basis">The deception basis</a>
 <ul>
@@ -46,6 +47,8 @@ ways that the single honesty score hides nuance. Two models can score
 identically while behaving completely differently. I show why reporting
 the full basis is useful, and argue for reporting raw counts, including
 errors, and error bars as the way forward for deception evaluation.</p>
+<hr />
+<h2 id="introduction">Introduction</h2>
 <hr />
 <p>Truth is often inconvenient. For starters, we cannot be sure that we
 actually know it. But even when deep down, we think we do know it, many
@@ -180,7 +183,7 @@ id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
 <p><span class="math display">\[\{H,\ L,\ E,\ N,\
 \varepsilon\}\]</span></p>
-<p>And here are the empirical basis vectors for my MASK replication:</p>
+<p>Here are the empirical basis vectors for my MASK replication:</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 14%" />
@@ -295,7 +298,7 @@ id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </tr>
 </tbody>
 </table>
-<p>With this basis in mind, “honesty” as reported by the paper actually
+<p>With this basis in mind, “honesty” as reported by the paper
 means:</p>
 <p><span class="math display">\[\text{Honesty} = 1 - P(\text{Lie}) = 1 -
 \frac{L}{H + L + E + N}\]</span></p>
@@ -318,14 +321,20 @@ means:</p>
 <p>TODO: Insert empirical_lossy_demonstration</p>
 <figure>
 <img src="figures/two_d_space_projection.png"
-alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when accounting for error bars, even though o3-mini is actually just a lot more evasive." />
+alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs 14%). The honesty score compresses all of this because o3-mini’s evasion pulls samples away from the lie bucket." />
 <figcaption aria-hidden="true">Model behaviour space with iso-P(Lie)
-contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie)
-contour when accounting for error bars, even though o3-mini is actually
-just a lot more evasive.</figcaption>
+contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie)
+contour (within error bars), even though o3-mini evades 3x more (33% vs
+11%) whereas Qwen is more direct. o3-mini also lies more when it does
+engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs
+14%). The honesty score compresses all of this because o3-mini’s evasion
+pulls samples away from the lie bucket.</figcaption>
 </figure>
-<p>TODO: Insert 1D_projections<a href="#fn3" class="footnote-ref"
-id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Every projection of the deception basis produces a different metric.
+Here are some useful ones. When the basis is reported, researchers can
+choose to analyse whatever measures they are interested in.<a
+href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a></p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -387,11 +396,20 @@ N}\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>TODO: Insert more_examples_of_2d_projections</p>
+<p>The same data can be projected in many other ways. Here are three
+more, each telling a different story. The middle panel (“Reliable vs
+Broken”) includes <span class="math inline">\(\varepsilon\)</span> to
+show that when a basis vector represents a rare event, the proportion
+estimate is noisier and error bars inflate relative to the point
+estimates. This is exactly why reporting counts matters.</p>
 <figure>
 <img src="figures/more_2d_projections.png"
-alt="Three more basis projections" />
-<figcaption aria-hidden="true">Three more basis projections</figcaption>
+alt="Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades)." />
+<figcaption aria-hidden="true">Three more basis projections. Claude
+Haiku 4.5 is an outlier in the first panel (88% conditionally honest).
+Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning
+when it does not answer, it is mostly because it lacks beliefs, not
+because it evades).</figcaption>
 </figure>
 <hr />
 <h2 id="conclusion">Conclusion</h2>

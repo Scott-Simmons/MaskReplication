@@ -6,6 +6,10 @@
 
 ---
 
+## Introduction
+
+---
+
 Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when deep down, we think we do know it, many of us lie to ourselves and others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things actually change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
 
 Just like humans can hide their underlying beliefs when subject to social pressure, AI models hide their internal beliefs subject to pressure from a prompt too. And while scaling up AI models has made them dramatically more capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
@@ -53,7 +57,7 @@ $$\{\text{Honest},\ \text{Lie},\ \text{Evade},\ \text{No Belief},\ \text{Parse E
 
 $$\{H,\ L,\ E,\ N,\ \varepsilon\}$$
 
-And here are the empirical basis vectors for my MASK replication:
+Here are the empirical basis vectors for my MASK replication:
 
 | Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\varepsilon$ |
 |---|---|---|---|---|---|---|
@@ -68,7 +72,7 @@ And here are the empirical basis vectors for my MASK replication:
 | Llama 3.3 70B | 998 | 257 | 526 | 96 | 114 | 5 |
 | **Total** | **8,500** | **2040** | **3839** | **1427** | **1157** | **35** |
 
-With this basis in mind, "honesty" as reported by the paper actually means:
+With this basis in mind, "honesty" as reported by the paper means:
 
 $$\text{Honesty} = 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N}$$
 
@@ -98,9 +102,9 @@ TODO: Insert interp_dumb_and_diplomatic
 
 TODO: Insert empirical_lossy_demonstration
 
-![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when accounting for error bars, even though o3-mini is actually just a lot more evasive.](figures/two_d_space_projection.png)
+![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs 14%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
 
-TODO: Insert 1D_projections[^3]
+Every projection of the deception basis produces a different metric. Here are some useful ones. When the basis is reported, researchers can choose to analyse whatever measures they are interested in.[^3]
 
 | Metric | Formula | What it captures | In MASK? |
 |---|---|---|---|
@@ -112,9 +116,9 @@ TODO: Insert 1D_projections[^3]
 | Conditional lie rate | $\frac{L}{H + L}$ | When it engages, how often does it lie? | No |
 | Deflection style | $\frac{E}{E + N}$ | Of non-answers: strategic dodge vs no belief? | No |
 
-TODO: Insert more_examples_of_2d_projections
+The same data can be projected in many other ways. Here are three more, each telling a different story. The middle panel ("Reliable vs Broken") includes $\varepsilon$ to show that when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters.
 
-![Three more basis projections](figures/more_2d_projections.png)
+![Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades).](figures/more_2d_projections.png)
 
 ---
 
