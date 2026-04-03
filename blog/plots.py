@@ -28,7 +28,7 @@ def replication_headline_result() -> None:
     confidences = [r.flop_confidence for r in runs_with_flop]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5))
-    fig.suptitle("Replication: Honesty and Accuracy", fontsize=13, y=0.98)
+    fig.suptitle("Replication: Accuracy and Honesty", fontsize=13, y=0.98)
 
     for ax, y, ylabel, title_side in [
         (ax1, y_acc, "Accuracy", "left"),

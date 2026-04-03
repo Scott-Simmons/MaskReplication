@@ -4,8 +4,7 @@ def tldr() -> str:
         "but not honesty. I also show various ways that the single honesty score hides "
         "nuance. Two models can score identically while behaving completely differently. "
         "I show why reporting the full basis is useful, and argue for reporting raw counts, "
-        "including errors, and error bars, not just one number, as the way forward for "
-        "deception evaluation."
+        "including errors, and error bars as the way forward for deception evaluation."
     )
 
 
