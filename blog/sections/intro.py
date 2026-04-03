@@ -10,16 +10,46 @@ def tldr() -> str:
 
 
 def intro() -> str:
-    return "TODO: Insert intro"
+    return (
+        "Truth is often inconvenient. For starters, we cannot be sure that we actually "
+        "know it. But even when deep down, we think we do know it, many of us lie to "
+        "ourselves and others in public anyway, because it can conflict with what's "
+        "socially comfortable. Saying true things in the face of that pressure requires "
+        "intelligence and courage (subject to a certain amount of tact). It's also how "
+        "things actually change. Galileo was put under house arrest for the rest of his "
+        "life for saying the Earth goes around the Sun. He was right, everyone eventually "
+        "agreed, and science moved forward."
+    )
 
 
 def link_to_ai() -> str:
-    return "TODO: Insert link_to_ai"
+    return (
+        "Just like humans can hide their underlying beliefs when subject to social "
+        "pressure, AI models hide their internal beliefs subject to pressure from a "
+        "prompt too. And while scaling up AI models has made them dramatically more "
+        "capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that "
+        "larger models are not more honest."
+    )
 
 
 def how_i_reacted() -> str:
-    return "TODO: Insert how_i_reacted"
+    return (
+        "When I first saw this, it was quite a provocative result. For many reasons. "
+        "How is lying defined? How is truth established? Many of these questions are "
+        "answered in the paper. But two questions stuck with me: (1) does this survive "
+        "independent replication? (2) Are there any other measures that can help "
+        "characterise deception?"
+    )
 
 
 def what_i_did() -> str:
-    return "TODO: Insert what_i_did"
+    from blog.analysis import load_runs
+
+    n_models = len(load_runs())
+    return (
+        "Last year, I implemented the MASK evaluation into the "
+        f"[Inspect AI](https://inspect.ai) framework. In this post, I replicate the "
+        f"original headline result across {n_models} models, and propose a basis for "
+        "deception analysis that I think gives researchers a more complete picture than any single "
+        "honesty score."
+    )
