@@ -36,8 +36,9 @@ def how_i_reacted() -> str:
         "When I first saw this, it was quite a provocative result. For many reasons. "
         "How is lying defined? How is truth established? Many of these questions are "
         "answered in the paper. But two questions remained:\n\n"
-        "- Does this survive independent replication?\n"
-        "- Are there any other measures that can help characterise deception?"
+        "> 1. [Does this survive independent replication?](#replication-results)\n"
+        "> 2. [Are there any other measures that can help characterise deception?]"
+        "(#the-limitation-of-honesty-scores-actually-most-1d-projections)"
     )
 
 

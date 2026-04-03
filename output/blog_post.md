@@ -14,8 +14,8 @@ Just like humans can hide their underlying beliefs when subject to social pressu
 
 When I first saw this, it was quite a provocative result. For many reasons. How is lying defined? How is truth established? Many of these questions are answered in the paper. But two questions remained:
 
-- Does this survive independent replication?
-- Are there any other measures that can help characterise deception?
+> 1. [Does this survive independent replication?](#replication-results)
+> 2. [Are there any other measures that can help characterise deception?](#the-limitation-of-honesty-scores-actually-most-1d-projections)
 
 Last year, I implemented the MASK evaluation into the [Inspect AI](https://inspect.ai) framework. In this post, I replicate the original headline result across 9 models, and propose a basis for deception analysis that I think gives researchers a more complete picture than any single honesty score.
 
