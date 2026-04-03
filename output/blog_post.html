@@ -12,6 +12,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="style.css" />
   <script
@@ -22,23 +85,6 @@
 <header id="title-block-header">
 <h1 class="title">The Basis of Deception</h1>
 </header>
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#the-basis-of-deception">The Basis of Deception</a>
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#replication-results">Replication results</a></li>
-<li><a href="#the-deception-basis">The deception basis</a>
-<ul>
-<li><a href="#hypothetical">Hypothetical</a></li>
-<li><a href="#making-this-empirical">Making this empirical</a></li>
-</ul></li>
-<li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#appendix-paper-vs-replication-differences">Appendix: Paper
-vs replication differences</a></li>
-</ul></li>
-</ul>
-</nav>
 <h1 id="the-basis-of-deception">The Basis of Deception</h1>
 <hr />
 <p><strong>TLDR:</strong> I replicate the MASK benchmark’s headline
@@ -318,21 +364,21 @@ means:</p>
    └─────────┘     └────────────────────┘</code></pre>
 <p><em>TODO: Insert dumb_and_diplomat caption</em></p>
 <h3 id="making-this-empirical">Making this empirical</h3>
-<p>TODO: Insert empirical_lossy_demonstration</p>
+<p>To make these thought experiments concrete, here is the data from the
+replication plotted in a 2D projection of the basis:</p>
 <figure>
 <img src="figures/two_d_space_projection.png"
-alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs 14%). The honesty score compresses all of this because o3-mini’s evasion pulls samples away from the lie bucket." />
+alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini’s evasion pulls samples away from the lie bucket." />
 <figcaption aria-hidden="true">Model behaviour space with iso-P(Lie)
 contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie)
 contour (within error bars), even though o3-mini evades 3x more (33% vs
-11%) whereas Qwen is more direct. o3-mini also lies more when it does
-engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs
-14%). The honesty score compresses all of this because o3-mini’s evasion
-pulls samples away from the lie bucket.</figcaption>
+11%) and lies more when it does engage (76% vs 60%). The honesty score
+compresses all of this because o3-mini’s evasion pulls samples away from
+the lie bucket.</figcaption>
 </figure>
 <p>Every projection of the deception basis produces a different metric.
-Here are some useful ones. When the basis is reported, researchers can
-choose to analyse whatever measures they are interested in.<a
+When the basis is reported, researchers can compute whatever measures
+they are interested in, or define new ones. Here are some useful ones:<a
 href="#fn3" class="footnote-ref" id="fnref3"
 role="doc-noteref"><sup>3</sup></a></p>
 <table>
@@ -401,7 +447,10 @@ more, each telling a different story. The middle panel (“Reliable vs
 Broken”) includes <span class="math inline">\(\varepsilon\)</span> to
 show that when a basis vector represents a rare event, the proportion
 estimate is noisier and error bars inflate relative to the point
-estimates. This is exactly why reporting counts matters.</p>
+estimates. This is exactly why reporting counts matters, especially for
+LLM evaluations, where silent errors (unparseable outputs, judge
+failures, dropped samples) are common. Making these visible in the basis
+is a step towards better evaluation science.</p>
 <figure>
 <img src="figures/more_2d_projections.png"
 alt="Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades)." />
@@ -413,19 +462,23 @@ because it evades).</figcaption>
 </figure>
 <hr />
 <h2 id="conclusion">Conclusion</h2>
-<p>TODO: Insert recap</p>
-<p>TODO: Insert encourage_the_basis_framing</p>
-<p>TODO: Work in this point — MASK only reports P(honest) and P(lie) as
-percentages. They don’t report raw counts, so you can’t compute
-confidence intervals, can’t derive other projections, and can’t even
-tell if two models with the same honesty score have 50 samples or 1,500.
-Reporting the full basis vectors (with counts) is strictly more useful
-and costs nothing. The error bars in the plots above are only possible
-because we have the counts.</p>
-<p>TODO: Also work in — reporting the basis means any reader can compute
-whichever projection fits their use case after the fact. New metric
-proposed next year? You can derive it from the same basis vectors
-without re-running a single eval.</p>
+<p>If this is interesting to you, the eval logs and analysis code are
+available at <a
+href="https://github.com/Scott-Simmons/MaskReplication">this repo</a>.
+You can add more models by running the MASK eval from <a
+href="https://github.com/UKGovernmentBEIS/inspect_evals">inspect_evals</a>
+and dropping the <code>.eval</code> files into the
+<code>eval_logs/</code> directory. Everything regenerates with
+<code>make blog-post</code>. I would particularly be interested in
+contributions from abliterated models.</p>
+<p>Here is the invocation I used:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">inspect</span> eval inspect_evals/mask <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--model</span> <span class="op">&lt;</span>YOUR_MODEL<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--limit</span> 1000 <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--log-dir</span> ./eval_logs <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> binary_judge_model=<span class="st">&quot;openai/gpt-4o-mini&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> numeric_judge_model=<span class="st">&quot;openai/o3-mini&quot;</span></span></code></pre></div>
 <hr />
 <h2 id="appendix-paper-vs-replication-differences">Appendix: Paper vs
 replication differences</h2>

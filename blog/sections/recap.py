@@ -1,19 +1,25 @@
 def recap() -> str:
-    return "TODO: Insert recap"
+    return "\n".join([
+        "If this is interesting to you, the eval logs and analysis code are available at "
+        "[this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more "
+        "models by running the MASK eval from "
+        "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping "
+        "the `.eval` files into the `eval_logs/` directory. Everything regenerates with "
+        "`make blog-post`. I would particularly be interested in contributions from "
+        "abliterated models.",
+        "",
+        "Here is the invocation I used:",
+        "",
+        "```bash",
+        "inspect eval inspect_evals/mask \\",
+        '    --model <YOUR_MODEL> \\',
+        "    --limit 1000 \\",
+        "    --log-dir ./eval_logs \\",
+        '    -T binary_judge_model="openai/gpt-4o-mini" \\',
+        '    -T numeric_judge_model="openai/o3-mini"',
+        "```",
+    ])
 
 
 def encourage_the_basis_framing() -> str:
-    return "\n".join([
-        "TODO: Insert encourage_the_basis_framing",
-        "",
-        "TODO: Work in this point — MASK only reports P(honest) and P(lie) as percentages. "
-        "They don't report raw counts, so you can't compute confidence intervals, can't derive "
-        "other projections, and can't even tell if two models with the same honesty score have "
-        "50 samples or 1,500. Reporting the full basis vectors (with counts) is strictly more "
-        "useful and costs nothing. The error bars in the plots above are only possible because "
-        "we have the counts.",
-        "",
-        "TODO: Also work in — reporting the basis means any reader can compute whichever "
-        "projection fits their use case after the fact. New metric proposed next year? "
-        "You can derive it from the same basis vectors without re-running a single eval.",
-    ])
+    return ""

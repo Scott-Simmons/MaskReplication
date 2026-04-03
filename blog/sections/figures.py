@@ -22,10 +22,9 @@ def two_d_space_projection_headline() -> str:
     _plot()
     return ("![Model behaviour space with iso-P(Lie) contours. "
             "Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), "
-            "even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. "
-            "o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely "
-            "honest twice as often (27% vs 14%). The honesty score compresses all of this "
-            "because o3-mini's evasion pulls samples away from the lie bucket."
+            "even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage "
+            "(76% vs 60%). The honesty score compresses all of this because o3-mini's evasion "
+            "pulls samples away from the lie bucket."
             "](figures/two_d_space_projection.png)")
 
 

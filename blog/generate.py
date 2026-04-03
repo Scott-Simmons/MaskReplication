@@ -88,7 +88,6 @@ def generate_html(md_text: str) -> str:
             "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
             "--css=style.css",
             "--standalone",
-            "--toc",
             "--metadata=title:The Basis of Deception",
         ],
         input=md_text,

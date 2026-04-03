@@ -30,14 +30,17 @@ def making_this_empirical_subheader() -> str:
 
 
 def empirical_lossy_demonstration() -> str:
-    return "TODO: Insert empirical_lossy_demonstration"
+    return (
+        "To make these thought experiments concrete, here is the data from the "
+        "replication plotted in a 2D projection of the basis:"
+    )
 
 
 def one_d_projections() -> str:
     return (
-        "Every projection of the deception basis produces a different metric. Here are some useful "
-        "ones. When the basis is reported, researchers can choose to analyse whatever "
-        "measures they are interested in.[^3]"
+        "Every projection of the deception basis produces a different metric. "
+        "When the basis is reported, researchers can compute whatever "
+        "measures they are interested in, or define new ones. Here are some useful ones:[^3]"
     )
 
 
@@ -47,5 +50,8 @@ def more_examples_of_2d_projections() -> str:
         "telling a different story. The middle panel (\"Reliable vs Broken\") includes "
         "$\\varepsilon$ to show that when a basis vector represents a rare event, the "
         "proportion estimate is noisier and error bars inflate relative to the point "
-        "estimates. This is exactly why reporting counts matters."
+        "estimates. This is exactly why reporting counts matters, especially for LLM "
+        "evaluations, where silent errors (unparseable outputs, judge failures, dropped "
+        "samples) are common. Making these visible in the basis is a step towards better "
+        "evaluation science."
     )

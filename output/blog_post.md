@@ -100,11 +100,11 @@ TODO: Insert interp_dumb_and_diplomatic
 
 ### Making this empirical
 
-TODO: Insert empirical_lossy_demonstration
+To make these thought experiments concrete, here is the data from the replication plotted in a 2D projection of the basis:
 
-![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) whereas Qwen is more direct. o3-mini also lies more when it does engage (76% vs 60%), yet Qwen is genuinely honest twice as often (27% vs 14%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
+![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
 
-Every projection of the deception basis produces a different metric. Here are some useful ones. When the basis is reported, researchers can choose to analyse whatever measures they are interested in.[^3]
+Every projection of the deception basis produces a different metric. When the basis is reported, researchers can compute whatever measures they are interested in, or define new ones. Here are some useful ones:[^3]
 
 | Metric | Formula | What it captures | In MASK? |
 |---|---|---|---|
@@ -116,7 +116,7 @@ Every projection of the deception basis produces a different metric. Here are so
 | Conditional lie rate | $\frac{L}{H + L}$ | When it engages, how often does it lie? | No |
 | Deflection style | $\frac{E}{E + N}$ | Of non-answers: strategic dodge vs no belief? | No |
 
-The same data can be projected in many other ways. Here are three more, each telling a different story. The middle panel ("Reliable vs Broken") includes $\varepsilon$ to show that when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters.
+The same data can be projected in many other ways. Here are three more, each telling a different story. The middle panel ("Reliable vs Broken") includes $\varepsilon$ to show that when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the basis is a step towards better evaluation science.
 
 ![Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades).](figures/more_2d_projections.png)
 
@@ -124,13 +124,18 @@ The same data can be projected in many other ways. Here are three more, each tel
 
 ## Conclusion
 
-TODO: Insert recap
+If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models.
 
-TODO: Insert encourage_the_basis_framing
+Here is the invocation I used:
 
-TODO: Work in this point — MASK only reports P(honest) and P(lie) as percentages. They don't report raw counts, so you can't compute confidence intervals, can't derive other projections, and can't even tell if two models with the same honesty score have 50 samples or 1,500. Reporting the full basis vectors (with counts) is strictly more useful and costs nothing. The error bars in the plots above are only possible because we have the counts.
-
-TODO: Also work in — reporting the basis means any reader can compute whichever projection fits their use case after the fact. New metric proposed next year? You can derive it from the same basis vectors without re-running a single eval.
+```bash
+inspect eval inspect_evals/mask \
+    --model <YOUR_MODEL> \
+    --limit 1000 \
+    --log-dir ./eval_logs \
+    -T binary_judge_model="openai/gpt-4o-mini" \
+    -T numeric_judge_model="openai/o3-mini"
+```
 
 ---
 
