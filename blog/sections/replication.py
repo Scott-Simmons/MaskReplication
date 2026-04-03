@@ -12,3 +12,7 @@ def interpretation() -> str:
 
 def interpretation_new_models() -> str:
     return "TODO: Insert interpretation_new_models"
+
+
+def flops_note() -> str:
+    return "TODO: Insert flops_note[^1]"
