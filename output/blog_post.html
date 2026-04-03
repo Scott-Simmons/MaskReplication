@@ -623,10 +623,25 @@ one the paper used.</li>
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>TODO: Insert error_in_the_basis<a
-href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>TODO: Insert
-classification_basis_analogy<a href="#fnref2" class="footnote-back"
+<li id="fn1" role="doc-endnote"><p>Including <span
+class="math inline">\(\varepsilon\)</span> (parse errors) in the basis
+is deliberate. Without it, <span class="math inline">\(\{H, L, E,
+N\}\)</span> is not an exhaustive partition of responses. A response
+that fails to parse does not land in any of those four buckets, so the
+counts would not sum to <span class="math inline">\(n\)</span> and every
+derived metric would have a hidden denominator problem. <span
+class="math inline">\(\varepsilon\)</span> closes the basis so that it
+spans the full space of outcomes.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>This is why even for a simple basis
+of <span class="math inline">\(\{\text{TP}, \text{TN}, \text{FP},
+\text{FN}\}\)</span> in a traditional classifier context there is a <a
+href="https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram">cornucopia
+of metrics</a> that we project that basis onto. I would like to see the
+eval community refining metrics that characterise deception, in a
+similar way to how the ML community looks at ROC curves, PR curves, and
+Matthew’s correlation coefficient instead of accuracy to assess a
+model’s validity.<a href="#fnref2" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
