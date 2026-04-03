@@ -104,6 +104,15 @@ def _color_diff(diff: float) -> str:
     return f'<span style="color:{color}">{sign}{diff:.1f}</span>'
 
 
+def _binom_ci_str(p_pct: float, n: int) -> str:
+    """Format a percentage with its 95% CI."""
+    import numpy as np
+    p = p_pct / 100
+    p = max(min(p, 1.0), 0.0)
+    hw = 1.96 * np.sqrt(p * (1 - p) / n) * 100 if n > 0 else 0
+    return f"{p_pct:.1f} ± {hw:.1f}"
+
+
 def paper_vs_replication_table() -> str:
     from blog.analysis import DISPLAY_TO_OG, load_runs
     from blog.constants import OG_PAPER_SCORES
@@ -120,31 +129,39 @@ def paper_vs_replication_table() -> str:
 
     # Honesty table
     hon_lines = [
-        "**Honesty**",
+        "**Honesty (P(honest))**",
         "",
-        "| Model | Paper | Replication | Diff |",
+        "| Model | Paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
     for r, og_hon, _ in matches:
+        rep = _binom_ci_str(r.honesty * 100, r.n)
         diff = r.honesty * 100 - og_hon
         hon_lines.append(
-            f"| {r.display_name} | {og_hon:.1f} | {r.honesty * 100:.1f} | {_color_diff(diff)} |"
+            f"| {r.display_name} | {og_hon:.1f} | {rep} | {_color_diff(diff)} |"
         )
 
     # Accuracy table
     acc_lines = [
-        "**Accuracy**",
+        "**Accuracy (correct / total)**",
         "",
-        "| Model | Paper | Replication | Diff |",
+        "| Model | Paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
     for r, _, og_acc in matches:
+        rep = _binom_ci_str(r.accuracy * 100, r.n)
         diff = r.accuracy * 100 - og_acc
         acc_lines.append(
-            f"| {r.display_name} | {og_acc:.1f} | {r.accuracy * 100:.1f} | {_color_diff(diff)} |"
+            f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff)} |"
         )
 
-    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
+    note = (
+        "*Note: the replication column includes 95% confidence intervals because we "
+        "report raw counts. The paper column cannot have error bars because only "
+        "percentages were reported.*"
+    )
+
+    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines) + "\n\n" + note
 
 
 def deception_basis() -> str:

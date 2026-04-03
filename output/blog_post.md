@@ -6,10 +6,6 @@
 
 ---
 
-## Introduction
-
----
-
 Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when deep down, we think we do know it, many of us lie to ourselves and others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things actually change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
 
 Just like humans can hide their underlying beliefs when subject to social pressure, AI models hide their internal beliefs subject to pressure from a prompt too. And while scaling up AI models has made them dramatically more capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
@@ -43,9 +39,9 @@ I wanted to verify the paper's main claim: larger models are more accurate but n
 
 *The MASK public dataset contains 1,000 examples. Shortfalls are due to API failures during evaluation.*
 
-I used <mark>a different model judge to save on cost (TODO: maybe remove this caveat)</mark> and a slightly different set of 9 models because TODO: Insert reasons.
+I used <mark>a different model judge to save on cost (TODO: may remove this caveat if we rerun with the same judge, it is just expensive)</mark> and a slightly different set of 9 models. The paper tested 32 models, but some are now deprecated or no longer served at the same API endpoint. I chose a smaller set that covers a range of providers and scales, keeping costs manageable.
 
-TODO: Insert interpretation
+The headline result held. The pattern is clear in the replication: accuracy scales with compute, but honesty does not. See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model comparison with the original paper.
 
 ![Replication: Larger models are more accurate but not more honest](figures/replication_headline_result.png)
 
@@ -142,27 +138,29 @@ Systematic differences between the paper and this replication are likely caused 
 2. **Model API drift** — model weights and serving infrastructure change over time; we will never know the exact checkpoint the paper used.
 3. **<mark>TBD: Different eval judges</mark>** — this replication uses gpt-4o-mini as the judge. The original paper's judge may differ. I may re-run with a matching judge if I can confirm which one the paper used.
 
-**Honesty**
+**Honesty (P(honest))**
 
-| Model | Paper | Replication | Diff |
+| Model | Paper | Replication (95% CI) | Diff |
 |---|---|---|---|
-| GPT-4o | 21.8 | 20.5 | <span style="color:red">-1.3</span> |
-| GPT-4o-mini | 21.4 | 20.0 | <span style="color:red">-1.4</span> |
-| o3-mini | 19.6 | 13.4 | <span style="color:red">-6.2</span> |
-| Qwen 2.5 7B | 28.9 | 26.4 | <span style="color:red">-2.5</span> |
-| DeepSeek-R1 | 24.7 | 7.5 | <span style="color:red">-17.2</span> |
-| Llama 3.3 70B | 24.7 | 25.7 | <span style="color:green">+1.0</span> |
+| GPT-4o | 21.8 | 20.5 ± 2.5 | <span style="color:red">-1.3</span> |
+| GPT-4o-mini | 21.4 | 20.0 ± 2.5 | <span style="color:red">-1.4</span> |
+| o3-mini | 19.6 | 13.4 ± 2.1 | <span style="color:red">-6.2</span> |
+| Qwen 2.5 7B | 28.9 | 26.4 ± 2.7 | <span style="color:red">-2.5</span> |
+| DeepSeek-R1 | 24.7 | 7.5 ± 2.1 | <span style="color:red">-17.2</span> |
+| Llama 3.3 70B | 24.7 | 25.7 ± 2.7 | <span style="color:green">+1.0</span> |
 
-**Accuracy**
+**Accuracy (correct / total)**
 
-| Model | Paper | Replication | Diff |
+| Model | Paper | Replication (95% CI) | Diff |
 |---|---|---|---|
-| GPT-4o | 78.6 | 58.7 | <span style="color:red">-19.9</span> |
-| GPT-4o-mini | 71.4 | 51.6 | <span style="color:red">-19.8</span> |
-| o3-mini | 63.3 | 42.6 | <span style="color:red">-20.7</span> |
-| Qwen 2.5 7B | 51.6 | 35.2 | <span style="color:red">-16.4</span> |
-| DeepSeek-R1 | 82.2 | 31.0 | <span style="color:red">-51.2</span> |
-| Llama 3.3 70B | 75.6 | 56.5 | <span style="color:red">-19.1</span> |
+| GPT-4o | 78.6 | 58.7 ± 3.1 | <span style="color:red">-19.9</span> |
+| GPT-4o-mini | 71.4 | 51.6 ± 3.1 | <span style="color:red">-19.8</span> |
+| o3-mini | 63.3 | 42.6 ± 3.1 | <span style="color:red">-20.7</span> |
+| Qwen 2.5 7B | 51.6 | 35.2 ± 3.0 | <span style="color:red">-16.4</span> |
+| DeepSeek-R1 | 82.2 | 31.0 ± 3.8 | <span style="color:red">-51.2</span> |
+| Llama 3.3 70B | 75.6 | 56.5 ± 3.1 | <span style="color:red">-19.1</span> |
+
+*Note: the replication column includes 95% confidence intervals because we report raw counts. The paper column cannot have error bars because only percentages were reported.*
 
 ---
 

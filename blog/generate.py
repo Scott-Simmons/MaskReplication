@@ -8,8 +8,6 @@ from blog.sections import appendix, basis, figures, footnotes, intro, recap, rep
 STRUCTURE = [
     ("# The Basis of Deception", [
         intro.tldr,
-    ]),
-    ("## Introduction", [
         intro.intro,
         intro.link_to_ai,
         figures.og_headline_result,

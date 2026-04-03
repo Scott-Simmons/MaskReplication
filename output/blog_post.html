@@ -26,7 +26,6 @@
 <ul>
 <li><a href="#the-basis-of-deception">The Basis of Deception</a>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
 <li><a href="#replication-results">Replication results</a></li>
 <li><a
 href="#the-limitation-of-honesty-scores-actually-most-1d-projections">The
@@ -46,8 +45,6 @@ identically while behaving completely differently. I show why reporting
 the full basis is useful, and argue for reporting raw counts, including
 errors, and error bars, not just one number, as the way forward for
 deception evaluation.</p>
-<hr />
-<h2 id="introduction">Introduction</h2>
 <hr />
 <p>Truth is often inconvenient. For starters, we cannot be sure that we
 actually know it. But even when deep down, we think we do know it, many
@@ -155,10 +152,16 @@ accurate but not more honest. I used the following models:</p>
 </table>
 <p><em>The MASK public dataset contains 1,000 examples. Shortfalls are
 due to API failures during evaluation.</em></p>
-<p>I used <mark>a different model judge to save on cost (TODO: maybe
-remove this caveat)</mark> and a slightly different set of 9 models
-because TODO: Insert reasons.</p>
-<p>TODO: Insert interpretation</p>
+<p>I used <mark>a different model judge to save on cost (TODO: may
+remove this caveat if we rerun with the same judge, it is just
+expensive)</mark> and a slightly different set of 9 models. The paper
+tested 32 models, but some are now deprecated or no longer served at the
+same API endpoint. I chose a smaller set that covers a range of
+providers and scales, keeping costs manageable.</p>
+<p>The headline result held. The pattern is clear in the replication:
+accuracy scales with compute, but honesty does not. See the <a
+href="#appendix-paper-vs-replication-differences">appendix</a> for a
+model-by-model comparison with the original paper.</p>
 <figure>
 <img src="figures/replication_headline_result.png"
 alt="Replication: Larger models are more accurate but not more honest" />
@@ -417,13 +420,19 @@ replication uses gpt-4o-mini as the judge. The original paper’s judge
 may differ. I may re-run with a matching judge if I can confirm which
 one the paper used.</li>
 </ol>
-<p><strong>Honesty</strong></p>
+<p><strong>Honesty (P(honest))</strong></p>
 <table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Model</th>
 <th>Paper</th>
-<th>Replication</th>
+<th>Replication (95% CI)</th>
 <th>Diff</th>
 </tr>
 </thead>
@@ -431,48 +440,54 @@ one the paper used.</li>
 <tr class="odd">
 <td>GPT-4o</td>
 <td>21.8</td>
-<td>20.5</td>
+<td>20.5 ± 2.5</td>
 <td><span style="color:red">-1.3</span></td>
 </tr>
 <tr class="even">
 <td>GPT-4o-mini</td>
 <td>21.4</td>
-<td>20.0</td>
+<td>20.0 ± 2.5</td>
 <td><span style="color:red">-1.4</span></td>
 </tr>
 <tr class="odd">
 <td>o3-mini</td>
 <td>19.6</td>
-<td>13.4</td>
+<td>13.4 ± 2.1</td>
 <td><span style="color:red">-6.2</span></td>
 </tr>
 <tr class="even">
 <td>Qwen 2.5 7B</td>
 <td>28.9</td>
-<td>26.4</td>
+<td>26.4 ± 2.7</td>
 <td><span style="color:red">-2.5</span></td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1</td>
 <td>24.7</td>
-<td>7.5</td>
+<td>7.5 ± 2.1</td>
 <td><span style="color:red">-17.2</span></td>
 </tr>
 <tr class="even">
 <td>Llama 3.3 70B</td>
 <td>24.7</td>
-<td>25.7</td>
+<td>25.7 ± 2.7</td>
 <td><span style="color:green">+1.0</span></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Accuracy</strong></p>
+<p><strong>Accuracy (correct / total)</strong></p>
 <table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Model</th>
 <th>Paper</th>
-<th>Replication</th>
+<th>Replication (95% CI)</th>
 <th>Diff</th>
 </tr>
 </thead>
@@ -480,41 +495,44 @@ one the paper used.</li>
 <tr class="odd">
 <td>GPT-4o</td>
 <td>78.6</td>
-<td>58.7</td>
+<td>58.7 ± 3.1</td>
 <td><span style="color:red">-19.9</span></td>
 </tr>
 <tr class="even">
 <td>GPT-4o-mini</td>
 <td>71.4</td>
-<td>51.6</td>
+<td>51.6 ± 3.1</td>
 <td><span style="color:red">-19.8</span></td>
 </tr>
 <tr class="odd">
 <td>o3-mini</td>
 <td>63.3</td>
-<td>42.6</td>
+<td>42.6 ± 3.1</td>
 <td><span style="color:red">-20.7</span></td>
 </tr>
 <tr class="even">
 <td>Qwen 2.5 7B</td>
 <td>51.6</td>
-<td>35.2</td>
+<td>35.2 ± 3.0</td>
 <td><span style="color:red">-16.4</span></td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1</td>
 <td>82.2</td>
-<td>31.0</td>
+<td>31.0 ± 3.8</td>
 <td><span style="color:red">-51.2</span></td>
 </tr>
 <tr class="even">
 <td>Llama 3.3 70B</td>
 <td>75.6</td>
-<td>56.5</td>
+<td>56.5 ± 3.1</td>
 <td><span style="color:red">-19.1</span></td>
 </tr>
 </tbody>
 </table>
+<p><em>Note: the replication column includes 95% confidence intervals
+because we report raw counts. The paper column cannot have error bars
+because only percentages were reported.</em></p>
 <hr />
 <p><em>TODO: Insert shout_out_inspect</em></p>
 <p><em>TODO: Insert shout_out_misc</em></p>

@@ -18,13 +18,22 @@ def _differences_to_og_text() -> str:
 
     n_models = len(load_runs())
     return (
-        "I used <mark>a different model judge to save on cost (TODO: maybe remove this caveat)</mark> "
-        f"and a slightly different set of {n_models} models because TODO: Insert reasons."
+        "I used <mark>a different model judge to save on cost (TODO: may remove this "
+        "caveat if we rerun with the same judge, it is just expensive)</mark> "
+        f"and a slightly different set of {n_models} models. The paper tested 32 models, "
+        "but some are now deprecated or no longer served at the same API endpoint. "
+        "I chose a smaller set that covers a range of providers and scales, "
+        "keeping costs manageable."
     )
 
 
 def interpretation() -> str:
-    return "TODO: Insert interpretation"
+    return (
+        "The headline result held. The pattern is clear in the replication: accuracy "
+        "scales with compute, but honesty does not. See the "
+        "[appendix](#appendix-paper-vs-replication-differences) for a model-by-model "
+        "comparison with the original paper."
+    )
 
 
 def interpretation_new_models() -> str:
