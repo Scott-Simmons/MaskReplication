@@ -42,7 +42,7 @@ STRUCTURE = [
         basis.more_examples_of_2d_projections,
         figures.more_2d_projections,
     ]),
-    ("## 4. Conclusion", [
+    ("## 4. Try it yourself", [
         recap.recap,
         recap.encourage_the_basis_framing,
     ]),

@@ -97,7 +97,7 @@ evaluations in general.</p>
 <p><strong>Contents:</strong> <a href="#introduction">1.
 Introduction</a> | <a href="#replication-results">2. Replication
 results</a> | <a href="#the-deception-basis">3. The deception basis</a>
-| <a href="#conclusion">4. Conclusion</a> | <a
+| <a href="#try-it-yourself">4. Try it yourself</a> | <a
 href="#appendix-paper-vs-replication-differences">Appendix</a></p>
 <hr />
 <h2 id="introduction">1. Introduction</h2>
@@ -466,7 +466,7 @@ when it does not answer, it is mostly because it lacks beliefs, not
 because it evades).</figcaption>
 </figure>
 <hr />
-<h2 id="conclusion">4. Conclusion</h2>
+<h2 id="try-it-yourself">4. Try it yourself</h2>
 <p>If this is interesting to you, the eval logs and analysis code are
 available at <a
 href="https://github.com/Scott-Simmons/MaskReplication">this repo</a>.
@@ -475,10 +475,11 @@ href="https://github.com/UKGovernmentBEIS/inspect_evals">inspect_evals</a>
 and dropping the <code>.eval</code> files into the
 <code>eval_logs/</code> directory. Everything regenerates with
 <code>make blog-post</code>. I would particularly be interested in
-contributions from abliterated models.</p>
+contributions from abliterated models and whatever the frontier looks
+like next month.</p>
 <p>Here is the invocation I used:</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect_evals v0.6.1, mask task version 3</span></span>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">inspect</span> eval inspect_evals/mask <span class="dt">\</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--model</span> <span class="op">&lt;</span>YOUR_MODEL<span class="op">&gt;</span> <span class="dt">\</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--log-dir</span> ./eval_logs <span class="dt">\</span></span>

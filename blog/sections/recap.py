@@ -6,12 +6,12 @@ def recap() -> str:
         "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping "
         "the `.eval` files into the `eval_logs/` directory. Everything regenerates with "
         "`make blog-post`. I would particularly be interested in contributions from "
-        "abliterated models.",
+        "abliterated models and whatever the frontier looks like next month.",
         "",
         "Here is the invocation I used:",
         "",
         "```bash",
-        "# inspect_evals v0.6.1, mask task version 3",
+        "# inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C",
         "inspect eval inspect_evals/mask \\",
         "    --model <YOUR_MODEL> \\",
         "    --log-dir ./eval_logs \\",

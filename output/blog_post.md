@@ -4,7 +4,7 @@
 
 **TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation, and evaluations in general.
 
-**Contents:** [1. Introduction](#introduction) | [2. Replication results](#replication-results) | [3. The deception basis](#the-deception-basis) | [4. Conclusion](#conclusion) | [Appendix](#appendix-paper-vs-replication-differences)
+**Contents:** [1. Introduction](#introduction) | [2. Replication results](#replication-results) | [3. The deception basis](#the-deception-basis) | [4. Try it yourself](#try-it-yourself) | [Appendix](#appendix-paper-vs-replication-differences)
 
 ---
 
@@ -124,14 +124,14 @@ The same data can be projected in many other ways. Here are three more, each tel
 
 ---
 
-## 4. Conclusion
+## 4. Try it yourself
 
-If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models.
+If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models and whatever the frontier looks like next month.
 
 Here is the invocation I used:
 
 ```bash
-# inspect_evals v0.6.1, mask task version 3
+# inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C
 inspect eval inspect_evals/mask \
     --model <YOUR_MODEL> \
     --log-dir ./eval_logs \
