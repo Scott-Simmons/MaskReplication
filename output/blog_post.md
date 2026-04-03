@@ -2,7 +2,7 @@
 
 ---
 
-**TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation.
+**TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation, and evaluations in general.
 
 ---
 
@@ -168,14 +168,6 @@ Systematic differences between the paper and this replication are likely caused 
 | Qwen 2.5 7B | 51.6 | 35.2 ± 3.0 | <span style="color:red">-16.4</span> |
 | DeepSeek-R1 | 82.2 | 31.0 ± 3.8 | <span style="color:red">-51.2</span> |
 | Llama 3.3 70B | 75.6 | 56.5 ± 3.1 | <span style="color:red">-19.1</span> |
-
-*Note: the replication column includes 95% confidence intervals because we report raw counts. The paper column cannot have error bars because only percentages were reported.*
-
----
-
-*TODO: Insert shout_out_inspect*
-
-*TODO: Insert shout_out_misc*
 
 ---
 

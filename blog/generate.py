@@ -50,10 +50,6 @@ STRUCTURE = [
         figures.paper_vs_replication_table,
     ]),
     (None, [
-        thanks.shout_out_inspect,
-        thanks.shout_out_misc,
-    ]),
-    (None, [
         footnotes.flops,
         footnotes.error_in_the_basis,
         footnotes.classification_basis_analogy,
@@ -88,6 +84,8 @@ def generate_html(md_text: str) -> str:
             "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
             "--css=style.css",
             "--standalone",
+            "--toc",
+            "--toc-depth=2",
             "--metadata=title:The Basis of Deception",
         ],
         input=md_text,

@@ -165,13 +165,7 @@ def paper_vs_replication_table() -> str:
             f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff)} |"
         )
 
-    note = (
-        "*Note: the replication column includes 95% confidence intervals because we "
-        "report raw counts. The paper column cannot have error bars because only "
-        "percentages were reported.*"
-    )
-
-    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines) + "\n\n" + note
+    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
 
 
 def deception_basis() -> str:
