@@ -7,9 +7,19 @@ def what_i_wanted_to_do() -> str:
 
 def differences_to_og() -> str:
     return (
-        "*The MASK dataset contains 1,000 public examples. "
+        "*The MASK public dataset contains 1,000 examples. "
         "Shortfalls are due to API failures during evaluation.*\n\n"
-        "TODO: Insert differences_to_og"
+        + _differences_to_og_text()
+    )
+
+
+def _differences_to_og_text() -> str:
+    from blog.analysis import load_runs
+
+    n_models = len(load_runs())
+    return (
+        "I used <mark>a different model judge to save on cost (TODO: maybe remove this caveat)</mark> "
+        f"and a slightly different set of {n_models} models because TODO: Insert reasons."
     )
 
 

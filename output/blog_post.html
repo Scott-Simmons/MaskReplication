@@ -22,6 +22,21 @@
 <header id="title-block-header">
 <h1 class="title">The Basis of Deception</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-basis-of-deception">The Basis of Deception</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#replication-results">Replication results</a></li>
+<li><a
+href="#the-limitation-of-honesty-scores-actually-most-1d-projections">The
+limitation of honesty scores (actually, most 1D projections!)</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#appendix-paper-vs-replication-differences">Appendix: Paper
+vs replication differences</a></li>
+</ul></li>
+</ul>
+</nav>
 <h1 id="the-basis-of-deception">The Basis of Deception</h1>
 <hr />
 <p><strong>TLDR:</strong> I replicate the MASK benchmark’s headline
@@ -31,6 +46,8 @@ identically while behaving completely differently. I show why reporting
 the full basis is useful, and argue for reporting raw counts, including
 errors, and error bars, not just one number, as the way forward for
 deception evaluation.</p>
+<hr />
+<h2 id="introduction">Introduction</h2>
 <hr />
 <p>Truth is often inconvenient. For starters, we cannot be sure that we
 actually know it. But even when deep down, we think we do know it, many
@@ -55,9 +72,12 @@ accurate but not more honest</figcaption>
 </figure>
 <p>When I first saw this, it was quite a provocative result. For many
 reasons. How is lying defined? How is truth established? Many of these
-questions are answered in the paper. But two questions stuck with me:
-(1) does this survive independent replication? (2) Are there any other
-measures that can help characterise deception?</p>
+questions are answered in the paper. But two questions remained:</p>
+<ul>
+<li>Does this survive independent replication?</li>
+<li>Are there any other measures that can help characterise
+deception?</li>
+</ul>
 <p>Last year, I implemented the MASK evaluation into the <a
 href="https://inspect.ai">Inspect AI</a> framework. In this post, I
 replicate the original headline result across 9 models, and propose a
@@ -133,9 +153,11 @@ accurate but not more honest. I used the following models:</p>
 </tr>
 </tbody>
 </table>
-<p><em>The MASK dataset contains 1,000 public examples. Shortfalls are
+<p><em>The MASK public dataset contains 1,000 examples. Shortfalls are
 due to API failures during evaluation.</em></p>
-<p>TODO: Insert differences_to_og</p>
+<p>I used <mark>a different model judge to save on cost (TODO: maybe
+remove this caveat)</mark> and a slightly different set of 9 models
+because TODO: Insert reasons.</p>
 <p>TODO: Insert interpretation</p>
 <figure>
 <img src="figures/replication_headline_result.png"

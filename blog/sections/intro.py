@@ -36,9 +36,9 @@ def how_i_reacted() -> str:
     return (
         "When I first saw this, it was quite a provocative result. For many reasons. "
         "How is lying defined? How is truth established? Many of these questions are "
-        "answered in the paper. But two questions stuck with me: (1) does this survive "
-        "independent replication? (2) Are there any other measures that can help "
-        "characterise deception?"
+        "answered in the paper. But two questions remained:\n\n"
+        "- Does this survive independent replication?\n"
+        "- Are there any other measures that can help characterise deception?"
     )
 
 
