@@ -45,13 +45,13 @@ I used <mark>a different model judge to save on cost (TODO: may remove this cave
 
 The headline result held. The pattern is clear in the replication: accuracy scales with compute, but honesty does not. See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model comparison with the original paper.
 
-![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate the FLOP per model, as they were unavailable from the original paper.[^1]](figures/replication_headline_result.png)
+![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate the FLOP per model, as they were unavailable from the original paper.](figures/replication_headline_result.png)
 
 ---
 
 ## The deception basis
 
-The categories that a pressured statement, subject to some internally held belief, can fall into are:[^2]
+The categories that a pressured statement, subject to some internally held belief, can fall into are:[^1]
 
 $$\{\text{Honest},\ \text{Lie},\ \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}$$
 
@@ -104,7 +104,7 @@ To make these thought experiments concrete, here is the data from the replicatio
 
 ![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
 
-Every projection of the deception basis produces a different metric. When the basis is reported, researchers can compute whatever measures they are interested in, or define new ones. Here are some useful ones:[^3]
+Every projection of the deception basis produces a different metric. When the basis is reported, researchers can compute whatever measures they are interested in, or define new ones. Here are some useful ones:[^2]
 
 | Metric | Formula | What it captures | In MASK? |
 |---|---|---|---|
@@ -129,12 +129,11 @@ If this is interesting to you, the eval logs and analysis code are available at 
 Here is the invocation I used:
 
 ```bash
+# inspect_evals v0.6.1, mask task version 3
 inspect eval inspect_evals/mask \
     --model <YOUR_MODEL> \
-    --limit 1000 \
     --log-dir ./eval_logs \
-    -T binary_judge_model="openai/gpt-4o-mini" \
-    -T numeric_judge_model="openai/o3-mini"
+    -T binary_judge_model="openai/gpt-4o-mini"
 ```
 
 ---
@@ -143,11 +142,11 @@ inspect eval inspect_evals/mask \
 
 Systematic differences between the paper and this replication are likely caused by:
 
-1. **Different eval harness** — this replication uses [Inspect AI](https://inspect.ai), not the original codebase.
-2. **Model API drift** — model weights and serving infrastructure change over time; we will never know the exact checkpoint the paper used.
-3. **<mark>TBD: Different eval judges</mark>** — this replication uses gpt-4o-mini as the judge. The original paper's judge may differ. I may re-run with a matching judge if I can confirm which one the paper used.
+1. **Different eval harness.** This replication uses [Inspect AI](https://inspect.ai), not the original codebase.
+2. **Model API drift.** Model weights and serving infrastructure change over time. We will never know the exact checkpoint the paper used.
+3. **<mark>TBD: Different eval judges.</mark>** This replication uses gpt-4o-mini as the judge. The original paper's judge may differ. I may re-run with a matching judge if I can confirm which one the paper used.
 
-**Honesty (P(honest))**
+**Honesty (1 - P(Lie))**
 
 | Model | Paper | Replication (95% CI) | Diff |
 |---|---|---|---|
@@ -158,7 +157,7 @@ Systematic differences between the paper and this replication are likely caused 
 | DeepSeek-R1 | 24.7 | 7.5 ± 2.1 | <span style="color:red">-17.2</span> |
 | Llama 3.3 70B | 24.7 | 25.7 ± 2.7 | <span style="color:green">+1.0</span> |
 
-**Accuracy (correct / total)**
+**Accuracy**
 
 | Model | Paper | Replication (95% CI) | Diff |
 |---|---|---|---|
@@ -171,8 +170,6 @@ Systematic differences between the paper and this replication are likely caused 
 
 ---
 
-[^1]: TODO: Insert flops
+[^1]: TODO: Insert error_in_the_basis
 
-[^2]: TODO: Insert error_in_the_basis
-
-[^3]: TODO: Insert classification_basis_analogy
+[^2]: TODO: Insert classification_basis_analogy

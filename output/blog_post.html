@@ -230,15 +230,14 @@ model-by-model comparison with the original paper.</p>
 alt="Note: I used Epoch AI to estimate the FLOP per model, as they were unavailable from the original paper." />
 <figcaption aria-hidden="true">Note: I used <a
 href="https://epoch.ai/data/notable-ai-models">Epoch AI</a> to estimate
-the FLOP per model, as they were unavailable from the original paper.<a
-href="#fn1" class="footnote-ref" id="fnref1"
-role="doc-noteref"><sup>1</sup></a></figcaption>
+the FLOP per model, as they were unavailable from the original
+paper.</figcaption>
 </figure>
 <hr />
 <h2 id="the-deception-basis">The deception basis</h2>
 <p>The categories that a pressured statement, subject to some internally
-held belief, can fall into are:<a href="#fn2" class="footnote-ref"
-id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+held belief, can fall into are:<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p><span class="math display">\[\{\text{Honest},\ \text{Lie},\
 \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
 <p><span class="math display">\[\{H,\ L,\ E,\ N,\
@@ -393,8 +392,8 @@ the lie bucket.</figcaption>
 <p>Every projection of the deception basis produces a different metric.
 When the basis is reported, researchers can compute whatever measures
 they are interested in, or define new ones. Here are some useful ones:<a
-href="#fn3" class="footnote-ref" id="fnref3"
-role="doc-noteref"><sup>3</sup></a></p>
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -487,30 +486,29 @@ and dropping the <code>.eval</code> files into the
 contributions from abliterated models.</p>
 <p>Here is the invocation I used:</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">inspect</span> eval inspect_evals/mask <span class="dt">\</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--model</span> <span class="op">&lt;</span>YOUR_MODEL<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--limit</span> 1000 <span class="dt">\</span></span>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect_evals v0.6.1, mask task version 3</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">inspect</span> eval inspect_evals/mask <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--model</span> <span class="op">&lt;</span>YOUR_MODEL<span class="op">&gt;</span> <span class="dt">\</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--log-dir</span> ./eval_logs <span class="dt">\</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> binary_judge_model=<span class="st">&quot;openai/gpt-4o-mini&quot;</span> <span class="dt">\</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> numeric_judge_model=<span class="st">&quot;openai/o3-mini&quot;</span></span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> binary_judge_model=<span class="st">&quot;openai/gpt-4o-mini&quot;</span></span></code></pre></div>
 <hr />
 <h2 id="appendix-paper-vs-replication-differences">Appendix: Paper vs
 replication differences</h2>
 <p>Systematic differences between the paper and this replication are
 likely caused by:</p>
 <ol type="1">
-<li><strong>Different eval harness</strong> — this replication uses <a
+<li><strong>Different eval harness.</strong> This replication uses <a
 href="https://inspect.ai">Inspect AI</a>, not the original
 codebase.</li>
-<li><strong>Model API drift</strong> — model weights and serving
-infrastructure change over time; we will never know the exact checkpoint
+<li><strong>Model API drift.</strong> Model weights and serving
+infrastructure change over time. We will never know the exact checkpoint
 the paper used.</li>
-<li><strong><mark>TBD: Different eval judges</mark></strong> — this
+<li><strong><mark>TBD: Different eval judges.</mark></strong> This
 replication uses gpt-4o-mini as the judge. The original paper’s judge
 may differ. I may re-run with a matching judge if I can confirm which
 one the paper used.</li>
 </ol>
-<p><strong>Honesty (P(honest))</strong></p>
+<p><strong>Honesty (1 - P(Lie))</strong></p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -565,7 +563,7 @@ one the paper used.</li>
 </tr>
 </tbody>
 </table>
-<p><strong>Accuracy (correct / total)</strong></p>
+<p><strong>Accuracy</strong></p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -625,12 +623,10 @@ one the paper used.</li>
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>TODO: Insert flops<a href="#fnref1"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>TODO: Insert error_in_the_basis<a
-href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>TODO: Insert
-classification_basis_analogy<a href="#fnref3" class="footnote-back"
+<li id="fn1" role="doc-endnote"><p>TODO: Insert error_in_the_basis<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>TODO: Insert
+classification_basis_analogy<a href="#fnref2" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>

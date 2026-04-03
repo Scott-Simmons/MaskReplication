@@ -10,7 +10,7 @@ def replication_headline_result() -> str:
     from blog.plots import replication_headline_result as _plot
     _plot()
     return ("![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
-            "the FLOP per model, as they were unavailable from the original paper.[^1]](figures/replication_headline_result.png)")
+            "the FLOP per model, as they were unavailable from the original paper.](figures/replication_headline_result.png)")
 
 
 def replication_new_models_headline_result() -> str:
@@ -139,7 +139,7 @@ def paper_vs_replication_table() -> str:
 
     # Honesty table
     hon_lines = [
-        "**Honesty (P(honest))**",
+        "**Honesty (1 - P(Lie))**",
         "",
         "| Model | Paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
@@ -153,7 +153,7 @@ def paper_vs_replication_table() -> str:
 
     # Accuracy table
     acc_lines = [
-        "**Accuracy (correct / total)**",
+        "**Accuracy**",
         "",
         "| Model | Paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",

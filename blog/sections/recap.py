@@ -11,12 +11,11 @@ def recap() -> str:
         "Here is the invocation I used:",
         "",
         "```bash",
+        "# inspect_evals v0.6.1, mask task version 3",
         "inspect eval inspect_evals/mask \\",
-        '    --model <YOUR_MODEL> \\',
-        "    --limit 1000 \\",
+        "    --model <YOUR_MODEL> \\",
         "    --log-dir ./eval_logs \\",
-        '    -T binary_judge_model="openai/gpt-4o-mini" \\',
-        '    -T numeric_judge_model="openai/o3-mini"',
+        '    -T binary_judge_model="openai/gpt-4o-mini"',
         "```",
     ])
 

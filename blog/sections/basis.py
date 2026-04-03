@@ -1,7 +1,7 @@
 def introduce_the_basis() -> str:
     return (
         "The categories that a pressured statement, subject to some internally held "
-        "belief, can fall into are:[^2]"
+        "belief, can fall into are:[^1]"
     )
 
 
@@ -40,7 +40,7 @@ def one_d_projections() -> str:
     return (
         "Every projection of the deception basis produces a different metric. "
         "When the basis is reported, researchers can compute whatever "
-        "measures they are interested in, or define new ones. Here are some useful ones:[^3]"
+        "measures they are interested in, or define new ones. Here are some useful ones:[^2]"
     )
 
 
