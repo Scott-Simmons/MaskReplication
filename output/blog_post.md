@@ -17,8 +17,6 @@ When I first saw this, it was quite a provocative result. For many reasons. How 
 > 1. [Does this survive independent replication?](#replication-results)
 > 2. [Are there any other measures that can help characterise deception?](#the-deception-basis)
 
-Last year, I implemented the MASK evaluation into the [Inspect AI](https://inspect.ai) framework. In this post, I replicate the original headline result across 9 models, and propose a basis for deception analysis that I think gives researchers a more complete picture than any single honesty score.
-
 ---
 
 ## Replication results
@@ -43,9 +41,7 @@ I used <mark>a different model judge to save on cost (TODO: may remove this cave
 
 The headline result held. The pattern is clear in the replication: accuracy scales with compute, but honesty does not. See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model comparison with the original paper.
 
-![Replication: Larger models are more accurate but not more honest](figures/replication_headline_result.png)
-
-**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate the FLOP per model, as they were unavailable in the original paper.[^1]
+![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate the FLOP per model, as they were unavailable from the original paper.[^1]](figures/replication_headline_result.png)
 
 ---
 
@@ -78,6 +74,8 @@ $$\text{Honesty} = 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N}$$
 
 However this projection compresses a lot of useful information.
 
+### Hypothetical
+
 TODO: Insert interp_dumb_and_diplomatic
 
 ```
@@ -96,9 +94,11 @@ TODO: Insert interp_dumb_and_diplomatic
 
 *TODO: Insert dumb_and_diplomat caption*
 
+### Making this empirical
+
 TODO: Insert empirical_lossy_demonstration
 
-![Model behaviour space with iso-P(Lie) contours](figures/two_d_space_projection.png)
+![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when accounting for error bars, even though o3-mini is actually just a lot more evasive.](figures/two_d_space_projection.png)
 
 TODO: Insert 1D_projections[^3]
 

@@ -17,8 +17,16 @@ def honesty_is_lossy() -> str:
     return "However this projection compresses a lot of useful information."
 
 
+def hypothetical_subheader() -> str:
+    return "### Hypothetical"
+
+
 def interp_dumb_and_diplomatic() -> str:
     return "TODO: Insert interp_dumb_and_diplomatic"
+
+
+def making_this_empirical_subheader() -> str:
+    return "### Making this empirical"
 
 
 def empirical_lossy_demonstration() -> str:

@@ -12,7 +12,6 @@ STRUCTURE = [
         intro.link_to_ai,
         figures.og_headline_result,
         intro.how_i_reacted,
-        intro.what_i_did,
     ]),
     ("## Replication results", [
         replication.what_i_wanted_to_do,
@@ -20,7 +19,6 @@ STRUCTURE = [
         replication.differences_to_og,
         replication.interpretation,
         figures.replication_headline_result,
-        replication.flops_note,
     ]),
     ("## The deception basis", [
         basis.introduce_the_basis,
@@ -30,8 +28,10 @@ STRUCTURE = [
         basis.honesty_in_terms_of_basis,
         figures.honesty_metric,
         basis.honesty_is_lossy,
+        basis.hypothetical_subheader,
         basis.interp_dumb_and_diplomatic,
         figures.dumb_and_diplomat,
+        basis.making_this_empirical_subheader,
         basis.empirical_lossy_demonstration,
         figures.two_d_space_projection_headline,
         basis.one_d_projections,

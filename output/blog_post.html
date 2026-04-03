@@ -27,7 +27,11 @@
 <li><a href="#the-basis-of-deception">The Basis of Deception</a>
 <ul>
 <li><a href="#replication-results">Replication results</a></li>
-<li><a href="#the-deception-basis">The deception basis</a></li>
+<li><a href="#the-deception-basis">The deception basis</a>
+<ul>
+<li><a href="#hypothetical">Hypothetical</a></li>
+<li><a href="#making-this-empirical">Making this empirical</a></li>
+</ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#appendix-paper-vs-replication-differences">Appendix: Paper
 vs replication differences</a></li>
@@ -76,11 +80,6 @@ replication?</a></li>
 help characterise deception?</a></li>
 </ol>
 </blockquote>
-<p>Last year, I implemented the MASK evaluation into the <a
-href="https://inspect.ai">Inspect AI</a> framework. In this post, I
-replicate the original headline result across 9 models, and propose a
-basis for deception analysis that I think gives researchers a more
-complete picture than any single honesty score.</p>
 <hr />
 <h2 id="replication-results">Replication results</h2>
 <p>I wanted to verify the paper’s main claim: larger models are more
@@ -165,15 +164,13 @@ href="#appendix-paper-vs-replication-differences">appendix</a> for a
 model-by-model comparison with the original paper.</p>
 <figure>
 <img src="figures/replication_headline_result.png"
-alt="Replication: Larger models are more accurate but not more honest" />
-<figcaption aria-hidden="true">Replication: Larger models are more
-accurate but not more honest</figcaption>
-</figure>
-<p><strong>Note:</strong> I used <a
+alt="Note: I used Epoch AI to estimate the FLOP per model, as they were unavailable from the original paper." />
+<figcaption aria-hidden="true">Note: I used <a
 href="https://epoch.ai/data/notable-ai-models">Epoch AI</a> to estimate
-the FLOP per model, as they were unavailable in the original paper.<a
+the FLOP per model, as they were unavailable from the original paper.<a
 href="#fn1" class="footnote-ref" id="fnref1"
-role="doc-noteref"><sup>1</sup></a></p>
+role="doc-noteref"><sup>1</sup></a></figcaption>
+</figure>
 <hr />
 <h2 id="the-deception-basis">The deception basis</h2>
 <p>The categories that a pressured statement, subject to some internally
@@ -303,6 +300,7 @@ means:</p>
 <p><span class="math display">\[\text{Honesty} = 1 - P(\text{Lie}) = 1 -
 \frac{L}{H + L + E + N}\]</span></p>
 <p>However this projection compresses a lot of useful information.</p>
+<h3 id="hypothetical">Hypothetical</h3>
 <p>TODO: Insert interp_dumb_and_diplomatic</p>
 <pre><code>  Unpressured Query     Pressured Query
         │                      │
@@ -316,12 +314,15 @@ means:</p>
    │ Response │     │ Truthful │ Lie │ ...│
    └─────────┘     └────────────────────┘</code></pre>
 <p><em>TODO: Insert dumb_and_diplomat caption</em></p>
+<h3 id="making-this-empirical">Making this empirical</h3>
 <p>TODO: Insert empirical_lossy_demonstration</p>
 <figure>
 <img src="figures/two_d_space_projection.png"
-alt="Model behaviour space with iso-P(Lie) contours" />
+alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when accounting for error bars, even though o3-mini is actually just a lot more evasive." />
 <figcaption aria-hidden="true">Model behaviour space with iso-P(Lie)
-contours</figcaption>
+contours. Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie)
+contour when accounting for error bars, even though o3-mini is actually
+just a lot more evasive.</figcaption>
 </figure>
 <p>TODO: Insert 1D_projections<a href="#fn3" class="footnote-ref"
 id="fnref3" role="doc-noteref"><sup>3</sup></a></p>

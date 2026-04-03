@@ -9,7 +9,8 @@ def og_headline_result() -> str:
 def replication_headline_result() -> str:
     from blog.plots import replication_headline_result as _plot
     _plot()
-    return "![Replication: Larger models are more accurate but not more honest](figures/replication_headline_result.png)"
+    return ("![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
+            "the FLOP per model, as they were unavailable from the original paper.[^1]](figures/replication_headline_result.png)")
 
 
 def replication_new_models_headline_result() -> str:
@@ -19,7 +20,10 @@ def replication_new_models_headline_result() -> str:
 def two_d_space_projection_headline() -> str:
     from blog.plots import two_d_space_projection as _plot
     _plot()
-    return "![Model behaviour space with iso-P(Lie) contours](figures/two_d_space_projection.png)"
+    return ("![Model behaviour space with iso-P(Lie) contours. "
+            "Note how Qwen 2.5 7B and o3-mini lie on the same P(Lie) contour when "
+            "accounting for error bars, even though o3-mini is actually just a lot more "
+            "evasive.](figures/two_d_space_projection.png)")
 
 
 def more_2d_projections() -> str:
