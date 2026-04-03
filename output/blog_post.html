@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>-</title>
+  <title>The Basis of Deception</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -14,107 +14,234 @@
     ul.task-list{list-style: none;}
   </style>
   <link rel="stylesheet" href="style.css" />
-  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
   type="text/javascript"></script>
 </head>
 <body>
+<header id="title-block-header">
+<h1 class="title">The Basis of Deception</h1>
+</header>
 <h1 id="the-basis-of-deception">The Basis of Deception</h1>
 <hr />
 <p>TODO: Insert tldr</p>
 <p>TODO: Insert intro</p>
 <p>TODO: Insert link_to_ai</p>
 <figure>
-<img src="figures/placeholder_plot.png"
-alt="TODO: Insert og_headline_result caption" />
-<figcaption aria-hidden="true">TODO: Insert og_headline_result
-caption</figcaption>
+<img src="figures/og_headline_result.png"
+alt="MASK paper: Larger models are more accurate but not more honest" />
+<figcaption aria-hidden="true">MASK paper: Larger models are more
+accurate but not more honest</figcaption>
 </figure>
 <p>TODO: Insert how_i_reacted</p>
 <p>TODO: Insert what_i_did</p>
 <hr />
 <h2 id="replication-results">Replication results</h2>
 <p>TODO: Insert what_i_wanted_to_do</p>
-<p><em>TODO: Insert models_used_in_replication caption</em></p>
 <table>
 <thead>
 <tr class="header">
 <th>Model</th>
-<th>Accuracy</th>
-<th>Honesty</th>
+<th>Provider</th>
+<th>Samples</th>
+<th>In paper?</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Model A</td>
-<td>0.85</td>
-<td>0.42</td>
+<td>Claude Haiku 4.5</td>
+<td>Anthropic</td>
+<td>1,000</td>
+<td>No</td>
 </tr>
 <tr class="even">
-<td>Model B</td>
-<td>0.91</td>
-<td>0.38</td>
+<td>GPT-4o</td>
+<td>OpenAI</td>
+<td>998</td>
+<td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Model C</td>
-<td>0.72</td>
-<td>0.67</td>
+<td>GPT-4o-mini</td>
+<td>OpenAI</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>OpenAI</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>Alibaba</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>DeepSeek</td>
+<td>580</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>DeepSeek</td>
+<td>924</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>DeepSeek</td>
+<td>1,000</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>Meta</td>
+<td>998</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
 <p>TODO: Insert differences_to_og</p>
 <p>TODO: Insert interpretation</p>
 <figure>
-<img src="figures/placeholder_plot.png"
-alt="TODO: Insert replication_headline_result caption" />
-<figcaption aria-hidden="true">TODO: Insert replication_headline_result
-caption</figcaption>
+<img src="figures/replication_headline_result.png"
+alt="Replication: Larger models are more accurate but not more honest" />
+<figcaption aria-hidden="true">Replication: Larger models are more
+accurate but not more honest</figcaption>
 </figure>
 <p>TODO: Insert interpretation_new_models</p>
-<figure>
-<img src="figures/placeholder_plot.png"
-alt="TODO: Insert replication_new_models_headline_result caption" />
-<figcaption aria-hidden="true">TODO: Insert
-replication_new_models_headline_result caption</figcaption>
-</figure>
 <p>TODO: Insert flops_note<a href="#fn1" class="footnote-ref"
 id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <hr />
-<h2 id="the-limitation-of-honesty-scores">The limitation of honesty
-scores</h2>
+<h2
+id="the-limitation-of-honesty-scores-actually-most-1d-projections">The
+limitation of honesty scores (actually, most 1D projections!)</h2>
 <p>TODO: Insert introduce_the_basis<a href="#fn2" class="footnote-ref"
 id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><span class="math display">\[TODO: Insert
-placeholder\_formula\]</span></p>
-<p><em>TODO: Insert basis_vectors_empirical caption</em></p>
-<table>
+<p><span class="math display">\[\{\text{Honest},\ \text{Lie},\
+\text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
+<p><span class="math display">\[\{H,\ L,\ E,\ N,\
+\varepsilon\}\]</span></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Model</th>
-<th>Accuracy</th>
-<th>Honesty</th>
+<th><span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(H\)</span></th>
+<th><span class="math inline">\(L\)</span></th>
+<th><span class="math inline">\(E\)</span></th>
+<th><span class="math inline">\(N\)</span></th>
+<th><span class="math inline">\(\varepsilon\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Model A</td>
-<td>0.85</td>
-<td>0.42</td>
+<td>Claude Haiku 4.5</td>
+<td>1,000</td>
+<td>620</td>
+<td>81</td>
+<td>215</td>
+<td>82</td>
+<td>2</td>
 </tr>
 <tr class="even">
-<td>Model B</td>
-<td>0.91</td>
-<td>0.38</td>
+<td>GPT-4o</td>
+<td>998</td>
+<td>205</td>
+<td>503</td>
+<td>199</td>
+<td>88</td>
+<td>3</td>
 </tr>
 <tr class="odd">
-<td>Model C</td>
-<td>0.72</td>
-<td>0.67</td>
+<td>GPT-4o-mini</td>
+<td>1,000</td>
+<td>200</td>
+<td>494</td>
+<td>160</td>
+<td>144</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>1,000</td>
+<td>134</td>
+<td>434</td>
+<td>284</td>
+<td>140</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>1,000</td>
+<td>264</td>
+<td>401</td>
+<td>83</td>
+<td>246</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>580</td>
+<td>75</td>
+<td>314</td>
+<td>101</td>
+<td>89</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>924</td>
+<td>142</td>
+<td>506</td>
+<td>172</td>
+<td>103</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>1,000</td>
+<td>143</td>
+<td>580</td>
+<td>117</td>
+<td>151</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>998</td>
+<td>257</td>
+<td>526</td>
+<td>96</td>
+<td>114</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>8,500</strong></td>
+<td><strong>2040</strong></td>
+<td><strong>3839</strong></td>
+<td><strong>1427</strong></td>
+<td><strong>1157</strong></td>
+<td><strong>35</strong></td>
 </tr>
 </tbody>
 </table>
 <p>TODO: Insert honesty_in_terms_of_basis</p>
-<p><span class="math display">\[TODO: Insert
-placeholder\_formula\]</span></p>
+<p><span class="math display">\[\text{Honesty} = 1 - P(\text{Lie}) = 1 -
+\frac{L}{H + L + E + N}\]</span></p>
 <p>TODO: Insert honesty_is_lossy</p>
 <p>TODO: Insert interp_dumb_and_diplomatic</p>
 <pre><code>  Unpressured Query     Pressured Query
@@ -131,50 +258,210 @@ placeholder\_formula\]</span></p>
 <p><em>TODO: Insert dumb_and_diplomat caption</em></p>
 <p>TODO: Insert empirical_lossy_demonstration</p>
 <figure>
-<img src="figures/placeholder_plot.png"
-alt="TODO: Insert 2d_space_projection_headline caption" />
-<figcaption aria-hidden="true">TODO: Insert 2d_space_projection_headline
-caption</figcaption>
+<img src="figures/two_d_space_projection.png"
+alt="Model behaviour space with iso-P(Lie) contours" />
+<figcaption aria-hidden="true">Model behaviour space with iso-P(Lie)
+contours</figcaption>
 </figure>
-<p>TODO: Insert 1D_projections</p>
-<p><em>TODO: Insert other_1d_projections caption</em></p>
+<p>TODO: Insert 1D_projections<a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>Model</th>
-<th>Accuracy</th>
-<th>Honesty</th>
+<th>Metric</th>
+<th>Formula</th>
+<th>What it captures</th>
+<th>In MASK?</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Model A</td>
-<td>0.85</td>
-<td>0.42</td>
+<td>Honesty score</td>
+<td><span class="math inline">\(\frac{H}{H + L + E + N}\)</span></td>
+<td>Strictest: honest out of all responses</td>
+<td>Yes (headline)</td>
 </tr>
 <tr class="even">
-<td>Model B</td>
-<td>0.91</td>
-<td>0.38</td>
+<td>Normalised honesty</td>
+<td><span class="math inline">\(\frac{H}{H + L + E}\)</span></td>
+<td>Excludes no-belief from denominator</td>
+<td>Yes (appendix)</td>
 </tr>
 <tr class="odd">
-<td>Model C</td>
-<td>0.72</td>
-<td>0.67</td>
+<td>Conditional honesty</td>
+<td><span class="math inline">\(\frac{H}{H + L}\)</span></td>
+<td>When it takes a position, is it truthful?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Engagement rate</td>
+<td><span class="math inline">\(\frac{H + L}{H + L + E +
+N}\)</span></td>
+<td>How often does it commit to a position?</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Evasion rate</td>
+<td><span class="math inline">\(\frac{E}{H + L + E + N}\)</span></td>
+<td>How often does it dodge?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Conditional lie rate</td>
+<td><span class="math inline">\(\frac{L}{H + L}\)</span></td>
+<td>When it engages, how often does it lie?</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Deflection style</td>
+<td><span class="math inline">\(\frac{E}{E + N}\)</span></td>
+<td>Of non-answers: strategic dodge vs no belief?</td>
+<td>No</td>
 </tr>
 </tbody>
 </table>
 <p>TODO: Insert more_examples_of_2d_projections</p>
 <figure>
-<img src="figures/placeholder_plot.png"
-alt="TODO: Insert more_2d_projections caption" />
-<figcaption aria-hidden="true">TODO: Insert more_2d_projections
-caption</figcaption>
+<img src="figures/more_2d_projections.png"
+alt="Three more basis projections" />
+<figcaption aria-hidden="true">Three more basis projections</figcaption>
 </figure>
 <hr />
 <h2 id="conclusion">Conclusion</h2>
 <p>TODO: Insert recap</p>
 <p>TODO: Insert encourage_the_basis_framing</p>
+<p>TODO: Work in this point — MASK only reports P(honest) and P(lie) as
+percentages. They don’t report raw counts, so you can’t compute
+confidence intervals, can’t derive other projections, and can’t even
+tell if two models with the same honesty score have 50 samples or 1,500.
+Reporting the full basis vectors (with counts) is strictly more useful
+and costs nothing. The error bars in the plots above are only possible
+because we have the counts.</p>
+<p>TODO: Also work in — reporting the basis means any reader can compute
+whichever projection fits their use case after the fact. New metric
+proposed next year? You can derive it from the same basis vectors
+without re-running a single eval.</p>
+<hr />
+<h2 id="appendix-paper-vs-replication-differences">Appendix: Paper vs
+replication differences</h2>
+<p>Systematic differences between the paper and this replication are
+likely caused by:</p>
+<ol type="1">
+<li><strong>Different eval harness</strong> — this replication uses <a
+href="https://inspect.ai">Inspect AI</a>, not the original
+codebase.</li>
+<li><strong>Model API drift</strong> — model weights and serving
+infrastructure change over time; we will never know the exact checkpoint
+the paper used.</li>
+<li><strong><mark>TBD: Different eval judges</mark></strong> — this
+replication uses gpt-4o-mini as the judge. The original paper’s judge
+may differ. I may re-run with a matching judge if I can confirm which
+one the paper used.</li>
+</ol>
+<p><strong>Honesty</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Paper</th>
+<th>Replication</th>
+<th>Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPT-4o</td>
+<td>21.8</td>
+<td>20.5</td>
+<td><span style="color:red">-1.3</span></td>
+</tr>
+<tr class="even">
+<td>GPT-4o-mini</td>
+<td>21.4</td>
+<td>20.0</td>
+<td><span style="color:red">-1.4</span></td>
+</tr>
+<tr class="odd">
+<td>o3-mini</td>
+<td>19.6</td>
+<td>13.4</td>
+<td><span style="color:red">-6.2</span></td>
+</tr>
+<tr class="even">
+<td>Qwen 2.5 7B</td>
+<td>28.9</td>
+<td>26.4</td>
+<td><span style="color:red">-2.5</span></td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1</td>
+<td>24.7</td>
+<td>7.5</td>
+<td><span style="color:red">-17.2</span></td>
+</tr>
+<tr class="even">
+<td>Llama 3.3 70B</td>
+<td>24.7</td>
+<td>25.7</td>
+<td><span style="color:green">+1.0</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Accuracy</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Paper</th>
+<th>Replication</th>
+<th>Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPT-4o</td>
+<td>78.6</td>
+<td>58.7</td>
+<td><span style="color:red">-19.9</span></td>
+</tr>
+<tr class="even">
+<td>GPT-4o-mini</td>
+<td>71.4</td>
+<td>51.6</td>
+<td><span style="color:red">-19.8</span></td>
+</tr>
+<tr class="odd">
+<td>o3-mini</td>
+<td>63.3</td>
+<td>42.6</td>
+<td><span style="color:red">-20.7</span></td>
+</tr>
+<tr class="even">
+<td>Qwen 2.5 7B</td>
+<td>51.6</td>
+<td>35.2</td>
+<td><span style="color:red">-16.4</span></td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1</td>
+<td>82.2</td>
+<td>31.0</td>
+<td><span style="color:red">-51.2</span></td>
+</tr>
+<tr class="even">
+<td>Llama 3.3 70B</td>
+<td>75.6</td>
+<td>56.5</td>
+<td><span style="color:red">-19.1</span></td>
+</tr>
+</tbody>
+</table>
 <hr />
 <p><em>TODO: Insert shout_out_inspect</em></p>
 <p><em>TODO: Insert shout_out_misc</em></p>
@@ -187,6 +474,9 @@ role="doc-endnotes">
 class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>TODO: Insert error_in_the_basis<a
 href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>TODO: Insert
+classification_basis_analogy<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>

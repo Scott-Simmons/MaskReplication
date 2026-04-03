@@ -11,4 +11,4 @@ def classification_basis_analogy() -> str:
 
 
 def theoretical_limit_per_basis_size() -> str:
-    return "[^4]: TODO: Insert theoretical_limit_per_basis_size"
+    return ""

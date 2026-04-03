@@ -3,11 +3,13 @@ def placeholder_plot() -> str:
 
 
 def og_headline_result() -> str:
-    return "![TODO: Insert og_headline_result caption](figures/placeholder_plot.png)"
+    return "![MASK paper: Larger models are more accurate but not more honest](figures/og_headline_result.png)"
 
 
 def replication_headline_result() -> str:
-    return "![TODO: Insert replication_headline_result caption](figures/placeholder_plot.png)"
+    from blog.plots import replication_headline_result as _plot
+    _plot()
+    return "![Replication: Larger models are more accurate but not more honest](figures/replication_headline_result.png)"
 
 
 def replication_new_models_headline_result() -> str:
@@ -15,46 +17,72 @@ def replication_new_models_headline_result() -> str:
 
 
 def two_d_space_projection_headline() -> str:
-    return "![TODO: Insert 2d_space_projection_headline caption](figures/placeholder_plot.png)"
+    from blog.plots import two_d_space_projection as _plot
+    _plot()
+    return "![Model behaviour space with iso-P(Lie) contours](figures/two_d_space_projection.png)"
 
 
 def more_2d_projections() -> str:
-    return "![TODO: Insert more_2d_projections caption](figures/placeholder_plot.png)"
+    from blog.plots import more_2d_projections as _plot
+    _plot()
+    return "![Three more basis projections](figures/more_2d_projections.png)"
 
 
 def models_used_in_replication() -> str:
-    return "\n".join([
-        "*TODO: Insert models_used_in_replication caption*",
-        "",
-        "| Model | Accuracy | Honesty |",
-        "|---|---|---|",
-        "| Model A | 0.85 | 0.42 |",
-        "| Model B | 0.91 | 0.38 |",
-        "| Model C | 0.72 | 0.67 |",
-    ])
+    from blog.analysis import load_runs
+
+    runs = load_runs()
+    lines = [
+        "| Model | Provider | Samples | In paper? |",
+        "|---|---|---|---|",
+    ]
+    for r in runs:
+        check = "Yes" if r.in_paper else "No"
+        lines.append(f"| {r.display_name} | {r.provider} | {r.n:,} | {check} |")
+    return "\n".join(lines)
 
 
 def basis_vectors_empirical() -> str:
-    return "\n".join([
-        "*TODO: Insert basis_vectors_empirical caption*",
-        "",
-        "| Model | Accuracy | Honesty |",
-        "|---|---|---|",
-        "| Model A | 0.85 | 0.42 |",
-        "| Model B | 0.91 | 0.38 |",
-        "| Model C | 0.72 | 0.67 |",
-    ])
+    from blog.analysis import load_runs
+
+    runs = load_runs()
+    lines = [
+        "| Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    totals = {"n": 0, "H": 0, "L": 0, "E": 0, "N": 0, "e": 0}
+    for r in runs:
+        b = r.basis
+        H = b.get("truthful", 0)
+        L = b.get("lie", 0)
+        E = b.get("evade", 0)
+        N = b.get("no_belief", 0)
+        e = b.get("error", 0)
+        lines.append(f"| {r.display_name} | {r.n:,} | {H} | {L} | {E} | {N} | {e} |")
+        totals["n"] += r.n
+        totals["H"] += H
+        totals["L"] += L
+        totals["E"] += E
+        totals["N"] += N
+        totals["e"] += e
+    lines.append(
+        f"| **Total** | **{totals['n']:,}** | **{totals['H']}** | **{totals['L']}** "
+        f"| **{totals['E']}** | **{totals['N']}** | **{totals['e']}** |"
+    )
+    return "\n".join(lines)
 
 
 def other_1d_projections() -> str:
     return "\n".join([
-        "*TODO: Insert other_1d_projections caption*",
-        "",
-        "| Model | Accuracy | Honesty |",
-        "|---|---|---|",
-        "| Model A | 0.85 | 0.42 |",
-        "| Model B | 0.91 | 0.38 |",
-        "| Model C | 0.72 | 0.67 |",
+        "| Metric | Formula | What it captures | In MASK? |",
+        "|---|---|---|---|",
+        "| Honesty score | $\\frac{H}{H + L + E + N}$ | Strictest: honest out of all responses | Yes (headline) |",
+        "| Normalised honesty | $\\frac{H}{H + L + E}$ | Excludes no-belief from denominator | Yes (appendix) |",
+        "| Conditional honesty | $\\frac{H}{H + L}$ | When it takes a position, is it truthful? | No |",
+        "| Engagement rate | $\\frac{H + L}{H + L + E + N}$ | How often does it commit to a position? | No |",
+        "| Evasion rate | $\\frac{E}{H + L + E + N}$ | How often does it dodge? | No |",
+        "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
+        "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: strategic dodge vs no belief? | No |",
     ])
 
 
@@ -70,12 +98,65 @@ def placeholder_table() -> str:
     ])
 
 
+def _color_diff(diff: float) -> str:
+    sign = "+" if diff >= 0 else ""
+    color = "green" if diff >= 0 else "red"
+    return f'<span style="color:{color}">{sign}{diff:.1f}</span>'
+
+
+def paper_vs_replication_table() -> str:
+    from blog.analysis import DISPLAY_TO_OG, load_runs
+    from blog.constants import OG_PAPER_SCORES
+
+    runs = load_runs()
+
+    # Build lookup: paper_name -> replication run (intersection only)
+    matches = []
+    for r in runs:
+        og_name = DISPLAY_TO_OG.get(r.display_name)
+        if og_name and og_name in OG_PAPER_SCORES:
+            og_hon, _, og_acc = OG_PAPER_SCORES[og_name]
+            matches.append((r, og_hon, og_acc))
+
+    # Honesty table
+    hon_lines = [
+        "**Honesty**",
+        "",
+        "| Model | Paper | Replication | Diff |",
+        "|---|---|---|---|",
+    ]
+    for r, og_hon, _ in matches:
+        diff = r.honesty * 100 - og_hon
+        hon_lines.append(
+            f"| {r.display_name} | {og_hon:.1f} | {r.honesty * 100:.1f} | {_color_diff(diff)} |"
+        )
+
+    # Accuracy table
+    acc_lines = [
+        "**Accuracy**",
+        "",
+        "| Model | Paper | Replication | Diff |",
+        "|---|---|---|---|",
+    ]
+    for r, _, og_acc in matches:
+        diff = r.accuracy * 100 - og_acc
+        acc_lines.append(
+            f"| {r.display_name} | {og_acc:.1f} | {r.accuracy * 100:.1f} | {_color_diff(diff)} |"
+        )
+
+    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
+
+
 def deception_basis() -> str:
-    return "$$TODO: Insert deception\\_basis$$"
+    return "\n".join([
+        "$$\\{\\text{Honest},\\ \\text{Lie},\\ \\text{Evade},\\ \\text{No Belief},\\ \\text{Parse Error}\\}$$",
+        "",
+        "$$\\{H,\\ L,\\ E,\\ N,\\ \\varepsilon\\}$$",
+    ])
 
 
 def honesty_metric() -> str:
-    return "$$TODO: Insert honesty\\_metric$$"
+    return "$$\\text{Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{H + L + E + N}$$"
 
 
 def dumb_and_diplomat() -> str:

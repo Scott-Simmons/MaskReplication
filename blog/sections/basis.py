@@ -19,7 +19,7 @@ def empirical_lossy_demonstration() -> str:
 
 
 def one_d_projections() -> str:
-    return "TODO: Insert 1D_projections"
+    return "TODO: Insert 1D_projections[^3]"
 
 
 def more_examples_of_2d_projections() -> str:

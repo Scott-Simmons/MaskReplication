@@ -3,7 +3,7 @@
 import subprocess
 from pathlib import Path
 
-from blog.sections import basis, figures, footnotes, intro, recap, replication, thanks
+from blog.sections import appendix, basis, figures, footnotes, intro, recap, replication, thanks
 
 STRUCTURE = [
     ("# The Basis of Deception", [
@@ -21,10 +21,9 @@ STRUCTURE = [
         replication.interpretation,
         figures.replication_headline_result,
         replication.interpretation_new_models,
-        figures.replication_new_models_headline_result,
         replication.flops_note,
     ]),
-    ("## The limitation of honesty scores", [
+    ("## The limitation of honesty scores (actually, most 1D projections!)", [
         basis.introduce_the_basis,
         figures.deception_basis,
         figures.basis_vectors_empirical,
@@ -43,6 +42,10 @@ STRUCTURE = [
     ("## Conclusion", [
         recap.recap,
         recap.encourage_the_basis_framing,
+    ]),
+    ("## Appendix: Paper vs replication differences", [
+        appendix.paper_vs_replication,
+        figures.paper_vs_replication_table,
     ]),
     (None, [
         thanks.shout_out_inspect,
@@ -80,9 +83,10 @@ def generate_html(md_text: str) -> str:
             "pandoc",
             "--from=markdown",
             "--to=html",
-            "--mathjax",
-            f"--css=style.css",
+            "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+            "--css=style.css",
             "--standalone",
+            "--metadata=title:The Basis of Deception",
         ],
         input=md_text,
         capture_output=True,
