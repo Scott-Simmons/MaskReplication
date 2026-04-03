@@ -9,6 +9,17 @@ def tldr() -> str:
     )
 
 
+def toc() -> str:
+    return "\n".join([
+        "**Contents:** "
+        "[1. Introduction](#introduction) | "
+        "[2. Replication results](#replication-results) | "
+        "[3. The deception basis](#the-deception-basis) | "
+        "[4. Conclusion](#conclusion) | "
+        "[Appendix](#appendix-paper-vs-replication-differences)",
+    ])
+
+
 def intro() -> str:
     return "---\n\n" + (
         "Truth is often inconvenient. For starters, we cannot be sure that we actually "
@@ -40,17 +51,4 @@ def how_i_reacted() -> str:
         "> 1. [Does this survive independent replication?](#replication-results)\n"
         "> 2. [Are there any other measures that can help characterise deception?]"
         "(#the-deception-basis)"
-    )
-
-
-def what_i_did() -> str:
-    from blog.analysis import load_runs
-
-    n_models = len(load_runs())
-    return (
-        "Last year, I implemented the MASK evaluation into the "
-        f"[Inspect AI](https://inspect.ai) framework. In this post, I replicate the "
-        f"original headline result across {n_models} models, and propose a basis for "
-        "deception analysis that I think gives researchers a more complete picture than any single "
-        "honesty score."
     )

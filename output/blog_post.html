@@ -85,19 +85,6 @@
 <header id="title-block-header">
 <h1 class="title">The Basis of Deception</h1>
 </header>
-<nav id="TOC" role="doc-toc">
-<ul>
-<li><a href="#the-basis-of-deception">The Basis of Deception</a>
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#replication-results">Replication results</a></li>
-<li><a href="#the-deception-basis">The deception basis</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#appendix-paper-vs-replication-differences">Appendix: Paper
-vs replication differences</a></li>
-</ul></li>
-</ul>
-</nav>
 <h1 id="the-basis-of-deception">The Basis of Deception</h1>
 <hr />
 <p><strong>TLDR:</strong> I replicate the MASK benchmark’s headline
@@ -107,8 +94,13 @@ identically while behaving completely differently. I show why reporting
 the full basis is useful, and argue for reporting raw counts, including
 errors, and error bars as the way forward for deception evaluation, and
 evaluations in general.</p>
+<p><strong>Contents:</strong> <a href="#introduction">1.
+Introduction</a> | <a href="#replication-results">2. Replication
+results</a> | <a href="#the-deception-basis">3. The deception basis</a>
+| <a href="#conclusion">4. Conclusion</a> | <a
+href="#appendix-paper-vs-replication-differences">Appendix</a></p>
 <hr />
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">1. Introduction</h2>
 <hr />
 <p>Truth is often inconvenient. For starters, we cannot be sure that we
 actually know it. But even when deep down, we think we do know it, many
@@ -144,7 +136,7 @@ help characterise deception?</a></li>
 </ol>
 </blockquote>
 <hr />
-<h2 id="replication-results">Replication results</h2>
+<h2 id="replication-results">2. Replication results</h2>
 <p>I wanted to verify the paper’s main claim: larger models are more
 accurate but not more honest. I used the following models:</p>
 <table>
@@ -234,7 +226,7 @@ the FLOP per model, as they were unavailable from the original
 paper.</figcaption>
 </figure>
 <hr />
-<h2 id="the-deception-basis">The deception basis</h2>
+<h2 id="the-deception-basis">3. The deception basis</h2>
 <p>The categories that a pressured statement, subject to some internally
 held belief, can fall into are:<a href="#fn1" class="footnote-ref"
 id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
@@ -474,7 +466,7 @@ when it does not answer, it is mostly because it lacks beliefs, not
 because it evades).</figcaption>
 </figure>
 <hr />
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">4. Conclusion</h2>
 <p>If this is interesting to you, the eval logs and analysis code are
 available at <a
 href="https://github.com/Scott-Simmons/MaskReplication">this repo</a>.

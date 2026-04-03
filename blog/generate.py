@@ -8,21 +8,22 @@ from blog.sections import appendix, basis, figures, footnotes, intro, recap, rep
 STRUCTURE = [
     ("# The Basis of Deception", [
         intro.tldr,
+        intro.toc,
     ]),
-    ("## Introduction", [
+    ("## 1. Introduction", [
         intro.intro,
         intro.link_to_ai,
         figures.og_headline_result,
         intro.how_i_reacted,
     ]),
-    ("## Replication results", [
+    ("## 2. Replication results", [
         replication.what_i_wanted_to_do,
         figures.models_used_in_replication,
         replication.differences_to_og,
         replication.interpretation,
         figures.replication_headline_result,
     ]),
-    ("## The deception basis", [
+    ("## 3. The deception basis", [
         basis.introduce_the_basis,
         figures.deception_basis,
         basis.empirical_basis_intro,
@@ -41,7 +42,7 @@ STRUCTURE = [
         basis.more_examples_of_2d_projections,
         figures.more_2d_projections,
     ]),
-    ("## Conclusion", [
+    ("## 4. Conclusion", [
         recap.recap,
         recap.encourage_the_basis_framing,
     ]),
@@ -84,8 +85,6 @@ def generate_html(md_text: str) -> str:
             "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
             "--css=style.css",
             "--standalone",
-            "--toc",
-            "--toc-depth=2",
             "--metadata=title:The Basis of Deception",
         ],
         input=md_text,

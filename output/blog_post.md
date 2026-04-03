@@ -4,9 +4,11 @@
 
 **TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation, and evaluations in general.
 
+**Contents:** [1. Introduction](#introduction) | [2. Replication results](#replication-results) | [3. The deception basis](#the-deception-basis) | [4. Conclusion](#conclusion) | [Appendix](#appendix-paper-vs-replication-differences)
+
 ---
 
-## Introduction
+## 1. Introduction
 
 ---
 
@@ -23,7 +25,7 @@ When I first saw this, it was quite a provocative result. For many reasons. How 
 
 ---
 
-## Replication results
+## 2. Replication results
 
 I wanted to verify the paper's main claim: larger models are more accurate but not more honest. I used the following models:
 
@@ -49,7 +51,7 @@ The headline result held. The pattern is clear in the replication: accuracy scal
 
 ---
 
-## The deception basis
+## 3. The deception basis
 
 The categories that a pressured statement, subject to some internally held belief, can fall into are:[^1]
 
@@ -122,7 +124,7 @@ The same data can be projected in many other ways. Here are three more, each tel
 
 ---
 
-## Conclusion
+## 4. Conclusion
 
 If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models.
 
