@@ -3,6 +3,8 @@ def placeholder_plot() -> str:
 
 
 def og_headline_result() -> str:
+    from blog.plots import og_headline_result as _plot
+    _plot()
     return "![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)"
 
 

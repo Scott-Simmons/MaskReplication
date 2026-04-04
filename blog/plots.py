@@ -3,14 +3,24 @@
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
+import shutil
+
 
 from blog.analysis import PROVIDER_COLORS, load_runs
 
-OUTPUT_DIR = Path("output/figures")
+OUTPUT_DIR = Path("build/figures")
+
+
+def og_headline_result() -> None:
+    """Get OG headline result"""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    source = "og_headline_result.png"
+    shutil.copy2(source, OUTPUT_DIR)
 
 
 def replication_headline_result() -> None:
@@ -63,18 +73,36 @@ def replication_headline_result() -> None:
             marker = "o" if conf == "confident" else "D"
             label = prov if prov not in plotted_providers else None
             plotted_providers.add(prov)
-            ax.scatter(xi, yi, c=color, s=50, zorder=5, label=label,
-                       marker=marker, edgecolors="white", linewidths=0.5)
+            ax.scatter(
+                xi,
+                yi,
+                c=color,
+                s=50,
+                zorder=5,
+                label=label,
+                marker=marker,
+                edgecolors="white",
+                linewidths=0.5,
+            )
 
         # Correlation box
         sign = "+" if rho > 0 else ""
         box_bg = "#e8f5e9" if rho > 0 else "#ffebee"
         box_text_color = "#2e7d32" if rho > 0 else "#b71c1c"
         ax.text(
-            0.5, 0.05, f"Correlation: {sign}{rho:.1%}",
-            transform=ax.transAxes, fontsize=9,
-            ha="center", va="bottom",
-            bbox=dict(boxstyle="round,pad=0.3", facecolor=box_bg, edgecolor=box_text_color, alpha=0.9),
+            0.5,
+            0.05,
+            f"Correlation: {sign}{rho:.1%}",
+            transform=ax.transAxes,
+            fontsize=9,
+            ha="center",
+            va="bottom",
+            bbox=dict(
+                boxstyle="round,pad=0.3",
+                facecolor=box_bg,
+                edgecolor=box_text_color,
+                alpha=0.9,
+            ),
             color=box_text_color,
         )
 
@@ -91,13 +119,22 @@ def replication_headline_result() -> None:
             handles.append(h)
             labels.append(l)
 
-    fig.legend(handles, labels, loc="lower center", ncol=len(set(providers)),
-               fontsize=9, frameon=True, bbox_to_anchor=(0.5, -0.02))
+    fig.legend(
+        handles,
+        labels,
+        loc="lower center",
+        ncol=len(set(providers)),
+        fontsize=9,
+        frameon=True,
+        bbox_to_anchor=(0.5, -0.02),
+    )
 
     fig.tight_layout(rect=[0, 0.05, 1, 0.95])
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUTPUT_DIR / "replication_headline_result.png", dpi=200, bbox_inches="tight")
+    fig.savefig(
+        OUTPUT_DIR / "replication_headline_result.png", dpi=200, bbox_inches="tight"
+    )
     plt.close(fig)
 
 
@@ -145,17 +182,35 @@ def truthfulness_headline_result() -> None:
             marker = "o" if conf == "confident" else "D"
             label = prov if prov not in plotted_providers else None
             plotted_providers.add(prov)
-            ax.scatter(xi, yi, c=color, s=50, zorder=5, label=label,
-                       marker=marker, edgecolors="white", linewidths=0.5)
+            ax.scatter(
+                xi,
+                yi,
+                c=color,
+                s=50,
+                zorder=5,
+                label=label,
+                marker=marker,
+                edgecolors="white",
+                linewidths=0.5,
+            )
 
         sign = "+" if rho > 0 else ""
         box_bg = "#e8f5e9" if rho > 0 else "#ffebee"
         box_text_color = "#2e7d32" if rho > 0 else "#b71c1c"
         ax.text(
-            0.5, 0.05, f"Correlation: {sign}{rho:.1%}",
-            transform=ax.transAxes, fontsize=9,
-            ha="center", va="bottom",
-            bbox=dict(boxstyle="round,pad=0.3", facecolor=box_bg, edgecolor=box_text_color, alpha=0.9),
+            0.5,
+            0.05,
+            f"Correlation: {sign}{rho:.1%}",
+            transform=ax.transAxes,
+            fontsize=9,
+            ha="center",
+            va="bottom",
+            bbox=dict(
+                boxstyle="round,pad=0.3",
+                facecolor=box_bg,
+                edgecolor=box_text_color,
+                alpha=0.9,
+            ),
             color=box_text_color,
         )
 
@@ -170,13 +225,22 @@ def truthfulness_headline_result() -> None:
             handles.append(h)
             labels.append(l)
 
-    fig.legend(handles, labels, loc="lower center", ncol=len(set(providers)),
-               fontsize=9, frameon=True, bbox_to_anchor=(0.5, -0.02))
+    fig.legend(
+        handles,
+        labels,
+        loc="lower center",
+        ncol=len(set(providers)),
+        fontsize=9,
+        frameon=True,
+        bbox_to_anchor=(0.5, -0.02),
+    )
 
     fig.tight_layout(rect=[0, 0.05, 1, 0.95])
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUTPUT_DIR / "truthfulness_headline_result.png", dpi=200, bbox_inches="tight")
+    fig.savefig(
+        OUTPUT_DIR / "truthfulness_headline_result.png", dpi=200, bbox_inches="tight"
+    )
     plt.close(fig)
 
 
@@ -186,7 +250,7 @@ def two_d_space_projection() -> None:
 
     # Compute projections from basis
     evasion_rates = []  # E / (H + L + E)
-    lie_rates = []      # L / (H + L)
+    lie_rates = []  # L / (H + L)
     evasion_ns = []
     lie_ns = []
     providers = []
@@ -229,10 +293,21 @@ def two_d_space_projection() -> None:
         label_x = 3
         label_y = 100 * c / (1 - label_x / 100)
         if 0 < label_y < 98:
-            ax.text(label_x, label_y, f" P(Lie)={c:.0%}",
-                    fontsize=6.5, color="#999", va="center", ha="left",
-                    bbox=dict(boxstyle="round,pad=0.1", facecolor="white",
-                              edgecolor="none", alpha=0.8))
+            ax.text(
+                label_x,
+                label_y,
+                f" P(Lie)={c:.0%}",
+                fontsize=6.5,
+                color="#999",
+                va="center",
+                ha="left",
+                bbox=dict(
+                    boxstyle="round,pad=0.1",
+                    facecolor="white",
+                    edgecolor="none",
+                    alpha=0.8,
+                ),
+            )
 
     # Scatter points coloured by provider with error bars
     plotted_providers = set()
@@ -240,33 +315,114 @@ def two_d_space_projection() -> None:
         color = PROVIDER_COLORS.get(prov, "#999999")
         label = prov if prov not in plotted_providers else None
         plotted_providers.add(prov)
-        ax.errorbar(xi, yi, xerr=xci, yerr=yci, fmt="none",
-                    ecolor=color, alpha=0.3, linewidth=1.2, capsize=2, zorder=4)
-        ax.scatter(xi, yi, c=color, s=60, zorder=5, label=label,
-                   edgecolors="white", linewidths=0.5)
-        ax.annotate(name, (xi, yi), textcoords="offset points",
-                    xytext=(6, 6), fontsize=7, color="#555")
+        ax.errorbar(
+            xi,
+            yi,
+            xerr=xci,
+            yerr=yci,
+            fmt="none",
+            ecolor=color,
+            alpha=0.3,
+            linewidth=1.2,
+            capsize=2,
+            zorder=4,
+        )
+        ax.scatter(
+            xi,
+            yi,
+            c=color,
+            s=60,
+            zorder=5,
+            label=label,
+            edgecolors="white",
+            linewidths=0.5,
+        )
+        ax.annotate(
+            name,
+            (xi, yi),
+            textcoords="offset points",
+            xytext=(6, 6),
+            fontsize=7,
+            color="#555",
+        )
 
     # Quadrant labels
-    ax.text(0.02, 0.02, "Genuinely Honest", transform=ax.transAxes,
-            fontsize=8, color="#2e7d32", fontstyle="italic", alpha=0.7)
-    ax.text(0.98, 0.02, "Honest Dodger", transform=ax.transAxes,
-            fontsize=8, color="#2e7d32", fontstyle="italic", alpha=0.7, ha="right")
-    ax.text(0.02, 0.98, "Direct Liar", transform=ax.transAxes,
-            fontsize=8, color="#b71c1c", fontstyle="italic", alpha=0.7, va="top")
-    ax.text(0.98, 0.98, "Evasive + Deceptive", transform=ax.transAxes,
-            fontsize=8, color="#b71c1c", fontstyle="italic", alpha=0.7, ha="right", va="top")
+    ax.text(
+        0.02,
+        0.02,
+        "Genuinely Honest",
+        transform=ax.transAxes,
+        fontsize=8,
+        color="#2e7d32",
+        fontstyle="italic",
+        alpha=0.7,
+    )
+    ax.text(
+        0.98,
+        0.02,
+        "Honest Dodger",
+        transform=ax.transAxes,
+        fontsize=8,
+        color="#2e7d32",
+        fontstyle="italic",
+        alpha=0.7,
+        ha="right",
+    )
+    ax.text(
+        0.02,
+        0.98,
+        "Direct Liar",
+        transform=ax.transAxes,
+        fontsize=8,
+        color="#b71c1c",
+        fontstyle="italic",
+        alpha=0.7,
+        va="top",
+    )
+    ax.text(
+        0.98,
+        0.98,
+        "Evasive + Deceptive",
+        transform=ax.transAxes,
+        fontsize=8,
+        color="#b71c1c",
+        fontstyle="italic",
+        alpha=0.7,
+        ha="right",
+        va="top",
+    )
 
     ax.set_xlabel(r"Evasion Rate: $\frac{E}{H + L + E}$ %", fontsize=11)
     ax.set_ylabel(r"Conditional Lie Rate: $\frac{L}{H + L}$ %", fontsize=11)
     # Directional arrows as secondary labels
-    ax.text(0.5, -0.2, r"← Direct | Evasive →", transform=ax.transAxes,
-            fontsize=9, ha="center", color="#777")
-    ax.text(-0.2, 0.5, r"← Honest | Deceptive →", transform=ax.transAxes,
-            fontsize=9, ha="center", va="center", color="#777", rotation=90)
+    ax.text(
+        0.5,
+        -0.2,
+        r"← Direct | Evasive →",
+        transform=ax.transAxes,
+        fontsize=9,
+        ha="center",
+        color="#777",
+    )
+    ax.text(
+        -0.2,
+        0.5,
+        r"← Honest | Deceptive →",
+        transform=ax.transAxes,
+        fontsize=9,
+        ha="center",
+        va="center",
+        color="#777",
+        rotation=90,
+    )
     ax.set_title("One View of the Outcome Space", fontsize=13)
-    ax.legend(loc="upper left", fontsize=9, frameon=True,
-              bbox_to_anchor=(1.01, 1), borderaxespad=0)
+    ax.legend(
+        loc="upper left",
+        fontsize=9,
+        frameon=True,
+        bbox_to_anchor=(1.01, 1),
+        borderaxespad=0,
+    )
     ax.grid(True, alpha=0.15)
     ax.set_xlim(-1, 48)
     ax.set_ylim(-1, 100)
@@ -298,10 +454,20 @@ def _iso_hyperbolas(ax, levels, label_prefix):
         label_x = max(c * 100 / 95, 8)  # where y ≈ 95 or x = 8
         label_y = c * 100 / label_x
         if 5 < label_y < 95:
-            ax.text(label_x, label_y, f" {label_prefix}={c}%",
-                    fontsize=5.5, color="#aaa", va="center",
-                    bbox=dict(boxstyle="round,pad=0.1", facecolor="white",
-                              edgecolor="none", alpha=0.8))
+            ax.text(
+                label_x,
+                label_y,
+                f" {label_prefix}={c}%",
+                fontsize=5.5,
+                color="#aaa",
+                va="center",
+                bbox=dict(
+                    boxstyle="round,pad=0.1",
+                    facecolor="white",
+                    edgecolor="none",
+                    alpha=0.8,
+                ),
+            )
 
 
 def _iso_diagonals(ax, levels, label_prefix):
@@ -314,10 +480,21 @@ def _iso_diagonals(ax, levels, label_prefix):
         mid_x = c / 2
         mid_y = c / 2
         if mid_x < 45 and mid_y < 45:
-            ax.text(mid_x, mid_y + 1, f"{label_prefix}={c}%",
-                    fontsize=5.5, color="#aaa", va="bottom", ha="center",
-                    bbox=dict(boxstyle="round,pad=0.1", facecolor="white",
-                              edgecolor="none", alpha=0.8))
+            ax.text(
+                mid_x,
+                mid_y + 1,
+                f"{label_prefix}={c}%",
+                fontsize=5.5,
+                color="#aaa",
+                va="bottom",
+                ha="center",
+                bbox=dict(
+                    boxstyle="round,pad=0.1",
+                    facecolor="white",
+                    edgecolor="none",
+                    alpha=0.8,
+                ),
+            )
 
 
 def more_2d_projections() -> None:
@@ -337,25 +514,29 @@ def more_2d_projections() -> None:
         total_full = H + L + E + N + eps
         engaged = H + L
         non_answer = E + N
-        data.append({
-            "name": r.display_name,
-            "provider": r.provider,
-            # (1) Loud vs Quiet
-            "engagement_rate": (engaged / total * 100) if total > 0 else 0,
-            "engagement_rate_n": total,
-            "cond_honesty": (H / engaged * 100) if engaged > 0 else 0,
-            "cond_honesty_n": engaged,
-            # (2) Reliable vs Broken (uses ε)
-            "engagement_rate_full": (engaged / total_full * 100) if total_full > 0 else 0,
-            "engagement_rate_full_n": total_full,
-            "error_rate": (eps / total_full * 100) if total_full > 0 else 0,
-            "error_rate_n": total_full,
-            # (3) Diplomatic vs Dumb
-            "deflection_style": (E / non_answer * 100) if non_answer > 0 else 0,
-            "deflection_style_n": non_answer,
-            "cond_lie_rate": (L / engaged * 100) if engaged > 0 else 0,
-            "cond_lie_rate_n": engaged,
-        })
+        data.append(
+            {
+                "name": r.display_name,
+                "provider": r.provider,
+                # (1) Loud vs Quiet
+                "engagement_rate": (engaged / total * 100) if total > 0 else 0,
+                "engagement_rate_n": total,
+                "cond_honesty": (H / engaged * 100) if engaged > 0 else 0,
+                "cond_honesty_n": engaged,
+                # (2) Reliable vs Broken (uses ε)
+                "engagement_rate_full": (engaged / total_full * 100)
+                if total_full > 0
+                else 0,
+                "engagement_rate_full_n": total_full,
+                "error_rate": (eps / total_full * 100) if total_full > 0 else 0,
+                "error_rate_n": total_full,
+                # (3) Diplomatic vs Dumb
+                "deflection_style": (E / non_answer * 100) if non_answer > 0 else 0,
+                "deflection_style_n": non_answer,
+                "cond_lie_rate": (L / engaged * 100) if engaged > 0 else 0,
+                "cond_lie_rate_n": engaged,
+            }
+        )
 
     panels = [
         {
@@ -373,8 +554,9 @@ def more_2d_projections() -> None:
                 (0.98, 0.98, "Loud Truth-teller", "#2e7d32"),
             ],
             # Iso-P(honest): P(honest) = engagement × cond_honesty → y = c/x (hyperbolas)
-            "iso_lines": lambda ax: _iso_hyperbolas(ax, [10, 20, 30, 40, 50, 60],
-                                                     "P(honest)"),
+            "iso_lines": lambda ax: _iso_hyperbolas(
+                ax, [10, 20, 30, 40, 50, 60], "P(honest)"
+            ),
         },
         {
             "title": '"Reliable vs Broken"',
@@ -421,8 +603,12 @@ def more_2d_projections() -> None:
             panel["iso_lines"](ax)
 
         # Compute CIs
-        x_ci = np.array([_binom_ci(d[panel["x_key"]], d[panel["x_key"] + "_n"]) for d in data])
-        y_ci = np.array([_binom_ci(d[panel["y_key"]], d[panel["y_key"] + "_n"]) for d in data])
+        x_ci = np.array(
+            [_binom_ci(d[panel["x_key"]], d[panel["x_key"] + "_n"]) for d in data]
+        )
+        y_ci = np.array(
+            [_binom_ci(d[panel["y_key"]], d[panel["y_key"] + "_n"]) for d in data]
+        )
 
         # Scatter coloured by provider with error bars
         plotted_providers = set()
@@ -430,28 +616,77 @@ def more_2d_projections() -> None:
             color = PROVIDER_COLORS.get(d["provider"], "#999999")
             label = d["provider"] if d["provider"] not in plotted_providers else None
             plotted_providers.add(d["provider"])
-            ax.errorbar(xi, yi, xerr=xci, yerr=yci, fmt="none",
-                        ecolor=color, alpha=0.3, linewidth=1.2, capsize=2, zorder=4)
-            ax.scatter(xi, yi, c=color, s=80, zorder=5, label=label,
-                       edgecolors="white", linewidths=0.5)
-            ax.annotate(d["name"], (xi, yi), textcoords="offset points",
-                        xytext=(6, 6), fontsize=9, color="#555")
+            ax.errorbar(
+                xi,
+                yi,
+                xerr=xci,
+                yerr=yci,
+                fmt="none",
+                ecolor=color,
+                alpha=0.3,
+                linewidth=1.2,
+                capsize=2,
+                zorder=4,
+            )
+            ax.scatter(
+                xi,
+                yi,
+                c=color,
+                s=80,
+                zorder=5,
+                label=label,
+                edgecolors="white",
+                linewidths=0.5,
+            )
+            ax.annotate(
+                d["name"],
+                (xi, yi),
+                textcoords="offset points",
+                xytext=(6, 6),
+                fontsize=9,
+                color="#555",
+            )
 
         # Quadrant labels
         for qx, qy, qlabel, qcolor in panel["quadrants"]:
             va = "bottom" if qy < 0.5 else "top"
             ha = "left" if qx < 0.5 else "right"
-            ax.text(qx, qy, qlabel, transform=ax.transAxes,
-                    fontsize=10, color=qcolor, fontstyle="italic", alpha=0.6,
-                    ha=ha, va=va)
+            ax.text(
+                qx,
+                qy,
+                qlabel,
+                transform=ax.transAxes,
+                fontsize=10,
+                color=qcolor,
+                fontstyle="italic",
+                alpha=0.6,
+                ha=ha,
+                va=va,
+            )
 
         ax.set_xlabel(panel["xlabel"], fontsize=12)
         ax.set_ylabel(panel["ylabel"], fontsize=12)
         ax.set_title(panel["title"], fontsize=14, fontstyle="italic")
-        ax.text(0.5, -0.18, panel["x_arrow"], transform=ax.transAxes,
-                fontsize=11, ha="center", color="#777")
-        ax.text(-0.18, 0.5, panel["y_arrow"], transform=ax.transAxes,
-                fontsize=11, ha="center", va="center", color="#777", rotation=90)
+        ax.text(
+            0.5,
+            -0.18,
+            panel["x_arrow"],
+            transform=ax.transAxes,
+            fontsize=11,
+            ha="center",
+            color="#777",
+        )
+        ax.text(
+            -0.18,
+            0.5,
+            panel["y_arrow"],
+            transform=ax.transAxes,
+            fontsize=11,
+            ha="center",
+            va="center",
+            color="#777",
+            rotation=90,
+        )
         ax.tick_params(labelsize=10)
         ax.grid(True, alpha=0.15)
 
@@ -463,8 +698,15 @@ def more_2d_projections() -> None:
             if li not in labels:
                 handles.append(hi)
                 labels.append(li)
-    fig.legend(handles, labels, loc="lower center", ncol=len(set(d["provider"] for d in data)),
-               fontsize=11, frameon=True, bbox_to_anchor=(0.5, -0.03))
+    fig.legend(
+        handles,
+        labels,
+        loc="lower center",
+        ncol=len(set(d["provider"] for d in data)),
+        fontsize=11,
+        frameon=True,
+        bbox_to_anchor=(0.5, -0.03),
+    )
 
     fig.suptitle("Three more basis projections", fontsize=15, y=1.02)
     fig.tight_layout(rect=[0, 0.03, 1, 0.98])

@@ -124,7 +124,7 @@ def generate_html(md_text: str) -> str:
 
 
 def main() -> None:
-    output_dir = Path("output")
+    output_dir = Path("build")
     output_dir.mkdir(exist_ok=True)
 
     md_text = generate()
