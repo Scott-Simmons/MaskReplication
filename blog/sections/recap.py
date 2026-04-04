@@ -6,8 +6,7 @@ def recap() -> str:
             "models by running the MASK eval from "
             "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping "
             "the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with "
-            "`make clean build`. I would particularly be interested in contributions from "
-            "abliterated models and the (current and future) frontier.",
+            "`make clean build`.",
             "",
             "Here is an invocation to get you started:",
             "",
@@ -19,9 +18,11 @@ def recap() -> str:
             "    --retry-on-error 5 \\",
             '    -T binary_judge_model="openai/gpt-4o-mini"',
             "```",
+            "",
+            "I would particularly be interested in contributions from "
+            "abliterated models, (current and future) frontier models, and xAI models, which would be "
+            "interesting given the "
+            '[stated emphasis](https://x.com/elonmusk/status/1948572708369039542) on building "maximally truth-seeking" AI. '
+            "Right now, with respect to honesty, Anthropic models appear to be in another league.",
         ]
     )
-
-
-def encourage_the_basis_framing() -> str:
-    return ""

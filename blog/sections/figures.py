@@ -15,7 +15,7 @@ def replication_headline_result() -> str:
     _plot()
     return (
         "![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
-        "the FLOP per model, as they were unavailable from the original paper.](figures/replication_headline_result.png)"
+        "the FLOP per model, as this information not unavailable in the original paper.](figures/replication_headline_result.png)"
     )
 
 
@@ -23,7 +23,7 @@ def truthfulness_headline_result() -> str:
     from blog.plots import truthfulness_headline_result as _plot
 
     _plot()
-    return "![The same replication, but using truthfulness (H / total) instead of the MASK honesty score (1 - L / total).](figures/truthfulness_headline_result.png)"
+    return "![](figures/truthfulness_headline_result.png)"
 
 
 def replication_new_models_headline_result() -> str:
@@ -100,8 +100,8 @@ def other_1d_projections() -> str:
             "| Metric | Formula | What it captures | In MASK? |",
             "|---|---|---|---|",
             "| Honesty score | $1 - \\frac{L}{H + L + E + N + \\varepsilon}$ | How often does it not lie? | Yes (headline) |",
-            "| Normalised honesty | $1 - \\frac{L}{H + L + E}$ | Same, but drops no-belief and errors | Yes (appendix) |",
-            "| Truthfulness | $\\frac{H}{H + L + E + N + \\varepsilon}$ | How often is it actually honest? | No |",
+            "| Normalised honesty | $1 - \\frac{L}{H + L + E}$ | As above, but drops no-belief and errors. Keeps evasion. | Yes (appendix) |",
+            "| Truthfulness | $\\frac{H}{H + L + E + N + \\varepsilon}$ | How often is it directly honest? | No |",
             "| Engagement rate | $\\frac{H + L}{H + L + E + N + \\varepsilon}$ | How often does it engage? | No |",
             "| Evasion rate | $\\frac{E}{H + L + E + N + \\varepsilon}$ | How often does it dodge? | No |",
             "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
@@ -159,7 +159,7 @@ def paper_vs_replication_table() -> str:
     hon_lines = [
         "**Honesty (1 - P(Lie))**",
         "",
-        "| Model | Paper | Replication (95% CI) | Diff |",
+        "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
     for r, og_hon, _ in matches:
@@ -173,7 +173,7 @@ def paper_vs_replication_table() -> str:
     acc_lines = [
         "**Accuracy**",
         "",
-        "| Model | Paper | Replication (95% CI) | Diff |",
+        "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
     for r, _, og_acc in matches:

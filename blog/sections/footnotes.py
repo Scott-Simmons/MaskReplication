@@ -1,41 +1,32 @@
 def internal_beliefs() -> str:
     return (
-        "[^internal_beliefs]: Yes, talking about AI models having 'internal beliefs' "
-        "sounds anthropomorphising, and it should raise an eyebrow. "
-        "For anyone skeptical or interested in what this means and how it is operationalised, "
-        "I encourage reading the [MASK paper](https://arxiv.org/abs/2503.03750) "
-        "and the references therein."
+        "[^internal_beliefs]: If 'internal beliefs' raises eyebrows, "
+        "see Appendix A.1 (Belief Consistency) of the "
+        "[MASK paper](https://arxiv.org/abs/2503.03750) "
+        "for how this is operationalised and justified."
     )
 
 
 def classification_basis_analogy() -> str:
     return (
-        "[^classification_analogy]: This is why even for a simple basis of "
-        "$\\{\\text{TP}, \\text{TN}, \\text{FP}, \\text{FN}\\}$ in a traditional "
-        "binary classifier context there is a "
-        "[cornucopia of metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) "
-        "that we project that basis onto. I would like to see the eval community "
-        "refining metrics that characterise deception, in a similar way to how the ML "
-        "community looks at [ROC curves](https://en.wikipedia.org/wiki/Receiver_operating_characteristic), "
-        "[PR curves](https://en.wikipedia.org/wiki/Precision_and_recall), and "
-        "[MCC](https://en.wikipedia.org/wiki/Phi_coefficient) "
-        "instead of accuracy to assess a model's validity."
+        "[^classification_analogy]: By analogy to the many "
+        "[binary classification metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) "
+        "out there, deception metrics have plenty of scope to evolve in a similar way."
     )
 
 
 def open_questions() -> str:
     return (
-        "[^open_questions]: Two extensions I would love to see someone pick up. "
-        "First, how robust is a model's internal belief representation? "
-        "The MASK paper queried each model 3 times with optional consistency checks, "
-        "but I would like to see this varied — ask N times, M times — to see if it "
-        "undermines belief convergence. "
-        "Second, how sensitive are the results to the choice of model judge? "
-        "The paper used a judge model to produce these results. "
-        "How does changing the judge affect the outcomes? "
-        "Both of these extensions are expensive, but important."
+        "[^open_questions]: In particular, two extensions I would like to see:\n\n"
+        "**(1) Belief robustness:** The MASK paper queried each model 3 times "
+        "(I am purposely oversimplifying), but I would like to see this number varied "
+        "to see if scaling this up undermines belief convergence.\n\n"
+        "**(2) Judge sensitivity:** The paper used 2 judge models to produce these results. "
+        "How sensitive are the results to changes in the judge models?\n\n"
+        "**Warning:** any statistically meaningful investigation will be "
+        "[expensive](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record)."
     )
 
 
 def pedantic_r5() -> str:
-    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$, not $\\mathbb{R}^5$, b/c 4 degrees of freedom: $n = H + L + E + N + \\varepsilon$."
+    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$, not $\\mathbb{R}^5$, b/c there are 4 degrees of freedom: $n = H + L + E + N + \\varepsilon$."

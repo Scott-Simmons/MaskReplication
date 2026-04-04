@@ -20,6 +20,7 @@ STRUCTURE = [
             intro.link_to_ai,
             figures.og_headline_result,
             intro.how_i_reacted,
+            intro.what_i_will_do,
         ],
     ),
     (
@@ -52,7 +53,9 @@ STRUCTURE = [
             basis.one_d_projections,
             figures.other_1d_projections,
             basis.truthfulness_argument,
+            basis.headline_still_holds,
             figures.truthfulness_headline_result,
+            basis.communicating_uncertainty_subheader,
             basis.more_examples_of_2d_projections,
             figures.more_2d_projections,
             basis.more_2d_projections_commentary,
@@ -62,7 +65,6 @@ STRUCTURE = [
         "## 4. Try it yourself",
         [
             recap.recap,
-            recap.encourage_the_basis_framing,
         ],
     ),
     (

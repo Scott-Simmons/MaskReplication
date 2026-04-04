@@ -19,9 +19,9 @@ def _differences_to_og_text() -> str:
     return (
         "I used a different model judge (see [appendix](#appendix-paper-vs-replication-differences)) to save on cost "
         f"and a slightly different set of {n_models} models. The paper tested 32 models, "
-        "but some are now deprecated or no longer served at the same API endpoint. "
+        "but some are now deprecated. "
         "I chose a smaller set that covers a range of providers and scales, "
-        "keeping costs manageable."
+        "while still keeping costs manageable."
     )
 
 
@@ -41,5 +41,5 @@ def interpretation_new_models() -> str:
 def flops_note() -> str:
     return (
         "**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to "
-        "estimate the FLOP per model, the per-model FLOP estimates appear missing from the original paper and [original repo](https://github.com/centerforaisafety/mask).[^flops]"
+        "estimate the FLOP per model; the per-model FLOP estimates appear missing from the original paper and [original repo](https://github.com/centerforaisafety/mask).[^flops]"
     )
