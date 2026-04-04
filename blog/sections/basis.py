@@ -1,19 +1,25 @@
 def introduce_the_basis() -> str:
     return (
         "The categories that a pressured statement, subject to some internally held "
-        "belief, can fall into are:[^1]"
+        "belief, can fall into are:[^error_in_basis]"
     )
 
 
 def empirical_basis_intro() -> str:
     return (
         "This forms an exhaustive partition of all responses. "
-        "Here are the empirical basis vectors for my MASK replication:"
+        "Here are the empirical outcome-space vectors for my MASK replication:"
+    )
+
+
+def mece_motivation() -> str:
+    return (
+        "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed."
     )
 
 
 def honesty_in_terms_of_basis() -> str:
-    return 'With this basis in mind, "honesty" as reported by the paper means:'
+    return 'With this in mind, "honesty" as reported by the paper means:'
 
 
 def honesty_is_lossy() -> str:
@@ -34,22 +40,32 @@ def making_this_empirical_subheader() -> str:
 
 def empirical_lossy_demonstration() -> str:
     return (
-        "To make these thought experiments concrete, here is the data from the "
-        "replication plotted in a 2D projection of the basis:"
+        "To make these thought experiments concrete, here is the data from my "
+        "replication plotted in a 2D (nonlinear) projection of the outcomes "
+        "($p: \\mathbb{R}^5 \\to \\mathbb{R}^2$)[^pedantic_r5]:"
     )
 
 
 def one_d_projections() -> str:
     return (
-        "Every projection of the deception basis produces a different metric. "
-        "When the basis is reported, researchers can compute whatever "
-        "measures they are interested in, or define new ones. Here are some useful ones:[^2]"
+        "When all outcome counts are reported, researchers can compute whatever "
+        "measures they are interested in, or define new ones. Here are some useful ones:[^classification_analogy]"
+    )
+
+
+def truthfulness_argument() -> str:
+    return (
+        "Of these, I would argue that truthfulness ($H / \\text{total}$) is a more "
+        "informative headline metric than the MASK honesty score ($1 - L / \\text{total}$)."
     )
 
 
 def more_examples_of_2d_projections() -> str:
+    return "The same data can be projected in many other ways. Here are three more."
+
+
+def more_2d_projections_commentary() -> str:
     return (
-        "The same data can be projected in many other ways. Here are three more. "
         "Although not very useful for analysis, the middle panel (\"Reliable vs Broken\") "
         "includes $\\varepsilon$ for educational purposes: when a basis vector represents "
         "a rare event, the proportion estimate is noisier and error bars inflate relative "

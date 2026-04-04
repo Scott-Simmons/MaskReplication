@@ -3,59 +3,87 @@
 import subprocess
 from pathlib import Path
 
-from blog.sections import appendix, basis, figures, footnotes, intro, recap, replication, thanks
+from blog.sections import appendix, basis, figures, footnotes, intro, recap, replication
 
 STRUCTURE = [
-    ("# The Basis of Deception", [
-        intro.tldr,
-        intro.toc,
-    ]),
-    ("## 1. Introduction", [
-        intro.intro,
-        intro.link_to_ai,
-        figures.og_headline_result,
-        intro.how_i_reacted,
-    ]),
-    ("## 2. Replication results", [
-        replication.what_i_wanted_to_do,
-        figures.models_used_in_replication,
-        replication.differences_to_og,
-        replication.interpretation,
-        figures.replication_headline_result,
-    ]),
-    ("## 3. The deception basis", [
-        basis.introduce_the_basis,
-        figures.deception_basis,
-        basis.empirical_basis_intro,
-        figures.basis_vectors_empirical,
-        basis.honesty_in_terms_of_basis,
-        figures.honesty_metric,
-        basis.honesty_is_lossy,
-        basis.hypothetical_subheader,
-        basis.interp_dumb_and_diplomatic,
-        figures.dumb_and_diplomat,
-        basis.making_this_empirical_subheader,
-        basis.empirical_lossy_demonstration,
-        figures.two_d_space_projection_headline,
-        basis.one_d_projections,
-        figures.other_1d_projections,
-        basis.more_examples_of_2d_projections,
-        figures.more_2d_projections,
-    ]),
-    ("## 4. Try it yourself", [
-        recap.recap,
-        recap.encourage_the_basis_framing,
-    ]),
-    ("## Appendix: Paper vs replication differences", [
-        appendix.paper_vs_replication,
-        figures.paper_vs_replication_table,
-    ]),
-    (None, [
-        footnotes.flops,
-        footnotes.error_in_the_basis,
-        footnotes.classification_basis_analogy,
-        footnotes.theoretical_limit_per_basis_size,
-    ]),
+    (
+        "# Mapping Deception",
+        [
+            intro.tldr,
+            intro.toc,
+        ],
+    ),
+    (
+        "## 1. Introduction",
+        [
+            intro.intro,
+            intro.link_to_ai,
+            figures.og_headline_result,
+            intro.how_i_reacted,
+        ],
+    ),
+    (
+        "## 2. Replication results",
+        [
+            replication.what_i_wanted_to_do,
+            figures.models_used_in_replication,
+            replication.differences_to_og,
+            replication.interpretation,
+            figures.replication_headline_result,
+        ],
+    ),
+    (
+        "## 3. Dimensions of deception",
+        [
+            basis.introduce_the_basis,
+            figures.deception_basis,
+            basis.empirical_basis_intro,
+            figures.basis_vectors_empirical,
+            basis.mece_motivation,
+            basis.honesty_in_terms_of_basis,
+            figures.honesty_metric,
+            basis.honesty_is_lossy,
+            basis.hypothetical_subheader,
+            basis.interp_dumb_and_diplomatic,
+            figures.dumb_and_diplomat,
+            basis.making_this_empirical_subheader,
+            basis.empirical_lossy_demonstration,
+            figures.two_d_space_projection_headline,
+            basis.one_d_projections,
+            figures.other_1d_projections,
+            basis.truthfulness_argument,
+            figures.truthfulness_headline_result,
+            basis.more_examples_of_2d_projections,
+            figures.more_2d_projections,
+            basis.more_2d_projections_commentary,
+        ],
+    ),
+    (
+        "## 4. Try it yourself",
+        [
+            recap.recap,
+            recap.encourage_the_basis_framing,
+        ],
+    ),
+    (
+        "## Appendix: Paper vs replication differences",
+        [
+            appendix.paper_vs_replication,
+            figures.paper_vs_replication_table,
+        ],
+    ),
+    (
+        None,
+        [
+            footnotes.internal_beliefs,
+            footnotes.flops,
+            footnotes.error_in_the_basis,
+            footnotes.classification_basis_analogy,
+            footnotes.open_questions,
+            footnotes.pedantic_r5,
+            footnotes.theoretical_limit_per_basis_size,
+        ],
+    ),
 ]
 
 CSS_FILE = Path(__file__).parent / "style.css"

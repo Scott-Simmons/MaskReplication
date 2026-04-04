@@ -6,5 +6,3 @@ blog-post:
 serve: blog-post
 	python -m http.server 9437 --directory output
 
-run-analysis:
-	@echo "TODO: run analysis"

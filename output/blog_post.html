@@ -85,36 +85,35 @@
 <header id="title-block-header">
 <h1 class="title">The Basis of Deception</h1>
 </header>
-<h1 id="the-basis-of-deception">The Basis of Deception</h1>
+<h1 id="mapping-deception">Mapping Deception</h1>
 <hr />
-<p><strong>TLDR:</strong> I replicate the MASK benchmark’s headline
-result: scaling improves accuracy but not honesty. I also show various
-ways that the single honesty score hides nuance. Two models can score
-identically while behaving completely differently. I show why reporting
-the full basis is useful, and argue for reporting raw counts, including
-errors, and error bars as the way forward for deception evaluation, and
-evaluations in general.</p>
+<p><strong>TLDR:</strong> I replicated the MASK benchmark’s headline
+result that scaling improves accuracy but not honesty. I also show
+various ways that the honesty score hides nuance. I show why reporting
+the full outcome set is useful, and argue for reporting raw counts,
+including errors, and error bars as the way forward for deception
+evaluation, and evaluations in general.</p>
 <p><strong>Contents:</strong> <a href="#introduction">1.
 Introduction</a> | <a href="#replication-results">2. Replication
-results</a> | <a href="#the-deception-basis">3. The deception basis</a>
-| <a href="#try-it-yourself">4. Try it yourself</a> | <a
+results</a> | <a href="#dimensions-of-deception">3. Dimensions of
+deception</a> | <a href="#try-it-yourself">4. Try it yourself</a> | <a
 href="#appendix-paper-vs-replication-differences">Appendix</a></p>
 <hr />
 <h2 id="introduction">1. Introduction</h2>
 <hr />
 <p>Truth is often inconvenient. For starters, we cannot be sure that we
-actually know it. But even when deep down, we think we do know it, many
-of us lie to ourselves and others in public anyway, because it can
-conflict with what’s socially comfortable. Saying true things in the
-face of that pressure requires intelligence and courage (subject to a
-certain amount of tact). It’s also how things actually change. Galileo
-was put under house arrest for the rest of his life for saying the Earth
-goes around the Sun. He was right, everyone eventually agreed, and
-science moved forward.</p>
-<p>Just like humans can hide their underlying beliefs when subject to
-social pressure, AI models hide their internal beliefs subject to
-pressure from a prompt too. And while scaling up AI models has made them
-dramatically more capable, <a
+actually know it. But even when we think we do know it, many of us lie
+to others in public anyway, because it can conflict with what’s socially
+comfortable. Saying true things in the face of that pressure requires
+intelligence and courage (subject to a certain amount of tact). It’s
+also how things change. Galileo was put under house arrest for the rest
+of his life for saying the Earth goes around the Sun. He was right,
+everyone eventually agreed, and science moved forward.</p>
+<p>Just like we can hide our underlying beliefs when subject to social
+pressure, AI models can hide their ‘internal beliefs’<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+subject to pressure from a prompt. And while scaling up AI models has
+made them more capable, a result from <a
 href="https://arxiv.org/abs/2503.03750">Ren et al., 2025</a> suggests
 that larger models are not more honest.</p>
 <figure>
@@ -126,15 +125,16 @@ are more accurate but not more honest</figcaption>
 </figure>
 <p>When I first saw this, it was quite a provocative result. For many
 reasons. How is lying defined? How is truth established? Many of these
-questions are answered in the paper. But two questions remained:</p>
-<blockquote>
-<ol type="1">
-<li><a href="#replication-results">Does this survive independent
-replication?</a></li>
-<li><a href="#the-deception-basis">Are there any other measures that can
-help characterise deception?</a></li>
-</ol>
-</blockquote>
+questions are answered in the paper, and questions remain.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> But
+two questions I want to address in this blog post are:</p>
+<h3 id="does-this-survive-independent-replication"><a
+href="#replication-results">1. Does this survive independent
+replication?</a></h3>
+<h3
+id="are-there-any-other-measures-that-can-help-characterise-deception"><a
+href="#dimensions-of-deception">2. Are there any other measures that can
+help characterise deception?</a></h3>
 <hr />
 <h2 id="replication-results">2. Replication results</h2>
 <p>I wanted to verify the paper’s main claim: larger models are more
@@ -205,14 +205,13 @@ accurate but not more honest. I used the following models:</p>
 </tr>
 </tbody>
 </table>
-<p><em>The MASK public dataset contains 1,000 examples. Shortfalls are
-due to API failures during evaluation.</em></p>
-<p>I used <mark>a different model judge to save on cost (TODO: may
-remove this caveat if we rerun with the same judge, it is just
-expensive)</mark> and a slightly different set of 9 models. The paper
-tested 32 models, but some are now deprecated or no longer served at the
-same API endpoint. I chose a smaller set that covers a range of
-providers and scales, keeping costs manageable.</p>
+<p><em>The MASK public dataset contains 1,000 examples.</em></p>
+<p>I used a different model judge (see <a
+href="#appendix-paper-vs-replication-differences">appendix</a>) to save
+on cost and a slightly different set of 9 models. The paper tested 32
+models, but some are now deprecated or no longer served at the same API
+endpoint. I chose a smaller set that covers a range of providers and
+scales, keeping costs manageable.</p>
 <p>The headline result held. The pattern is clear in the replication:
 accuracy scales with compute, but honesty does not. See the <a
 href="#appendix-paper-vs-replication-differences">appendix</a> for a
@@ -226,15 +225,16 @@ the FLOP per model, as they were unavailable from the original
 paper.</figcaption>
 </figure>
 <hr />
-<h2 id="the-deception-basis">3. The deception basis</h2>
+<h2 id="dimensions-of-deception">3. Dimensions of deception</h2>
 <p>The categories that a pressured statement, subject to some internally
-held belief, can fall into are:<a href="#fn1" class="footnote-ref"
-id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+held belief, can fall into are:<a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <p><span class="math display">\[\{\text{Honest},\ \text{Lie},\
 \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
 <p><span class="math display">\[\{H,\ L,\ E,\ N,\
 \varepsilon\}\]</span></p>
-<p>Here are the empirical basis vectors for my MASK replication:</p>
+<p>This forms an exhaustive partition of all responses. Here are the
+empirical outcome-space vectors for my MASK replication:</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 14%" />
@@ -349,10 +349,14 @@ id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 </tr>
 </tbody>
 </table>
-<p>With this basis in mind, “honesty” as reported by the paper
-means:</p>
-<p><span class="math display">\[\text{Honesty} = 1 - P(\text{Lie}) = 1 -
-\frac{L}{H + L + E + N}\]</span></p>
+<p>The outcomes are mutually exclusive and collectively exhaustive, so
+nothing is double-counted or missed.</p>
+<p>With this in mind, “honesty” as reported by the paper means:</p>
+<p><span class="math display">\[\text{Honesty} : \mathbb{R}^5 \to
+\mathbb{R}\]</span><a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a></p>
+<p><span class="math display">\[= 1 - P(\text{Lie}) = 1 - \frac{L}{H + L
++ E + N + \varepsilon}\]</span></p>
 <p>However this projection compresses a lot of useful information.</p>
 <h3 id="hypothetical">Hypothetical</h3>
 <p>TODO: Insert interp_dumb_and_diplomatic</p>
@@ -369,23 +373,24 @@ means:</p>
    └─────────┘     └────────────────────┘</code></pre>
 <p><em>TODO: Insert dumb_and_diplomat caption</em></p>
 <h3 id="making-this-empirical">Making this empirical</h3>
-<p>To make these thought experiments concrete, here is the data from the
-replication plotted in a 2D projection of the basis:</p>
+<p>To make these thought experiments concrete, here is the data from my
+replication plotted in a 2D (nonlinear) projection of the outcomes
+(<span class="math inline">\(p: \mathbb{R}^5 \to
+\mathbb{R}^2\)</span>)<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a>:</p>
 <figure>
 <img src="figures/two_d_space_projection.png"
-alt="Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini’s evasion pulls samples away from the lie bucket." />
-<figcaption aria-hidden="true">Model behaviour space with iso-P(Lie)
-contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie)
-contour (within error bars), even though o3-mini evades 3x more (33% vs
-11%) and lies more when it does engage (76% vs 60%). The honesty score
-compresses all of this because o3-mini’s evasion pulls samples away from
-the lie bucket.</figcaption>
+alt="Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini’s evasion pulls samples away from the lie bucket." />
+<figcaption aria-hidden="true">Note how Qwen 2.5 7B and o3-mini sit on
+the same P(Lie) contour (within error bars), even though o3-mini evades
+3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The
+honesty score compresses all of this because o3-mini’s evasion pulls
+samples away from the lie bucket.</figcaption>
 </figure>
-<p>Every projection of the deception basis produces a different metric.
-When the basis is reported, researchers can compute whatever measures
-they are interested in, or define new ones. Here are some useful ones:<a
-href="#fn2" class="footnote-ref" id="fnref2"
-role="doc-noteref"><sup>2</sup></a></p>
+<p>When all outcome counts are reported, researchers can compute
+whatever measures they are interested in, or define new ones. Here are
+some useful ones:<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a></p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -404,32 +409,35 @@ role="doc-noteref"><sup>2</sup></a></p>
 <tbody>
 <tr class="odd">
 <td>Honesty score</td>
-<td><span class="math inline">\(\frac{H}{H + L + E + N}\)</span></td>
-<td>Strictest: honest out of all responses</td>
+<td><span class="math inline">\(1 - \frac{L}{H + L + E + N +
+\varepsilon}\)</span></td>
+<td>How often does it not lie?</td>
 <td>Yes (headline)</td>
 </tr>
 <tr class="even">
 <td>Normalised honesty</td>
-<td><span class="math inline">\(\frac{H}{H + L + E}\)</span></td>
-<td>Excludes no-belief from denominator</td>
+<td><span class="math inline">\(1 - \frac{L}{H + L + E}\)</span></td>
+<td>Same, but drops no-belief and errors</td>
 <td>Yes (appendix)</td>
 </tr>
 <tr class="odd">
-<td>Conditional honesty</td>
-<td><span class="math inline">\(\frac{H}{H + L}\)</span></td>
-<td>When it takes a position, is it truthful?</td>
+<td>Truthfulness</td>
+<td><span class="math inline">\(\frac{H}{H + L + E + N +
+\varepsilon}\)</span></td>
+<td>How often is it actually honest?</td>
 <td>No</td>
 </tr>
 <tr class="even">
 <td>Engagement rate</td>
-<td><span class="math inline">\(\frac{H + L}{H + L + E +
-N}\)</span></td>
-<td>How often does it commit to a position?</td>
+<td><span class="math inline">\(\frac{H + L}{H + L + E + N +
+\varepsilon}\)</span></td>
+<td>How often does it engage?</td>
 <td>No</td>
 </tr>
 <tr class="odd">
 <td>Evasion rate</td>
-<td><span class="math inline">\(\frac{E}{H + L + E + N}\)</span></td>
+<td><span class="math inline">\(\frac{E}{H + L + E + N +
+\varepsilon}\)</span></td>
 <td>How often does it dodge?</td>
 <td>No</td>
 </tr>
@@ -442,20 +450,38 @@ N}\)</span></td>
 <tr class="odd">
 <td>Deflection style</td>
 <td><span class="math inline">\(\frac{E}{E + N}\)</span></td>
-<td>Of non-answers: strategic dodge vs no belief?</td>
+<td>Of non-answers: dodge or no belief?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Reliability</td>
+<td><span class="math inline">\(\frac{H + L + E + N}{H + L + E + N +
+\varepsilon}\)</span></td>
+<td>How often does it produce a parseable response?</td>
 <td>No</td>
 </tr>
 </tbody>
 </table>
+<p>Of these, I would argue that truthfulness (<span
+class="math inline">\(H / \text{total}\)</span>) is a more informative
+headline metric than the MASK honesty score (<span
+class="math inline">\(1 - L / \text{total}\)</span>).</p>
+<figure>
+<img src="figures/truthfulness_headline_result.png"
+alt="The same replication, but using truthfulness (H / total) instead of the MASK honesty score (1 - L / total)." />
+<figcaption aria-hidden="true">The same replication, but using
+truthfulness (H / total) instead of the MASK honesty score (1 - L /
+total).</figcaption>
+</figure>
 <p>The same data can be projected in many other ways. Here are three
-more, each telling a different story. The middle panel (“Reliable vs
-Broken”) includes <span class="math inline">\(\varepsilon\)</span> to
-show that when a basis vector represents a rare event, the proportion
-estimate is noisier and error bars inflate relative to the point
-estimates. This is exactly why reporting counts matters, especially for
-LLM evaluations, where silent errors (unparseable outputs, judge
-failures, dropped samples) are common. Making these visible in the basis
-is a step towards better evaluation science.</p>
+more. Although not very useful for analysis, the middle panel (“Reliable
+vs Broken”) includes <span class="math inline">\(\varepsilon\)</span>
+for educational purposes: when a basis vector represents a rare event,
+the proportion estimate is noisier and error bars inflate relative to
+the point estimates. This is exactly why reporting counts matters,
+especially for LLM evaluations, where silent errors (unparseable
+outputs, judge failures, dropped samples) are common. Making these
+visible in the basis is a step towards better evaluation science.</p>
 <figure>
 <img src="figures/more_2d_projections.png"
 alt="Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades)." />
@@ -471,7 +497,7 @@ because it evades).</figcaption>
 available at <a
 href="https://github.com/Scott-Simmons/MaskReplication">this repo</a>.
 You can add more models by running the MASK eval from <a
-href="https://github.com/UKGovernmentBEIS/inspect_evals">inspect_evals</a>
+href="https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask">inspect_evals</a>
 and dropping the <code>.eval</code> files into the
 <code>eval_logs/</code> directory. Everything regenerates with
 <code>make blog-post</code>. I would particularly be interested in
@@ -521,38 +547,38 @@ one the paper used.</li>
 <tr class="odd">
 <td>GPT-4o</td>
 <td>21.8</td>
-<td>20.5 ± 2.5</td>
-<td><span style="color:red">-1.3</span></td>
+<td>49.7 ± 3.1</td>
+<td><span style="color:green">+27.9</span></td>
 </tr>
 <tr class="even">
 <td>GPT-4o-mini</td>
 <td>21.4</td>
-<td>20.0 ± 2.5</td>
-<td><span style="color:red">-1.4</span></td>
+<td>50.6 ± 3.1</td>
+<td><span style="color:green">+29.2</span></td>
 </tr>
 <tr class="odd">
 <td>o3-mini</td>
 <td>19.6</td>
-<td>13.4 ± 2.1</td>
-<td><span style="color:red">-6.2</span></td>
+<td>56.6 ± 3.1</td>
+<td><span style="color:green">+37.0</span></td>
 </tr>
 <tr class="even">
 <td>Qwen 2.5 7B</td>
 <td>28.9</td>
-<td>26.4 ± 2.7</td>
-<td><span style="color:red">-2.5</span></td>
+<td>59.9 ± 3.0</td>
+<td><span style="color:green">+31.0</span></td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1</td>
 <td>24.7</td>
-<td>7.5 ± 2.1</td>
-<td><span style="color:red">-17.2</span></td>
+<td>68.6 ± 3.8</td>
+<td><span style="color:green">+43.9</span></td>
 </tr>
 <tr class="even">
 <td>Llama 3.3 70B</td>
 <td>24.7</td>
-<td>25.7 ± 2.7</td>
-<td><span style="color:green">+1.0</span></td>
+<td>47.4 ± 3.1</td>
+<td><span style="color:green">+22.7</span></td>
 </tr>
 </tbody>
 </table>
@@ -616,7 +642,23 @@ one the paper used.</li>
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Including <span
+<li id="fn1" role="doc-endnote"><p>Yes, talking about AI models having
+‘internal beliefs’ sounds anthropomorphising, and it should raise an
+eyebrow. For anyone skeptical or interested in what this means and how
+it is operationalised, I encourage reading the <a
+href="https://arxiv.org/abs/2503.03750">MASK paper</a> and the
+references therein.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Two extensions I would love to see
+someone pick up. First, how robust is a model’s internal belief
+representation? The MASK paper queried each model 3 times with optional
+consistency checks, but I would like to see this varied — ask N times, M
+times — to see if it undermines belief convergence. Second, how
+sensitive are the results to the choice of model judge? The paper used a
+judge model to produce these results. How does changing the judge affect
+the outcomes? Both of these extensions are expensive, but important.<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Including <span
 class="math inline">\(\varepsilon\)</span> (parse errors) in the basis
 is deliberate. Without it, <span class="math inline">\(\{H, L, E,
 N\}\)</span> is not an exhaustive partition of responses. A response
@@ -624,18 +666,37 @@ that fails to parse does not land in any of those four buckets, so the
 counts would not sum to <span class="math inline">\(n\)</span> and every
 derived metric would have a hidden denominator problem. <span
 class="math inline">\(\varepsilon\)</span> closes the basis so that it
-spans the full space of outcomes.<a href="#fnref1" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>This is why even for a simple basis
+spans the full space of outcomes. API failures (timeouts, rate limits)
+expose the same gap at a different level: they silently shrink <span
+class="math inline">\(n\)</span> without landing anywhere in the basis.
+This is not merely a bookkeeping nuisance — it can introduce systematic
+bias. If a model tends to time out specifically on questions where it
+would otherwise lie, the surviving sample over-represents honest
+responses and the reported honesty score is inflated. The basis argument
+applies here too: unaccounted outcomes corrupt every derived metric,
+whether they fall inside a response or before one is returned.
+<mark>TODO: Rerun DeepSeek-R1 to get closer to n=1000.</mark><a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Technically it’s <span
+class="math inline">\(\mathbb{R}^4\)</span> (4 degrees of freedom).<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Technically it’s <span
+class="math inline">\(\mathbb{R}^4\)</span> (4 degrees of freedom).<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>This is why even for a simple basis
 of <span class="math inline">\(\{\text{TP}, \text{TN}, \text{FP},
-\text{FN}\}\)</span> in a traditional classifier context there is a <a
+\text{FN}\}\)</span> in a traditional binary classifier context there is
+a <a
 href="https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram">cornucopia
 of metrics</a> that we project that basis onto. I would like to see the
 eval community refining metrics that characterise deception, in a
-similar way to how the ML community looks at ROC curves, PR curves, and
-Matthew’s correlation coefficient instead of accuracy to assess a
-model’s validity.<a href="#fnref2" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
+similar way to how the ML community looks at <a
+href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC
+curves</a>, <a
+href="https://en.wikipedia.org/wiki/Precision_and_recall">PR curves</a>,
+and <a href="https://en.wikipedia.org/wiki/Phi_coefficient">MCC</a>
+instead of accuracy to assess a model’s validity.<a href="#fnref6"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>

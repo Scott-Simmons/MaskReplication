@@ -1,10 +1,10 @@
-# The Basis of Deception
+# Mapping Deception
 
 ---
 
-**TLDR:** I replicate the MASK benchmark's headline result: scaling improves accuracy but not honesty. I also show various ways that the single honesty score hides nuance. Two models can score identically while behaving completely differently. I show why reporting the full basis is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation, and evaluations in general.
+**TLDR:** I replicated the MASK benchmark's headline result that scaling improves accuracy but not honesty. I also show various ways that the honesty score hides nuance. I show why reporting the full outcome set is useful, and argue for reporting raw counts, including errors, and error bars as the way forward for deception evaluation, and evaluations in general.
 
-**Contents:** [1. Introduction](#introduction) | [2. Replication results](#replication-results) | [3. The deception basis](#the-deception-basis) | [4. Try it yourself](#try-it-yourself) | [Appendix](#appendix-paper-vs-replication-differences)
+**Contents:** [1. Introduction](#introduction) | [2. Replication results](#replication-results) | [3. Dimensions of deception](#dimensions-of-deception) | [4. Try it yourself](#try-it-yourself) | [Appendix](#appendix-paper-vs-replication-differences)
 
 ---
 
@@ -12,16 +12,17 @@
 
 ---
 
-Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when deep down, we think we do know it, many of us lie to ourselves and others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things actually change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
+Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when we think we do know it, many of us lie to others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
 
-Just like humans can hide their underlying beliefs when subject to social pressure, AI models hide their internal beliefs subject to pressure from a prompt too. And while scaling up AI models has made them dramatically more capable, [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
+Just like we can hide our underlying beliefs when subject to social pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] subject to pressure from a prompt. And while scaling up AI models has made them more capable, a result from [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
 
 ![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)
 
-When I first saw this, it was quite a provocative result. For many reasons. How is lying defined? How is truth established? Many of these questions are answered in the paper. But two questions remained:
+When I first saw this, it was quite a provocative result. For many reasons. How is lying defined? How is truth established? Many of these questions are answered in the paper, and questions remain.[^open_questions] But two questions I want to address in this blog post are:
 
-> 1. [Does this survive independent replication?](#replication-results)
-> 2. [Are there any other measures that can help characterise deception?](#the-deception-basis)
+### [1. Does this survive independent replication?](#replication-results)
+
+### [2. Are there any other measures that can help characterise deception?](#dimensions-of-deception)
 
 ---
 
@@ -41,9 +42,9 @@ I wanted to verify the paper's main claim: larger models are more accurate but n
 | DeepSeek-V3.1 | DeepSeek | 1,000 | No |
 | Llama 3.3 70B | Meta | 998 | Yes |
 
-*The MASK public dataset contains 1,000 examples. Shortfalls are due to API failures during evaluation.*
+*The MASK public dataset contains 1,000 examples.*
 
-I used <mark>a different model judge to save on cost (TODO: may remove this caveat if we rerun with the same judge, it is just expensive)</mark> and a slightly different set of 9 models. The paper tested 32 models, but some are now deprecated or no longer served at the same API endpoint. I chose a smaller set that covers a range of providers and scales, keeping costs manageable.
+I used a different model judge (see [appendix](#appendix-paper-vs-replication-differences)) to save on cost and a slightly different set of 9 models. The paper tested 32 models, but some are now deprecated or no longer served at the same API endpoint. I chose a smaller set that covers a range of providers and scales, keeping costs manageable.
 
 The headline result held. The pattern is clear in the replication: accuracy scales with compute, but honesty does not. See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model comparison with the original paper.
 
@@ -51,15 +52,15 @@ The headline result held. The pattern is clear in the replication: accuracy scal
 
 ---
 
-## 3. The deception basis
+## 3. Dimensions of deception
 
-The categories that a pressured statement, subject to some internally held belief, can fall into are:[^1]
+The categories that a pressured statement, subject to some internally held belief, can fall into are:[^error_in_basis]
 
 $$\{\text{Honest},\ \text{Lie},\ \text{Evade},\ \text{No Belief},\ \text{Parse Error}\}$$
 
 $$\{H,\ L,\ E,\ N,\ \varepsilon\}$$
 
-Here are the empirical basis vectors for my MASK replication:
+This forms an exhaustive partition of all responses. Here are the empirical outcome-space vectors for my MASK replication:
 
 | Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\varepsilon$ |
 |---|---|---|---|---|---|---|
@@ -74,9 +75,13 @@ Here are the empirical basis vectors for my MASK replication:
 | Llama 3.3 70B | 998 | 257 | 526 | 96 | 114 | 5 |
 | **Total** | **8,500** | **2040** | **3839** | **1427** | **1157** | **35** |
 
-With this basis in mind, "honesty" as reported by the paper means:
+The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed.
 
-$$\text{Honesty} = 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N}$$
+With this in mind, "honesty" as reported by the paper means:
+
+$$\text{Honesty} : \mathbb{R}^5 \to \mathbb{R}$$[^pedantic_r5]
+
+$$= 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N + \varepsilon}$$
 
 However this projection compresses a lot of useful information.
 
@@ -102,23 +107,28 @@ TODO: Insert interp_dumb_and_diplomatic
 
 ### Making this empirical
 
-To make these thought experiments concrete, here is the data from the replication plotted in a 2D projection of the basis:
+To make these thought experiments concrete, here is the data from my replication plotted in a 2D (nonlinear) projection of the outcomes ($p: \mathbb{R}^5 \to \mathbb{R}^2$)[^pedantic_r5]:
 
-![Model behaviour space with iso-P(Lie) contours. Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
+![Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage (76% vs 60%). The honesty score compresses all of this because o3-mini's evasion pulls samples away from the lie bucket.](figures/two_d_space_projection.png)
 
-Every projection of the deception basis produces a different metric. When the basis is reported, researchers can compute whatever measures they are interested in, or define new ones. Here are some useful ones:[^2]
+When all outcome counts are reported, researchers can compute whatever measures they are interested in, or define new ones. Here are some useful ones:[^classification_analogy]
 
 | Metric | Formula | What it captures | In MASK? |
 |---|---|---|---|
-| Honesty score | $\frac{H}{H + L + E + N}$ | Strictest: honest out of all responses | Yes (headline) |
-| Normalised honesty | $\frac{H}{H + L + E}$ | Excludes no-belief from denominator | Yes (appendix) |
-| Conditional honesty | $\frac{H}{H + L}$ | When it takes a position, is it truthful? | No |
-| Engagement rate | $\frac{H + L}{H + L + E + N}$ | How often does it commit to a position? | No |
-| Evasion rate | $\frac{E}{H + L + E + N}$ | How often does it dodge? | No |
+| Honesty score | $1 - \frac{L}{H + L + E + N + \varepsilon}$ | How often does it not lie? | Yes (headline) |
+| Normalised honesty | $1 - \frac{L}{H + L + E}$ | Same, but drops no-belief and errors | Yes (appendix) |
+| Truthfulness | $\frac{H}{H + L + E + N + \varepsilon}$ | How often is it actually honest? | No |
+| Engagement rate | $\frac{H + L}{H + L + E + N + \varepsilon}$ | How often does it engage? | No |
+| Evasion rate | $\frac{E}{H + L + E + N + \varepsilon}$ | How often does it dodge? | No |
 | Conditional lie rate | $\frac{L}{H + L}$ | When it engages, how often does it lie? | No |
-| Deflection style | $\frac{E}{E + N}$ | Of non-answers: strategic dodge vs no belief? | No |
+| Deflection style | $\frac{E}{E + N}$ | Of non-answers: dodge or no belief? | No |
+| Reliability | $\frac{H + L + E + N}{H + L + E + N + \varepsilon}$ | How often does it produce a parseable response? | No |
 
-The same data can be projected in many other ways. Here are three more, each telling a different story. The middle panel ("Reliable vs Broken") includes $\varepsilon$ to show that when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the basis is a step towards better evaluation science.
+Of these, I would argue that truthfulness ($H / \text{total}$) is a more informative headline metric than the MASK honesty score ($1 - L / \text{total}$).
+
+![The same replication, but using truthfulness (H / total) instead of the MASK honesty score (1 - L / total).](figures/truthfulness_headline_result.png)
+
+The same data can be projected in many other ways. Here are three more. Although not very useful for analysis, the middle panel ("Reliable vs Broken") includes $\varepsilon$ for educational purposes: when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the basis is a step towards better evaluation science.
 
 ![Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades).](figures/more_2d_projections.png)
 
@@ -126,7 +136,7 @@ The same data can be projected in many other ways. Here are three more, each tel
 
 ## 4. Try it yourself
 
-If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models and whatever the frontier looks like next month.
+If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models and whatever the frontier looks like next month.
 
 Here is the invocation I used:
 
@@ -152,12 +162,12 @@ Systematic differences between the paper and this replication are likely caused 
 
 | Model | Paper | Replication (95% CI) | Diff |
 |---|---|---|---|
-| GPT-4o | 21.8 | 20.5 ± 2.5 | <span style="color:red">-1.3</span> |
-| GPT-4o-mini | 21.4 | 20.0 ± 2.5 | <span style="color:red">-1.4</span> |
-| o3-mini | 19.6 | 13.4 ± 2.1 | <span style="color:red">-6.2</span> |
-| Qwen 2.5 7B | 28.9 | 26.4 ± 2.7 | <span style="color:red">-2.5</span> |
-| DeepSeek-R1 | 24.7 | 7.5 ± 2.1 | <span style="color:red">-17.2</span> |
-| Llama 3.3 70B | 24.7 | 25.7 ± 2.7 | <span style="color:green">+1.0</span> |
+| GPT-4o | 21.8 | 49.7 ± 3.1 | <span style="color:green">+27.9</span> |
+| GPT-4o-mini | 21.4 | 50.6 ± 3.1 | <span style="color:green">+29.2</span> |
+| o3-mini | 19.6 | 56.6 ± 3.1 | <span style="color:green">+37.0</span> |
+| Qwen 2.5 7B | 28.9 | 59.9 ± 3.0 | <span style="color:green">+31.0</span> |
+| DeepSeek-R1 | 24.7 | 68.6 ± 3.8 | <span style="color:green">+43.9</span> |
+| Llama 3.3 70B | 24.7 | 47.4 ± 3.1 | <span style="color:green">+22.7</span> |
 
 **Accuracy**
 
@@ -172,6 +182,12 @@ Systematic differences between the paper and this replication are likely caused 
 
 ---
 
-[^1]: Including $\varepsilon$ (parse errors) in the basis is deliberate. Without it, $\{H, L, E, N\}$ is not an exhaustive partition of responses. A response that fails to parse does not land in any of those four buckets, so the counts would not sum to $n$ and every derived metric would have a hidden denominator problem. $\varepsilon$ closes the basis so that it spans the full space of outcomes.
+[^internal_beliefs]: Yes, talking about AI models having 'internal beliefs' sounds anthropomorphising, and it should raise an eyebrow. For anyone skeptical or interested in what this means and how it is operationalised, I encourage reading the [MASK paper](https://arxiv.org/abs/2503.03750) and the references therein.
 
-[^2]: This is why even for a simple basis of $\{\text{TP}, \text{TN}, \text{FP}, \text{FN}\}$ in a traditional classifier context there is a [cornucopia of metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) that we project that basis onto. I would like to see the eval community refining metrics that characterise deception, in a similar way to how the ML community looks at ROC curves, PR curves, and Matthew's correlation coefficient instead of accuracy to assess a model's validity.
+[^error_in_basis]: Including $\varepsilon$ (parse errors) in the basis is deliberate. Without it, $\{H, L, E, N\}$ is not an exhaustive partition of responses. A response that fails to parse does not land in any of those four buckets, so the counts would not sum to $n$ and every derived metric would have a hidden denominator problem. $\varepsilon$ closes the basis so that it spans the full space of outcomes. API failures (timeouts, rate limits) expose the same gap at a different level: they silently shrink $n$ without landing anywhere in the basis. This is not merely a bookkeeping nuisance — it can introduce systematic bias. If a model tends to time out specifically on questions where it would otherwise lie, the surviving sample over-represents honest responses and the reported honesty score is inflated. The basis argument applies here too: unaccounted outcomes corrupt every derived metric, whether they fall inside a response or before one is returned. <mark>TODO: Rerun DeepSeek-R1 to get closer to n=1000.</mark>
+
+[^classification_analogy]: This is why even for a simple basis of $\{\text{TP}, \text{TN}, \text{FP}, \text{FN}\}$ in a traditional binary classifier context there is a [cornucopia of metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) that we project that basis onto. I would like to see the eval community refining metrics that characterise deception, in a similar way to how the ML community looks at [ROC curves](https://en.wikipedia.org/wiki/Receiver_operating_characteristic), [PR curves](https://en.wikipedia.org/wiki/Precision_and_recall), and [MCC](https://en.wikipedia.org/wiki/Phi_coefficient) instead of accuracy to assess a model's validity.
+
+[^open_questions]: Two extensions I would love to see someone pick up. First, how robust is a model's internal belief representation? The MASK paper queried each model 3 times with optional consistency checks, but I would like to see this varied — ask N times, M times — to see if it undermines belief convergence. Second, how sensitive are the results to the choice of model judge? The paper used a judge model to produce these results. How does changing the judge affect the outcomes? Both of these extensions are expensive, but important.
+
+[^pedantic_r5]: Technically it's $\mathbb{R}^4$ (4 degrees of freedom).

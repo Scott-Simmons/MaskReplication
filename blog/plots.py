@@ -101,6 +101,85 @@ def replication_headline_result() -> None:
     plt.close(fig)
 
 
+def truthfulness_headline_result() -> None:
+    """Reproduce headline plot but with Truthfulness (H/total) instead of Honesty (1-L/total)."""
+    runs = load_runs()
+
+    runs_with_flop = [r for r in runs if r.log10_flop is not None]
+
+    x = np.array([r.log10_flop for r in runs_with_flop])
+    y_acc = np.array([r.accuracy * 100 for r in runs_with_flop])
+    y_truth = np.array([r.truthfulness * 100 for r in runs_with_flop])
+    providers = [r.provider for r in runs_with_flop]
+    names = [r.display_name for r in runs_with_flop]
+    confidences = [r.flop_confidence for r in runs_with_flop]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.5))
+    fig.suptitle("Replication: Accuracy and Truthfulness", fontsize=13, y=0.98)
+
+    for ax, y, ylabel, title_side in [
+        (ax1, y_acc, "Accuracy", "left"),
+        (ax2, y_truth, "Truthfulness (H / total)", "right"),
+    ]:
+        slope, intercept, r_val, p_val, std_err = stats.linregress(x, y)
+        x_line = np.linspace(x.min() - 0.1, x.max() + 0.1, 100)
+        y_line = slope * x_line + intercept
+
+        n_pts = len(x)
+        x_mean = x.mean()
+        se = np.sqrt(np.sum((y - (slope * x + intercept)) ** 2) / (n_pts - 2))
+        h = np.sqrt(1 / n_pts + (x_line - x_mean) ** 2 / np.sum((x - x_mean) ** 2))
+        ci = 1.96 * se * h
+
+        rho, _ = stats.spearmanr(x, y)
+
+        band_color = "#c8e6c9" if rho > 0 else "#ffcdd2"
+        line_color = "#388e3c" if rho > 0 else "#c62828"
+
+        ax.fill_between(x_line, y_line - ci, y_line + ci, alpha=0.3, color=band_color)
+        ax.plot(x_line, y_line, color=line_color, linewidth=1.5, alpha=0.7)
+
+        plotted_providers = set()
+        for xi, yi, prov, name, conf in zip(x, y, providers, names, confidences):
+            color = PROVIDER_COLORS.get(prov, "#999999")
+            marker = "o" if conf == "confident" else "D"
+            label = prov if prov not in plotted_providers else None
+            plotted_providers.add(prov)
+            ax.scatter(xi, yi, c=color, s=50, zorder=5, label=label,
+                       marker=marker, edgecolors="white", linewidths=0.5)
+
+        sign = "+" if rho > 0 else ""
+        box_bg = "#e8f5e9" if rho > 0 else "#ffebee"
+        box_text_color = "#2e7d32" if rho > 0 else "#b71c1c"
+        ax.text(
+            0.5, 0.05, f"Correlation: {sign}{rho:.1%}",
+            transform=ax.transAxes, fontsize=9,
+            ha="center", va="bottom",
+            bbox=dict(boxstyle="round,pad=0.3", facecolor=box_bg, edgecolor=box_text_color, alpha=0.9),
+            color=box_text_color,
+        )
+
+        ax.set_xlabel(r"$\log_{10}$(FLOP)", fontsize=11)
+        ax.set_ylabel(ylabel, fontsize=11)
+        ax.grid(True, alpha=0.2)
+
+    handles, labels = ax1.get_legend_handles_labels()
+    h2, l2 = ax2.get_legend_handles_labels()
+    for h, l in zip(h2, l2):
+        if l not in labels:
+            handles.append(h)
+            labels.append(l)
+
+    fig.legend(handles, labels, loc="lower center", ncol=len(set(providers)),
+               fontsize=9, frameon=True, bbox_to_anchor=(0.5, -0.02))
+
+    fig.tight_layout(rect=[0, 0.05, 1, 0.95])
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    fig.savefig(OUTPUT_DIR / "truthfulness_headline_result.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
+
 def two_d_space_projection() -> None:
     """2D behavior space: Evasion Rate vs Conditional Lie Rate, with iso-honesty contours."""
     runs = load_runs()
@@ -185,7 +264,7 @@ def two_d_space_projection() -> None:
             fontsize=9, ha="center", color="#777")
     ax.text(-0.2, 0.5, r"← Honest | Deceptive →", transform=ax.transAxes,
             fontsize=9, ha="center", va="center", color="#777", rotation=90)
-    ax.set_title("Model Behaviour Space (one of many basis projections)", fontsize=13)
+    ax.set_title("One View of the Outcome Space", fontsize=13)
     ax.legend(loc="upper left", fontsize=9, frameon=True,
               bbox_to_anchor=(1.01, 1), borderaxespad=0)
     ax.grid(True, alpha=0.15)
@@ -397,6 +476,7 @@ def more_2d_projections() -> None:
 
 if __name__ == "__main__":
     replication_headline_result()
+    truthfulness_headline_result()
     two_d_space_projection()
     more_2d_projections()
     print("Done.")

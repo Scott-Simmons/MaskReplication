@@ -7,8 +7,7 @@ def what_i_wanted_to_do() -> str:
 
 def differences_to_og() -> str:
     return (
-        "*The MASK public dataset contains 1,000 examples. "
-        "Shortfalls are due to API failures during evaluation.*\n\n"
+        "*The MASK public dataset contains 1,000 examples.*\n\n"
         + _differences_to_og_text()
     )
 
@@ -18,8 +17,7 @@ def _differences_to_og_text() -> str:
 
     n_models = len(load_runs())
     return (
-        "I used <mark>a different model judge to save on cost (TODO: may remove this "
-        "caveat if we rerun with the same judge, it is just expensive)</mark> "
+        "I used a different model judge (see [appendix](#appendix-paper-vs-replication-differences)) to save on cost "
         f"and a slightly different set of {n_models} models. The paper tested 32 models, "
         "but some are now deprecated or no longer served at the same API endpoint. "
         "I chose a smaller set that covers a range of providers and scales, "
@@ -43,5 +41,5 @@ def interpretation_new_models() -> str:
 def flops_note() -> str:
     return (
         "**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to "
-        "estimate the FLOP per model, as they were unavailable in the original paper.[^1]"
+        "estimate the FLOP per model, the per-model FLOP estimates appear missing from the original paper and [original repo](https://github.com/centerforaisafety/mask).[^flops]"
     )

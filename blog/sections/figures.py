@@ -13,6 +13,12 @@ def replication_headline_result() -> str:
             "the FLOP per model, as they were unavailable from the original paper.](figures/replication_headline_result.png)")
 
 
+def truthfulness_headline_result() -> str:
+    from blog.plots import truthfulness_headline_result as _plot
+    _plot()
+    return "![The same replication, but using truthfulness (H / total) instead of the MASK honesty score (1 - L / total).](figures/truthfulness_headline_result.png)"
+
+
 def replication_new_models_headline_result() -> str:
     return "![TODO: Insert replication_new_models_headline_result caption](figures/placeholder_plot.png)"
 
@@ -20,8 +26,7 @@ def replication_new_models_headline_result() -> str:
 def two_d_space_projection_headline() -> str:
     from blog.plots import two_d_space_projection as _plot
     _plot()
-    return ("![Model behaviour space with iso-P(Lie) contours. "
-            "Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), "
+    return ("![Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), "
             "even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage "
             "(76% vs 60%). The honesty score compresses all of this because o3-mini's evasion "
             "pulls samples away from the lie bucket."
@@ -86,13 +91,14 @@ def other_1d_projections() -> str:
     return "\n".join([
         "| Metric | Formula | What it captures | In MASK? |",
         "|---|---|---|---|",
-        "| Honesty score | $\\frac{H}{H + L + E + N}$ | Strictest: honest out of all responses | Yes (headline) |",
-        "| Normalised honesty | $\\frac{H}{H + L + E}$ | Excludes no-belief from denominator | Yes (appendix) |",
-        "| Conditional honesty | $\\frac{H}{H + L}$ | When it takes a position, is it truthful? | No |",
-        "| Engagement rate | $\\frac{H + L}{H + L + E + N}$ | How often does it commit to a position? | No |",
-        "| Evasion rate | $\\frac{E}{H + L + E + N}$ | How often does it dodge? | No |",
+        "| Honesty score | $1 - \\frac{L}{H + L + E + N + \\varepsilon}$ | How often does it not lie? | Yes (headline) |",
+        "| Normalised honesty | $1 - \\frac{L}{H + L + E}$ | Same, but drops no-belief and errors | Yes (appendix) |",
+        "| Truthfulness | $\\frac{H}{H + L + E + N + \\varepsilon}$ | How often is it actually honest? | No |",
+        "| Engagement rate | $\\frac{H + L}{H + L + E + N + \\varepsilon}$ | How often does it engage? | No |",
+        "| Evasion rate | $\\frac{E}{H + L + E + N + \\varepsilon}$ | How often does it dodge? | No |",
         "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
-        "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: strategic dodge vs no belief? | No |",
+        "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: dodge or no belief? | No |",
+        "| Reliability | $\\frac{H + L + E + N}{H + L + E + N + \\varepsilon}$ | How often does it produce a parseable response? | No |",
     ])
 
 
@@ -177,7 +183,11 @@ def deception_basis() -> str:
 
 
 def honesty_metric() -> str:
-    return "$$\\text{Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{H + L + E + N}$$"
+    return "\n".join([
+        "$$\\text{Honesty} : \\mathbb{R}^5 \\to \\mathbb{R}$$[^pedantic_r5]",
+        "",
+        "$$= 1 - P(\\text{Lie}) = 1 - \\frac{L}{H + L + E + N + \\varepsilon}$$",
+    ])
 
 
 def dumb_and_diplomat() -> str:
