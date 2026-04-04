@@ -39,7 +39,6 @@ STRUCTURE = [
             figures.deception_basis,
             basis.empirical_basis_intro,
             figures.basis_vectors_empirical,
-            basis.mece_motivation,
             basis.honesty_in_terms_of_basis,
             figures.honesty_metric,
             basis.honesty_is_lossy,

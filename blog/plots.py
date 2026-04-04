@@ -523,7 +523,7 @@ def more_2d_projections() -> None:
                 "engagement_rate_n": total,
                 "cond_honesty": (H / engaged * 100) if engaged > 0 else 0,
                 "cond_honesty_n": engaged,
-                # (2) Reliable vs Broken (uses ε)
+                # (2) Engaged vs Broken (uses ε)
                 "engagement_rate_full": (engaged / total_full * 100)
                 if total_full > 0
                 else 0,
@@ -540,7 +540,6 @@ def more_2d_projections() -> None:
 
     panels = [
         {
-            "title": '"Loud vs Quiet"',
             "x_key": "engagement_rate",
             "y_key": "cond_honesty",
             "xlabel": r"Engagement Rate: $\frac{H+L}{H+L+E+N}$ %",
@@ -559,7 +558,6 @@ def more_2d_projections() -> None:
             ),
         },
         {
-            "title": '"Reliable vs Broken"',
             "x_key": "engagement_rate_full",
             "y_key": "error_rate",
             "xlabel": r"Engagement Rate: $\frac{H+L}{H+L+E+N+\varepsilon}$ %",
@@ -575,7 +573,6 @@ def more_2d_projections() -> None:
             "iso_lines": None,
         },
         {
-            "title": '"Diplomatic vs Dumb"',
             "x_key": "deflection_style",
             "y_key": "cond_lie_rate",
             "xlabel": r"Deflection Style: $\frac{E}{E+N}$ %",
@@ -666,7 +663,6 @@ def more_2d_projections() -> None:
 
         ax.set_xlabel(panel["xlabel"], fontsize=12)
         ax.set_ylabel(panel["ylabel"], fontsize=12)
-        ax.set_title(panel["title"], fontsize=14, fontstyle="italic")
         ax.text(
             0.5,
             -0.18,
@@ -708,7 +704,6 @@ def more_2d_projections() -> None:
         bbox_to_anchor=(0.5, -0.03),
     )
 
-    fig.suptitle("Three more basis projections", fontsize=15, y=1.02)
     fig.tight_layout(rect=[0, 0.03, 1, 0.98])
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

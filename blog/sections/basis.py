@@ -1,19 +1,15 @@
 def introduce_the_basis() -> str:
     return (
         "The categories that a pressured statement, subject to some internally held "
-        "belief, can fall into are:[^error_in_basis]"
+        "belief, can fall into are:"
     )
 
 
 def empirical_basis_intro() -> str:
     return (
-        "This forms an exhaustive partition of all responses. "
+        "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed. "
         "Here are the empirical outcome-space vectors for my MASK replication:"
     )
-
-
-def mece_motivation() -> str:
-    return "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed."
 
 
 def honesty_in_terms_of_basis() -> str:
