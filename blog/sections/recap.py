@@ -3,7 +3,7 @@ def recap() -> str:
         "If this is interesting to you, the eval logs and analysis code are available at "
         "[this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more "
         "models by running the MASK eval from "
-        "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals) and dropping "
+        "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping "
         "the `.eval` files into the `eval_logs/` directory. Everything regenerates with "
         "`make blog-post`. I would particularly be interested in contributions from "
         "abliterated models and whatever the frontier looks like next month.",
