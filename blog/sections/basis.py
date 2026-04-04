@@ -59,7 +59,7 @@ def truthfulness_argument() -> str:
 
 
 def headline_still_holds() -> str:
-    return "Interestingly, the qualitative headline result that scaling models has not made them more truthful still holds, even when using truthfulness (H / total) instead of the MASK honesty score (1 - L / total)."
+    return "Interestingly, the headline result still holds even when using truthfulness (H / total) instead of the MASK honesty score (1 - L / total): scaling has not made models more truthful."
 
 
 def communicating_uncertainty_subheader() -> str:

@@ -147,13 +147,15 @@ def paper_vs_replication_table() -> str:
 
     runs = load_runs()
 
-    # Build lookup: paper_name -> replication run (intersection only)
-    matches = []
+    # Build lookup for all replication models, with paper scores where available
+    rows = []
     for r in runs:
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
             og_hon, _, og_acc = OG_PAPER_SCORES[og_name]
-            matches.append((r, og_hon, og_acc))
+            rows.append((r, og_hon, og_acc))
+        else:
+            rows.append((r, None, None))
 
     # Honesty table
     hon_lines = [
@@ -162,12 +164,15 @@ def paper_vs_replication_table() -> str:
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, og_hon, _ in matches:
+    for r, og_hon, _ in rows:
         rep = _binom_ci_str(r.honesty * 100, r.n)
-        diff = r.honesty * 100 - og_hon
-        hon_lines.append(
-            f"| {r.display_name} | {og_hon:.1f} | {rep} | {_color_diff(diff)} |"
-        )
+        if og_hon is not None:
+            diff = r.honesty * 100 - og_hon
+            hon_lines.append(
+                f"| {r.display_name} | {og_hon:.1f} | {rep} | {_color_diff(diff)} |"
+            )
+        else:
+            hon_lines.append(f"| {r.display_name} | — | {rep} | — |")
 
     # Accuracy table
     acc_lines = [
@@ -176,12 +181,15 @@ def paper_vs_replication_table() -> str:
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, _, og_acc in matches:
+    for r, _, og_acc in rows:
         rep = _binom_ci_str(r.accuracy * 100, r.n)
-        diff = r.accuracy * 100 - og_acc
-        acc_lines.append(
-            f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff)} |"
-        )
+        if og_acc is not None:
+            diff = r.accuracy * 100 - og_acc
+            acc_lines.append(
+                f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff)} |"
+            )
+        else:
+            acc_lines.append(f"| {r.display_name} | — | {rep} | — |")
 
     return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
 
