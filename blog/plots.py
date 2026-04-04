@@ -19,7 +19,7 @@ OUTPUT_DIR = Path("build/figures")
 def og_headline_result() -> None:
     """Get OG headline result"""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    source = "og_headline_result.png"
+    source = "blog/og_headline_result.png"
     shutil.copy2(source, OUTPUT_DIR)
 
 
