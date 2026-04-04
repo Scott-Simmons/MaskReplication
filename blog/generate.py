@@ -1,9 +1,18 @@
 """Generate the blog post markdown and HTML from structured sections."""
 
+import shutil
 import subprocess
 from pathlib import Path
 
-from blog.sections import appendix, dimensions, figures, footnotes, intro, recap, replication
+from blog.sections import (
+    appendix,
+    dimensions,
+    figures,
+    footnotes,
+    intro,
+    recap,
+    replication,
+)
 
 STRUCTURE = [
     (
@@ -45,8 +54,8 @@ STRUCTURE = [
             figures.honesty_metric,
             dimensions.honesty_is_lossy,
             dimensions.hypothetical_subheader,
-            dimensions.interp_dumb_and_diplomatic,
             figures.dumb_and_diplomat,
+            dimensions.hypothetical_commentary,
             dimensions.making_this_empirical_subheader,
             dimensions.empirical_lossy_demonstration,
             figures.two_d_space_projection_headline,
@@ -86,6 +95,7 @@ STRUCTURE = [
 ]
 
 CSS_FILE = Path(__file__).parent / "style.css"
+ASSETS_DIR = Path(__file__).parent / "assets"
 
 
 def generate() -> str:
@@ -128,8 +138,15 @@ def main() -> None:
 
     md_text = generate()
     (output_dir / "blog_post.md").write_text(md_text)
-    (output_dir / "blog_post.html").write_text(generate_html(md_text))
+    html_text = generate_html(md_text)
+    (output_dir / "blog_post.html").write_text(html_text)
+    (output_dir / "index.html").write_text(html_text)
     (output_dir / "style.css").write_text(CSS_FILE.read_text())
+
+    assets_dst = output_dir / "assets"
+    if assets_dst.exists():
+        shutil.rmtree(assets_dst)
+    shutil.copytree(ASSETS_DIR, assets_dst)
 
     print(f"Generated: {output_dir}/blog_post.md")
     print(f"Generated: {output_dir}/blog_post.html")

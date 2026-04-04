@@ -17,28 +17,28 @@ def empirical_dimensions_intro() -> str:
 
 
 def honesty_in_terms_of_dimensions() -> str:
-    return 'With this in mind, "honesty" as reported by the paper means:'
+    return "With this in mind, honesty as defined in the paper means:"
 
 
 def honesty_is_lossy() -> str:
-    return "However this reduction compresses a lot of useful information."
+    return "However, this reduction compresses a lot of nuance."
 
 
 def hypothetical_subheader() -> str:
-    return "### Hypothetical"
+    return "### Three agents with perfect honesty scores"
 
 
-def interp_dumb_and_diplomatic() -> str:
-    return "TODO: Insert interp_dumb_and_diplomatic"
+def hypothetical_commentary() -> str:
+    return ""
 
 
 def making_this_empirical_subheader() -> str:
-    return "### Making this empirical"
+    return "### Making this empirical (PLOT IS WIP)"
 
 
 def empirical_lossy_demonstration() -> str:
     return (
-        "To make these thought experiments concrete, here is the data from my "
+        "To make this concrete, here is the data from my "
         "replication plotted on 2 axes + contours:"
     )
 
@@ -59,11 +59,11 @@ def truthfulness_argument() -> str:
 
 
 def headline_still_holds() -> str:
-    return "Interestingly, the headline result still holds even when using truthfulness (H / total) instead of the MASK honesty score (1 - L / total): scaling has not made models more truthful."
+    return "The headline result still holds when using truthfulness (H / n) instead of the MASK honesty score (1 - L / n): **scaling has not made models more truthful.**"
 
 
 def communicating_uncertainty_subheader() -> str:
-    return "### Communicating uncertainty"
+    return "### Communicating uncertainty (VERY WIP SECTION)"
 
 
 def more_examples_of_2d_projections() -> str:

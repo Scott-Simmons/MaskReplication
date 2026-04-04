@@ -22,7 +22,7 @@ def open_questions() -> str:
         "(I am purposely oversimplifying), but I would like to see this number varied "
         "to see if scaling this up undermines belief convergence. "
         "**(2) Judge sensitivity:** The paper used 2 judge models to produce these results. "
-        "How sensitive are the results to changes in the judge models? "
+        "How sensitive are the results to different judge models? "
         "**Warning:** any statistically meaningful investigation will be "
         "[expensive](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record)."
     )

@@ -47,13 +47,13 @@ def how_i_reacted() -> str:
     return (
         "When I first saw this, it was quite provocative, for many reasons. "
         "How is lying defined? How is truth established? Many of these questions are "
-        "answered in the paper, and questions still remain.[^open_questions] "
+        "answered in the paper, and while some questions still remain,[^open_questions] "
+        "two questions I want to address in this post are:\n\n"
     )
 
 
 def what_i_will_do() -> str:
     return (
-        "But two questions I want to address in this post are:\n\n"
         "### [1. Does this result survive independent replication?](#replication-results)\n\n"
         "### [2. Are there any other measures that can help us to characterise deception?]"
         "(#dimensions-of-deception)"

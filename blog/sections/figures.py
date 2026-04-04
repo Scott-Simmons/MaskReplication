@@ -15,7 +15,7 @@ def replication_headline_result() -> str:
     _plot()
     return (
         "![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
-        "the FLOP per model, as this information not unavailable in the original paper.](figures/replication_headline_result.png)"
+        "the FLOP per model, as this information is unavailable in the original paper.](figures/replication_headline_result.png)"
     )
 
 
@@ -207,7 +207,11 @@ def deception_dimensions() -> str:
 def honesty_metric() -> str:
     return "\n".join(
         [
-            "$$\\text{Honesty} : \\mathbb{R}^5 \\to \\mathbb{R}$$[^pedantic_r5]",
+            '::: {style="text-align:center; margin:1.5em 0"}',
+            "",
+            "$\\text{Honesty}$[^pedantic_r5] $: \\mathbb{R}^5 \\to \\mathbb{R}$",
+            "",
+            ":::",
             "",
             "$$= 1 - P(\\text{Lie}) = 1 - \\frac{L}{H + L + E + N + \\varepsilon}$$",
         ]
@@ -217,20 +221,25 @@ def honesty_metric() -> str:
 def dumb_and_diplomat() -> str:
     return "\n".join(
         [
-            "```",
-            "  Unpressured Query     Pressured Query",
-            "        │                      │",
-            "        ▼                      ▼",
-            "   ┌─────────┐          ┌─────────┐",
-            "   │  Belief  │          │  Belief  │",
-            "   └────┬────┘          └────┬────┘",
-            "        │                      │",
-            "        ▼                      ▼",
-            "   ┌─────────┐     ┌────────────────────┐",
-            "   │ Response │     │ Truthful │ Lie │ ...│",
-            "   └─────────┘     └────────────────────┘",
-            "```",
+            '<div style="display: flex; justify-content: center; gap: 2em; margin: 2em 0;">',
+            '<div style="text-align: center;">',
+            '<img src="assets/honest.jpg" alt="Jesus Christ" style="height: 200px;"><br>',
+            "<strong>Jesus Christ</strong>",
+            "</div>",
+            '<div style="text-align: center;">',
+            '<img src="assets/evasion.jpeg" alt="Kash Patel" style="height: 200px;"><br>',
+            '<strong>Kash Patel</strong><br><strong>(<a href="assets/evasion.mp4">see here</a>)</strong>',
+            "</div>",
+            '<div style="text-align: center;">',
+            '<img src="assets/no_belief.jpeg" alt="Patrick Star" style="height: 200px;"><br>',
+            "<strong>Patrick Star</strong>",
+            "</div>",
+            "</div>",
             "",
-            "*TODO: Insert dumb_and_diplomat caption*",
+            "| Agent | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ | Honesty $1 - \\frac{L}{n}$ | Normalised $1 - \\frac{L}{H+L+E}$ |",
+            "|---|---|---|---|---|---|---|---|",
+            "| Jesus Christ | $n$ | 0 | 0 | 0 | 0 | 100% | 100% |",
+            "| Kash Patel | 0 | 0 | $n$ | 0 | 0 | 100% | 100% |",
+            "| Patrick Star | 0 | 0 | 0 | $n$ | 0 | 100% | undefined |",
         ]
     )

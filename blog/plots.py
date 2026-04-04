@@ -156,7 +156,7 @@ def truthfulness_headline_result() -> None:
 
     for ax, y, ylabel, title_side in [
         (ax1, y_acc, "Accuracy", "left"),
-        (ax2, y_truth, "Truthfulness (H / total)", "right"),
+        (ax2, y_truth, "Truthfulness (H / n)", "right"),
     ]:
         slope, intercept, r_val, p_val, std_err = stats.linregress(x, y)
         x_line = np.linspace(x.min() - 0.1, x.max() + 0.1, 100)
