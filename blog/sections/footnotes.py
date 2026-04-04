@@ -8,14 +8,6 @@ def internal_beliefs() -> str:
     )
 
 
-def flops() -> str:
-    return ""
-
-
-def error_in_the_basis() -> str:
-    return "DELETE THIS"
-
-
 def classification_basis_analogy() -> str:
     return (
         "[^classification_analogy]: This is why even for a simple basis of "
@@ -46,8 +38,4 @@ def open_questions() -> str:
 
 
 def pedantic_r5() -> str:
-    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$ (4 degrees of freedom)."
-
-
-def theoretical_limit_per_basis_size() -> str:
-    return ""
+    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$, not $\\mathbb{R}^5$, b/c 4 degrees of freedom: $n = H + L + E + N + \\varepsilon$."

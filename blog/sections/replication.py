@@ -27,7 +27,7 @@ def _differences_to_og_text() -> str:
 
 def interpretation() -> str:
     return (
-        "The headline result held. The pattern is clear in the replication: accuracy "
+        "The headline result held: accuracy "
         "scales with compute, but honesty does not. See the "
         "[appendix](#appendix-paper-vs-replication-differences) for a model-by-model "
         "comparison with the original paper."

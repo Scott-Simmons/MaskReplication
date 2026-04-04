@@ -35,6 +35,7 @@ STRUCTURE = [
     (
         "## 3. Dimensions of deception",
         [
+            basis.preamble,
             basis.introduce_the_basis,
             figures.deception_basis,
             basis.empirical_basis_intro,
@@ -75,12 +76,9 @@ STRUCTURE = [
         None,
         [
             footnotes.internal_beliefs,
-            footnotes.flops,
-            footnotes.error_in_the_basis,
             footnotes.classification_basis_analogy,
             footnotes.open_questions,
             footnotes.pedantic_r5,
-            footnotes.theoretical_limit_per_basis_size,
         ],
     ),
 ]
@@ -112,7 +110,7 @@ def generate_html(md_text: str) -> str:
             "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
             "--css=style.css",
             "--standalone",
-            "--metadata=title:The Basis of Deception",
+            "--metadata=title:Mapping Deception",
         ],
         input=md_text,
         capture_output=True,

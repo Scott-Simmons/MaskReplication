@@ -6,10 +6,10 @@ def recap() -> str:
             "models by running the MASK eval from "
             "[inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping "
             "the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with "
-            "`make blog-post`. I would particularly be interested in contributions from "
-            "abliterated models and whatever the frontier looks like next month.",
+            "`make clean build`. I would particularly be interested in contributions from "
+            "abliterated models and the (current and future) frontier.",
             "",
-            "Here is the invocation I used:",
+            "Here is an invocation to get you started:",
             "",
             "```bash",
             "# inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C",

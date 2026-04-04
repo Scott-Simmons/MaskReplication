@@ -1,3 +1,7 @@
+def preamble() -> str:
+    return "I wanted to explore the models' deception characteristics in more detail."
+
+
 def introduce_the_basis() -> str:
     return (
         "The categories that a pressured statement, subject to some internally held "
@@ -35,8 +39,7 @@ def making_this_empirical_subheader() -> str:
 def empirical_lossy_demonstration() -> str:
     return (
         "To make these thought experiments concrete, here is the data from my "
-        "replication plotted in a 2D (nonlinear) projection of the outcomes "
-        "($p: \\mathbb{R}^5 \\to \\mathbb{R}^2$)[^pedantic_r5]:"
+        "replication plotted on 2 axes + contours:"
     )
 
 
@@ -49,13 +52,14 @@ def one_d_projections() -> str:
 
 def truthfulness_argument() -> str:
     return (
-        "Of these, I would argue that truthfulness ($H / \\text{total}$) is a more "
-        "informative headline metric than the MASK honesty score ($1 - L / \\text{total}$)."
+        "Of these, I would argue that truthfulness ($H / \\text{n}$) is a more "
+        "informative headline metric than the MASK honesty score ($1 - L / \\text{n}$). "
+        "Admittedly, this is a subjective assessment, though when the raw counts are reported, the distinction matters less."
     )
 
 
 def more_examples_of_2d_projections() -> str:
-    return "The same data can be projected in many other ways. Here are three more."
+    return "Here are three more representations of the same data:"
 
 
 def more_2d_projections_commentary() -> str:

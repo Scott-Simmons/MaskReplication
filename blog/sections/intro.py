@@ -1,6 +1,6 @@
 def tldr() -> str:
     return (
-        "**TLDR:** I replicated the MASK benchmark's headline result that scaling improves accuracy "
+        "**TLDR:** I replicated an AI honesty benchmark's headline result: that scaling improves accuracy "
         "but not honesty. I also show various ways that the honesty score hides "
         "nuance, and why reporting the full outcome set is useful, and argue for reporting raw counts, "
         "including errors and uncertainty as the way forward for deception evaluation, "
