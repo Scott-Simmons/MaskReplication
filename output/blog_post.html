@@ -474,14 +474,7 @@ truthfulness (H / total) instead of the MASK honesty score (1 - L /
 total).</figcaption>
 </figure>
 <p>The same data can be projected in many other ways. Here are three
-more. Although not very useful for analysis, the middle panel (“Reliable
-vs Broken”) includes <span class="math inline">\(\varepsilon\)</span>
-for educational purposes: when a basis vector represents a rare event,
-the proportion estimate is noisier and error bars inflate relative to
-the point estimates. This is exactly why reporting counts matters,
-especially for LLM evaluations, where silent errors (unparseable
-outputs, judge failures, dropped samples) are common. Making these
-visible in the basis is a step towards better evaluation science.</p>
+more.</p>
 <figure>
 <img src="figures/more_2d_projections.png"
 alt="Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades)." />
@@ -491,6 +484,14 @@ Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning
 when it does not answer, it is mostly because it lacks beliefs, not
 because it evades).</figcaption>
 </figure>
+<p>Although not very useful for analysis, the middle panel (“Reliable vs
+Broken”) includes <span class="math inline">\(\varepsilon\)</span> for
+educational purposes: when a basis vector represents a rare event, the
+proportion estimate is noisier and error bars inflate relative to the
+point estimates. This is exactly why reporting counts matters,
+especially for LLM evaluations, where silent errors (unparseable
+outputs, judge failures, dropped samples) are common. Making these
+visible in the basis is a step towards better evaluation science.</p>
 <hr />
 <h2 id="try-it-yourself">4. Try it yourself</h2>
 <p>If this is interesting to you, the eval logs and analysis code are

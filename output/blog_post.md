@@ -12,7 +12,7 @@
 
 ---
 
-Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when we think we do know it, many of us lie to others in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
+Truth is often inconvenient. For starters, we cannot be sure that we actually know it. But even when we think we do know it, many of us lie in public anyway, because it can conflict with what's socially comfortable. Saying true things in the face of that pressure requires intelligence and courage (subject to a certain amount of tact). It's also how things change. Galileo was put under house arrest for the rest of his life for saying the Earth goes around the Sun. He was right, everyone eventually agreed, and science moved forward.
 
 Just like we can hide our underlying beliefs when subject to social pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] subject to pressure from a prompt. And while scaling up AI models has made them more capable, a result from [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that larger models are not more honest.
 
@@ -128,15 +128,17 @@ Of these, I would argue that truthfulness ($H / \text{total}$) is a more informa
 
 ![The same replication, but using truthfulness (H / total) instead of the MASK honesty score (1 - L / total).](figures/truthfulness_headline_result.png)
 
-The same data can be projected in many other ways. Here are three more. Although not very useful for analysis, the middle panel ("Reliable vs Broken") includes $\varepsilon$ for educational purposes: when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the basis is a step towards better evaluation science.
+The same data can be projected in many other ways. Here are three more.
 
 ![Three more basis projections. Claude Haiku 4.5 is an outlier in the first panel (88% conditionally honest). Qwen 2.5 7B is an outlier in the third (25% deflection style, meaning when it does not answer, it is mostly because it lacks beliefs, not because it evades).](figures/more_2d_projections.png)
+
+Although not very useful for analysis, the middle panel ("Reliable vs Broken") includes $\varepsilon$ for educational purposes: when a basis vector represents a rare event, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the basis is a step towards better evaluation science.
 
 ---
 
 ## 4. Try it yourself
 
-If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping the `.eval` files into the `eval_logs/` directory. Everything regenerates with `make blog-post`. I would particularly be interested in contributions from abliterated models and whatever the frontier looks like next month.
+If this is interesting to you, the eval logs and analysis code are available at [this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more models by running the MASK eval from [inspect_evals](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/mask) and dropping the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with `make blog-post`. I would particularly be interested in contributions from abliterated models and frontier models.
 
 Here is the invocation I used:
 
@@ -145,6 +147,7 @@ Here is the invocation I used:
 inspect eval inspect_evals/mask \
     --model <YOUR_MODEL> \
     --log-dir ./eval_logs \
+    --retry-on-error 5 \
     -T binary_judge_model="openai/gpt-4o-mini"
 ```
 

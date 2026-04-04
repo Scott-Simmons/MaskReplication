@@ -13,9 +13,7 @@ def empirical_basis_intro() -> str:
 
 
 def mece_motivation() -> str:
-    return (
-        "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed."
-    )
+    return "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed."
 
 
 def honesty_in_terms_of_basis() -> str:
@@ -66,9 +64,9 @@ def more_examples_of_2d_projections() -> str:
 
 def more_2d_projections_commentary() -> str:
     return (
-        "Although not very useful for analysis, the middle panel (\"Reliable vs Broken\") "
-        "includes $\\varepsilon$ for educational purposes: when a basis vector represents "
-        "a rare event, the proportion estimate is noisier and error bars inflate relative "
+        "Note that the middle panel "
+        "includes $\\varepsilon$ to show that when an outcome is "
+        "rare, the proportion estimate is noisier and error bars inflate relative "
         "to the point estimates. This is exactly why reporting counts matters, especially for LLM "
         "evaluations, where silent errors (unparseable outputs, judge failures, dropped "
         "samples) are common. Making these visible in the basis is a step towards better "

@@ -13,22 +13,7 @@ def flops() -> str:
 
 
 def error_in_the_basis() -> str:
-    return (
-        "[^error_in_basis]: Including $\\varepsilon$ (parse errors) in the basis is deliberate. "
-        "Without it, $\\{H, L, E, N\\}$ is not an exhaustive partition of responses. "
-        "A response that fails to parse does not land in any of those four buckets, "
-        "so the counts would not sum to $n$ and every derived metric would have a "
-        "hidden denominator problem. $\\varepsilon$ closes the basis so that it spans "
-        "the full space of outcomes. API failures (timeouts, rate limits) expose the "
-        "same gap at a different level: they silently shrink $n$ without landing anywhere "
-        "in the basis. This is not merely a bookkeeping nuisance — it can introduce "
-        "systematic bias. If a model tends to time out specifically on questions where it "
-        "would otherwise lie, the surviving sample over-represents honest responses and "
-        "the reported honesty score is inflated. The basis argument applies here too: "
-        "unaccounted outcomes corrupt every derived metric, whether they fall inside a "
-        "response or before one is returned. "
-        "<mark>TODO: Rerun DeepSeek-R1 to get closer to n=1000.</mark>"
-    )
+    return "DELETE THIS"
 
 
 def classification_basis_analogy() -> str:
@@ -61,9 +46,7 @@ def open_questions() -> str:
 
 
 def pedantic_r5() -> str:
-    return (
-        "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$ (4 degrees of freedom)."
-    )
+    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$ (4 degrees of freedom)."
 
 
 def theoretical_limit_per_basis_size() -> str:
