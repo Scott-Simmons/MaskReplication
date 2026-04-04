@@ -2,21 +2,21 @@ def preamble() -> str:
     return "I wanted to explore the models' deception characteristics in more detail."
 
 
-def introduce_the_basis() -> str:
+def introduce_the_dimensions() -> str:
     return (
         "The categories that a pressured statement, subject to some internally held "
         "belief, can fall into are:"
     )
 
 
-def empirical_basis_intro() -> str:
+def empirical_dimensions_intro() -> str:
     return (
         "The outcomes are mutually exclusive and collectively exhaustive, so nothing is double-counted or missed. "
         "Here are the empirical outcome count vectors for my MASK replication:"
     )
 
 
-def honesty_in_terms_of_basis() -> str:
+def honesty_in_terms_of_dimensions() -> str:
     return 'With this in mind, "honesty" as reported by the paper means:'
 
 
@@ -77,6 +77,6 @@ def more_2d_projections_commentary() -> str:
         "rare, the proportion estimate is noisier and error bars inflate relative "
         "to the point estimates. This is exactly why reporting counts matters, "
         "especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped "
-        "samples) are common. Making these visible in the basis is a step towards better "
+        "samples) are common. Making these visible in the dimensions is a step towards better "
         "evaluation science."
     )

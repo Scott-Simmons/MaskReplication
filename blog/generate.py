@@ -3,7 +3,7 @@
 import subprocess
 from pathlib import Path
 
-from blog.sections import appendix, basis, figures, footnotes, intro, recap, replication
+from blog.sections import appendix, dimensions, figures, footnotes, intro, recap, replication
 
 STRUCTURE = [
     (
@@ -36,29 +36,29 @@ STRUCTURE = [
     (
         "## 3. Dimensions of deception",
         [
-            basis.preamble,
-            basis.introduce_the_basis,
-            figures.deception_basis,
-            basis.empirical_basis_intro,
-            figures.basis_vectors_empirical,
-            basis.honesty_in_terms_of_basis,
+            dimensions.preamble,
+            dimensions.introduce_the_dimensions,
+            figures.deception_dimensions,
+            dimensions.empirical_dimensions_intro,
+            figures.dimensions_vectors_empirical,
+            dimensions.honesty_in_terms_of_dimensions,
             figures.honesty_metric,
-            basis.honesty_is_lossy,
-            basis.hypothetical_subheader,
-            basis.interp_dumb_and_diplomatic,
+            dimensions.honesty_is_lossy,
+            dimensions.hypothetical_subheader,
+            dimensions.interp_dumb_and_diplomatic,
             figures.dumb_and_diplomat,
-            basis.making_this_empirical_subheader,
-            basis.empirical_lossy_demonstration,
+            dimensions.making_this_empirical_subheader,
+            dimensions.empirical_lossy_demonstration,
             figures.two_d_space_projection_headline,
-            basis.one_d_projections,
+            dimensions.one_d_projections,
             figures.other_1d_projections,
-            basis.truthfulness_argument,
-            basis.headline_still_holds,
+            dimensions.truthfulness_argument,
+            dimensions.headline_still_holds,
             figures.truthfulness_headline_result,
-            basis.communicating_uncertainty_subheader,
-            basis.more_examples_of_2d_projections,
+            dimensions.communicating_uncertainty_subheader,
+            dimensions.more_examples_of_2d_projections,
             figures.more_2d_projections,
-            basis.more_2d_projections_commentary,
+            dimensions.more_2d_projections_commentary,
         ],
     ),
     (
@@ -78,7 +78,7 @@ STRUCTURE = [
         None,
         [
             footnotes.internal_beliefs,
-            footnotes.classification_basis_analogy,
+            footnotes.classification_dimensions_analogy,
             footnotes.open_questions,
             footnotes.pedantic_r5,
         ],

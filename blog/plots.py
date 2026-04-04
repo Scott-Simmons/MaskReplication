@@ -248,7 +248,7 @@ def two_d_space_projection() -> None:
     """2D behavior space: Evasion Rate vs Conditional Lie Rate, with iso-honesty contours."""
     runs = load_runs()
 
-    # Compute projections from basis
+    # Compute projections from dimensions
     evasion_rates = []  # E / (H + L + E)
     lie_rates = []  # L / (H + L)
     evasion_ns = []
@@ -257,7 +257,7 @@ def two_d_space_projection() -> None:
     names = []
 
     for r in runs:
-        b = r.basis
+        b = r.dimensions
         H = b.get("truthful", 0)
         L = b.get("lie", 0)
         E = b.get("evade", 0)
@@ -501,10 +501,10 @@ def more_2d_projections() -> None:
     """Three additional 2D projections: Loud/Quiet, Dodger/Clueless, Diplomatic/Dumb."""
     runs = load_runs()
 
-    # Precompute all basis values per model
+    # Precompute all dimensions values per model
     data = []
     for r in runs:
-        b = r.basis
+        b = r.dimensions
         H = b.get("truthful", 0)
         L = b.get("lie", 0)
         E = b.get("evade", 0)

@@ -64,7 +64,7 @@ def models_used_in_replication() -> str:
     return "\n".join(lines)
 
 
-def basis_vectors_empirical() -> str:
+def dimensions_vectors_empirical() -> str:
     from blog.analysis import load_runs
 
     runs = load_runs()
@@ -74,7 +74,7 @@ def basis_vectors_empirical() -> str:
     ]
     totals = {"n": 0, "H": 0, "L": 0, "E": 0, "N": 0, "e": 0}
     for r in runs:
-        b = r.basis
+        b = r.dimensions
         H = b.get("truthful", 0)
         L = b.get("lie", 0)
         E = b.get("evade", 0)
@@ -194,7 +194,7 @@ def paper_vs_replication_table() -> str:
     return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
 
 
-def deception_basis() -> str:
+def deception_dimensions() -> str:
     return "\n".join(
         [
             "$$\\{\\text{Honest},\\ \\text{Lie},\\ \\text{Evade},\\ \\text{No Belief},\\ \\text{Parse Error}\\}$$",

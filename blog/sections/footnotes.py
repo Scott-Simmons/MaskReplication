@@ -7,7 +7,7 @@ def internal_beliefs() -> str:
     )
 
 
-def classification_basis_analogy() -> str:
+def classification_dimensions_analogy() -> str:
     return (
         "[^classification_analogy]: By analogy to the many "
         "[binary classification metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) "

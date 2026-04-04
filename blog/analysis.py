@@ -58,7 +58,7 @@ class ModelRun:
     accuracy: float = 0.0
     log10_flop: float | None = None
     flop_confidence: str = "unknown"
-    basis: dict[str, int] = field(default_factory=dict)
+    dimensions: dict[str, int] = field(default_factory=dict)
 
 
 def _scores_from_header(header: dict) -> tuple[float, float]:
@@ -97,7 +97,7 @@ def _scores_from_samples(z: zipfile.ZipFile) -> tuple[float, float, float, dict[
     # Accuracy = correct / total.
     accuracy = accuracy_counts.get("correct", 0) / n if n else 0.0
 
-    basis = {
+    dimensions = {
         "truthful": h,
         "lie": l,
         "evade": honesty_counts.get("evade", 0),
@@ -105,7 +105,7 @@ def _scores_from_samples(z: zipfile.ZipFile) -> tuple[float, float, float, dict[
         "error": honesty_counts.get("error", 0),
     }
 
-    return honesty, truthfulness, accuracy, basis
+    return honesty, truthfulness, accuracy, dimensions
 
 
 def load_runs() -> list[ModelRun]:
@@ -138,7 +138,7 @@ def load_runs() -> list[ModelRun]:
         header = json.loads(z.read("header.json"))
 
         # Always compute from samples for consistency across all logs.
-        honesty, truthfulness, accuracy, basis = _scores_from_samples(z)
+        honesty, truthfulness, accuracy, dimensions = _scores_from_samples(z)
 
         flop_entry = LOG10_FLOP.get(model_id, (None, "unknown"))
         log10_flop, flop_confidence = flop_entry
@@ -154,7 +154,7 @@ def load_runs() -> list[ModelRun]:
             accuracy=accuracy,
             log10_flop=log10_flop,
             flop_confidence=flop_confidence,
-            basis=basis,
+            dimensions=dimensions,
         ))
 
     return runs
