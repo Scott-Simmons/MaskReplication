@@ -38,12 +38,3 @@ def interpretation() -> str:
     )
 
 
-def interpretation_new_models() -> str:
-    return "TODO: Insert interpretation_new_models"
-
-
-def flops_note() -> str:
-    return (
-        "**Note:** I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to "
-        "estimate the FLOP per model; the per-model FLOP estimates appear missing from the original paper and [original repo](https://github.com/centerforaisafety/mask).[^flops]"
-    )

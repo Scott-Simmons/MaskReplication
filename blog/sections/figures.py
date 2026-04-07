@@ -1,10 +1,6 @@
 from blog.decorators import interpretation
 
 
-def placeholder_plot() -> str:
-    return "![TODO: Insert placeholder_plot caption](figures/placeholder_plot.png)"
-
-
 def og_headline_result() -> str:
     from blog.plots import og_headline_result as _plot
 
@@ -27,10 +23,6 @@ def truthfulness_headline_result() -> str:
 
     _plot()
     return "![](figures/truthfulness_headline_result.png)"
-
-
-def replication_new_models_headline_result() -> str:
-    return "![TODO: Insert replication_new_models_headline_result caption](figures/placeholder_plot.png)"
 
 
 @interpretation
@@ -122,20 +114,6 @@ def other_1d_projections() -> str:
             "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
             "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: dodge or no belief? | No |",
             "| Reliability | $\\frac{n - \\varepsilon}{n}$ | How often does it produce a parseable response? | No |",
-        ]
-    )
-
-
-def placeholder_table() -> str:
-    return "\n".join(
-        [
-            "*TODO: Insert placeholder_table caption*",
-            "",
-            "| Model | Accuracy | Honesty |",
-            "|---|---|---|",
-            "| Model A | 0.85 | 0.42 |",
-            "| Model B | 0.91 | 0.38 |",
-            "| Model C | 0.72 | 0.67 |",
         ]
     )
 

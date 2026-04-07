@@ -19,7 +19,6 @@ SECTION_MODULE_NAMES = [
     "blog.sections.intro",
     "blog.sections.recap",
     "blog.sections.replication",
-    "blog.sections.thanks",
 ]
 
 
