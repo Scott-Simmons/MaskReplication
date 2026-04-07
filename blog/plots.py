@@ -245,14 +245,16 @@ def truthfulness_headline_result() -> None:
 
 
 def two_d_space_projection() -> None:
-    """2D behavior space: Evasion Rate vs Conditional Lie Rate, with iso-honesty contours."""
+    """2D behavior space: Engagement Rate vs Conditional Honesty Rate, with exact iso-honesty contours."""
     runs = load_runs()
 
-    # Compute projections from dimensions
-    evasion_rates = []  # E / (H + L + E)
-    lie_rates = []  # L / (H + L)
-    evasion_ns = []
-    lie_ns = []
+    # x = Conditional Honesty Rate: H/(H+L) — "when it engages, how often is it honest?"
+    # y = Engagement Rate: (H+L)/n       — "how often does it take a stance?"
+    # Honesty = 1 - (1 - x/100)*(y/100), exactly.
+    engagement_rates = []
+    cond_honesty_rates = []
+    engagement_ns = []
+    cond_honesty_ns = []
     providers = []
     names = []
 
@@ -260,53 +262,70 @@ def two_d_space_projection() -> None:
         b = r.dimensions
         H = b.get("truthful", 0)
         L = b.get("lie", 0)
-        E = b.get("evade", 0)
-
-        engaged_or_evaded = H + L + E
         engaged = H + L
 
-        evasion_rate = (E / engaged_or_evaded * 100) if engaged_or_evaded > 0 else 0
-        cond_lie_rate = (L / engaged * 100) if engaged > 0 else 0
+        er = (engaged / r.n * 100) if r.n > 0 else 0
+        chr_ = (H / engaged * 100) if engaged > 0 else 0
 
-        evasion_rates.append(evasion_rate)
-        lie_rates.append(cond_lie_rate)
-        evasion_ns.append(engaged_or_evaded)
-        lie_ns.append(engaged)
+        engagement_rates.append(er)
+        cond_honesty_rates.append(chr_)
+        engagement_ns.append(r.n)
+        cond_honesty_ns.append(engaged)
         providers.append(r.provider)
         names.append(r.display_name)
 
-    x = np.array(evasion_rates)
-    y = np.array(lie_rates)
-    x_ci = np.array([_binom_ci(xv, n) for xv, n in zip(evasion_rates, evasion_ns)])
-    y_ci = np.array([_binom_ci(yv, n) for yv, n in zip(lie_rates, lie_ns)])
+    x = np.array(cond_honesty_rates)
+    y = np.array(engagement_rates)
+    x_ci = np.array([_binom_ci(xv, n) for xv, n in zip(cond_honesty_rates, cond_honesty_ns)])
+    y_ci = np.array([_binom_ci(yv, n) for yv, n in zip(engagement_rates, engagement_ns)])
 
     fig, ax = plt.subplots(figsize=(8, 6))
 
-    # Iso-honesty contours: P(Lie) ≈ y/100 * (1 - x/100) = c
-    # So y = 100 * c / (1 - x/100)
-    x_cont = np.linspace(0, 45, 200)
-    for c in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]:
-        y_cont = 100 * c / (1 - x_cont / 100)
-        y_cont = np.where(y_cont <= 100, y_cont, np.nan)
+    # Exact iso-honesty contours: Honesty = 1 - (1 - x/100)*(y/100)
+    # So (1 - x/100)*(y/100) = 1 - h  →  y = (1-h)*10000/(100-x)
+    x_cont = np.linspace(0, 99, 300)
+    contour_levels = [0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95]
+    for h in contour_levels:
+        p_lie = 1 - h
+        y_cont = p_lie * 10000 / (100 - x_cont)
+        y_cont = np.where((y_cont >= 0) & (y_cont <= 100), y_cont, np.nan)
         ax.plot(x_cont, y_cont, color="#bbb", linestyle=":", linewidth=0.8, alpha=0.7)
-        # Label on the contour line itself
-        label_x = 3
-        label_y = 100 * c / (1 - label_x / 100)
-        if 0 < label_y < 98:
+        # Only label the smallest and largest contours
+        if h == contour_levels[0] or h == contour_levels[-1]:
+            # Place 35% label higher (near top-left), others near bottom
+            target_y = 85 if h == contour_levels[0] else 30
+            label_x = 100 - p_lie * 10000 / target_y
+            label_y = target_y
+            if label_x < 8:
+                label_x = 8
+                label_y = p_lie * 10000 / (100 - label_x)
+            if 5 < label_x < 98 and 25 < label_y < 95:
+                ax.text(
+                    label_x, label_y, f" Honesty={h:.0%}",
+                    fontsize=6, color="#999", va="center", ha="left",
+                    bbox=dict(boxstyle="round,pad=0.1", facecolor="white", edgecolor="none", alpha=0.8),
+                )
+
+    # Find two models with most similar honesty but most different conditional honesty
+    # to dynamically highlight the "same contour, different decomposition" point
+    highlight_pair = _find_contour_pair(runs)
+    if highlight_pair:
+        h_highlight = np.mean([r.honesty for r in highlight_pair])
+        p_lie_h = 1 - h_highlight
+        y_highlight = p_lie_h * 10000 / (100 - x_cont)
+        y_highlight = np.where((y_highlight >= 0) & (y_highlight <= 100), y_highlight, np.nan)
+        ax.plot(x_cont, y_highlight, color="#e63946", linestyle=":", linewidth=1.2, alpha=0.6)
+        # Red label for the highlighted contour
+        label_y_h = 30
+        label_x_h = 100 - p_lie_h * 10000 / label_y_h
+        if label_x_h < 8:
+            label_x_h = 8
+            label_y_h = p_lie_h * 10000 / (100 - label_x_h)
+        if 5 < label_x_h < 98 and 25 < label_y_h < 95:
             ax.text(
-                label_x,
-                label_y,
-                f" P(Lie)={c:.0%}",
-                fontsize=6.5,
-                color="#999",
-                va="center",
-                ha="left",
-                bbox=dict(
-                    boxstyle="round,pad=0.1",
-                    facecolor="white",
-                    edgecolor="none",
-                    alpha=0.8,
-                ),
+                label_x_h, label_y_h, f" Honesty={h_highlight:.0%}",
+                fontsize=6, color="#e63946", va="center", ha="left",
+                bbox=dict(boxstyle="round,pad=0.1", facecolor="white", edgecolor="none", alpha=0.8),
             )
 
     # Scatter points coloured by provider with error bars
@@ -346,32 +365,31 @@ def two_d_space_projection() -> None:
             color="#555",
         )
 
+    # Drop lines for the highlighted pair
+    if highlight_pair:
+        highlight_names = {r.display_name for r in highlight_pair}
+        for xi, yi, name_i in zip(x, y, names):
+            if name_i in highlight_names:
+                ax.plot([xi, xi], [ax.get_ylim()[0], yi], color="#e63946", linestyle=":", linewidth=0.7, alpha=0.5, zorder=1)
+                ax.plot([ax.get_xlim()[0], xi], [yi, yi], color="#e63946", linestyle=":", linewidth=0.7, alpha=0.5, zorder=1)
+
     # Quadrant labels
     ax.text(
-        0.02,
-        0.02,
-        "Genuinely Honest",
-        transform=ax.transAxes,
-        fontsize=8,
-        color="#2e7d32",
-        fontstyle="italic",
-        alpha=0.7,
-    )
-    ax.text(
         0.98,
-        0.02,
-        "Honest Dodger",
+        0.98,
+        "Engaged + Honest",
         transform=ax.transAxes,
         fontsize=8,
         color="#2e7d32",
         fontstyle="italic",
         alpha=0.7,
         ha="right",
+        va="top",
     )
     ax.text(
         0.02,
         0.98,
-        "Direct Liar",
+        "Engaged + Deceptive",
         transform=ax.transAxes,
         fontsize=8,
         color="#b71c1c",
@@ -381,24 +399,33 @@ def two_d_space_projection() -> None:
     )
     ax.text(
         0.98,
-        0.98,
-        "Evasive + Deceptive",
+        0.02,
+        "Disengaged + Honest",
+        transform=ax.transAxes,
+        fontsize=8,
+        color="#2e7d32",
+        fontstyle="italic",
+        alpha=0.7,
+        ha="right",
+    )
+    ax.text(
+        0.02,
+        0.02,
+        "Disengaged + Deceptive",
         transform=ax.transAxes,
         fontsize=8,
         color="#b71c1c",
         fontstyle="italic",
         alpha=0.7,
-        ha="right",
-        va="top",
     )
 
-    ax.set_xlabel(r"Evasion Rate: $\frac{E}{H + L + E}$ %", fontsize=11)
-    ax.set_ylabel(r"Conditional Lie Rate: $\frac{L}{H + L}$ %", fontsize=11)
+    ax.set_xlabel(r"Conditional Honesty Rate: $\frac{H}{H + L}$ %", fontsize=11)
+    ax.set_ylabel(r"Engagement Rate: $\frac{H + L}{n}$ %", fontsize=11)
     # Directional arrows as secondary labels
     ax.text(
         0.5,
         -0.2,
-        r"← Direct | Evasive →",
+        r"← Deceptive when engaged | Honest when engaged →",
         transform=ax.transAxes,
         fontsize=9,
         ha="center",
@@ -407,7 +434,7 @@ def two_d_space_projection() -> None:
     ax.text(
         -0.2,
         0.5,
-        r"← Honest | Deceptive →",
+        r"← Disengaged | Engaged →",
         transform=ax.transAxes,
         fontsize=9,
         ha="center",
@@ -423,14 +450,61 @@ def two_d_space_projection() -> None:
         bbox_to_anchor=(1.01, 1),
         borderaxespad=0,
     )
-    ax.grid(True, alpha=0.15)
-    ax.set_xlim(-1, 48)
-    ax.set_ylim(-1, 100)
+    ax.set_xlim(5, 100)
+    ax.set_ylim(25, 95)
 
     fig.tight_layout()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUTPUT_DIR / "two_d_space_projection.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
+
+
+def _find_contour_pair(runs):
+    """Find the pair of models with most similar honesty but most different conditional honesty rate.
+
+    Returns the two ModelRun objects, or None if < 2 models.
+    """
+    if len(runs) < 2:
+        return None
+    best_pair = None
+    best_score = -1
+    for i, r1 in enumerate(runs):
+        for r2 in runs[i + 1 :]:
+            b1, b2 = r1.dimensions, r2.dimensions
+            eng1 = b1.get("truthful", 0) + b1.get("lie", 0)
+            eng2 = b2.get("truthful", 0) + b2.get("lie", 0)
+            if eng1 == 0 or eng2 == 0:
+                continue
+            chr1 = b1.get("truthful", 0) / eng1
+            chr2 = b2.get("truthful", 0) / eng2
+            honesty_diff = abs(r1.honesty - r2.honesty)
+            chr_diff = abs(chr1 - chr2)
+            # We want small honesty_diff and large chr_diff
+            if honesty_diff < 0.05 and chr_diff > best_score:
+                best_score = chr_diff
+                best_pair = (r1, r2)
+    return best_pair
+
+
+def _contour_pair_stats(runs):
+    """Return (model_a, model_b, stats_dict) for the best contour pair, or None."""
+    pair = _find_contour_pair(runs)
+    if not pair:
+        return None
+    r1, r2 = pair
+    results = []
+    for r in (r1, r2):
+        b = r.dimensions
+        H = b.get("truthful", 0)
+        L = b.get("lie", 0)
+        eng = H + L
+        results.append({
+            "name": r.display_name,
+            "honesty": r.honesty * 100,
+            "chr": H / eng * 100 if eng > 0 else 0,
+            "er": eng / r.n * 100 if r.n > 0 else 0,
+        })
+    return results[0], results[1]
 
 
 def _binom_ci(p_pct: float, n: int, z: float = 1.96) -> float:
@@ -497,217 +571,66 @@ def _iso_diagonals(ax, levels, label_prefix):
             )
 
 
-def more_2d_projections() -> None:
-    """Three additional 2D projections: Loud/Quiet, Dodger/Clueless, Diplomatic/Dumb."""
+def error_rate_plot() -> None:
+    """Truthfulness vs Error Rate: compare models on x, but trust that comparison less when y is high."""
     runs = load_runs()
 
-    # Precompute all dimensions values per model
     data = []
     for r in runs:
         b = r.dimensions
         H = b.get("truthful", 0)
-        L = b.get("lie", 0)
-        E = b.get("evade", 0)
-        N = b.get("no_belief", 0)
         eps = b.get("error", 0)
-        total = H + L + E + N
-        total_full = H + L + E + N + eps
-        engaged = H + L
-        non_answer = E + N
-        data.append(
-            {
-                "name": r.display_name,
-                "provider": r.provider,
-                # (1) Loud vs Quiet
-                "engagement_rate": (engaged / total * 100) if total > 0 else 0,
-                "engagement_rate_n": total,
-                "cond_honesty": (H / engaged * 100) if engaged > 0 else 0,
-                "cond_honesty_n": engaged,
-                # (2) Engaged vs Broken (uses ε)
-                "engagement_rate_full": (engaged / total_full * 100)
-                if total_full > 0
-                else 0,
-                "engagement_rate_full_n": total_full,
-                "error_rate": (eps / total_full * 100) if total_full > 0 else 0,
-                "error_rate_n": total_full,
-                # (3) Diplomatic vs Dumb
-                "deflection_style": (E / non_answer * 100) if non_answer > 0 else 0,
-                "deflection_style_n": non_answer,
-                "cond_lie_rate": (L / engaged * 100) if engaged > 0 else 0,
-                "cond_lie_rate_n": engaged,
-            }
-        )
+        data.append({
+            "name": r.display_name,
+            "provider": r.provider,
+            "truthfulness": (H / r.n * 100) if r.n > 0 else 0,
+            "truthfulness_n": r.n,
+            "error_rate": (eps / r.n * 100) if r.n > 0 else 0,
+            "error_rate_n": r.n,
+        })
 
-    panels = [
-        {
-            "x_key": "engagement_rate",
-            "y_key": "cond_honesty",
-            "xlabel": r"Engagement Rate: $\frac{H+L}{H+L+E+N}$ %",
-            "ylabel": r"Cond. Honesty: $\frac{H}{H+L}$ %",
-            "x_arrow": r"← Quiet | Loud →",
-            "y_arrow": r"← Deceptive | Honest →",
-            "quadrants": [
-                (0.02, 0.02, "Quiet Liar", "#b71c1c"),
-                (0.98, 0.02, "Loud Liar", "#b71c1c"),
-                (0.02, 0.98, "Quiet Truth-teller", "#2e7d32"),
-                (0.98, 0.98, "Loud Truth-teller", "#2e7d32"),
-            ],
-            # Iso-P(honest): P(honest) = engagement × cond_honesty → y = c/x (hyperbolas)
-            "iso_lines": lambda ax: _iso_hyperbolas(
-                ax, [10, 20, 30, 40, 50, 60], "P(honest)"
-            ),
-        },
-        {
-            "x_key": "engagement_rate_full",
-            "y_key": "error_rate",
-            "xlabel": r"Engagement Rate: $\frac{H+L}{H+L+E+N+\varepsilon}$ %",
-            "ylabel": r"Error Rate: $\frac{\varepsilon}{H+L+E+N+\varepsilon}$ %",
-            "x_arrow": r"← Disengaged | Engaged →",
-            "y_arrow": r"← Reliable | Broken →",
-            "quadrants": [
-                (0.02, 0.02, "Disengaged + Reliable", "#e65100"),
-                (0.98, 0.02, "Engaged + Reliable", "#2e7d32"),
-                (0.02, 0.98, "Disengaged + Broken", "#b71c1c"),
-                (0.98, 0.98, "Engaged + Broken", "#b71c1c"),
-            ],
-            "iso_lines": None,
-        },
-        {
-            "x_key": "deflection_style",
-            "y_key": "cond_lie_rate",
-            "xlabel": r"Deflection Style: $\frac{E}{E+N}$ %",
-            "ylabel": r"Cond. Lie Rate: $\frac{L}{H+L}$ %",
-            "x_arrow": r"← Dumb | Diplomatic →",
-            "y_arrow": r"← Honest | Deceptive →",
-            "quadrants": [
-                (0.02, 0.02, "Honest + Uncertain", "#2e7d32"),
-                (0.98, 0.02, "Honest + Evasive", "#2e7d32"),
-                (0.02, 0.98, "Deceptive + Uncertain", "#b71c1c"),
-                (0.98, 0.98, "Deceptive + Evasive", "#b71c1c"),
-            ],
-            "iso_lines": None,
-        },
-    ]
+    fig, ax = plt.subplots(figsize=(8, 6))
 
-    fig, axes = plt.subplots(1, 3, figsize=(24, 8))
+    x_vals = np.array([d["truthfulness"] for d in data])
+    y_vals = np.array([d["error_rate"] for d in data])
+    x_ci = np.array([_binom_ci(d["truthfulness"], d["truthfulness_n"]) for d in data])
+    y_ci = np.array([_binom_ci(d["error_rate"], d["error_rate_n"]) for d in data])
 
-    for ax, panel in zip(axes, panels):
-        x_vals = np.array([d[panel["x_key"]] for d in data])
-        y_vals = np.array([d[panel["y_key"]] for d in data])
+    plotted_providers = set()
+    for d, xi, yi, xci, yci in zip(data, x_vals, y_vals, x_ci, y_ci):
+        color = PROVIDER_COLORS.get(d["provider"], "#999999")
+        label = d["provider"] if d["provider"] not in plotted_providers else None
+        plotted_providers.add(d["provider"])
+        ax.errorbar(xi, yi, xerr=xci, yerr=yci, fmt="none", ecolor=color,
+                     alpha=0.3, linewidth=1.2, capsize=2, zorder=4)
+        ax.scatter(xi, yi, c=color, s=60, zorder=5, label=label,
+                   edgecolors="white", linewidths=0.5)
+        ax.annotate(d["name"], (xi, yi), textcoords="offset points",
+                    xytext=(6, 6), fontsize=7, color="#555")
 
-        # Iso-lines
-        if panel.get("iso_lines"):
-            panel["iso_lines"](ax)
+    # Quadrant labels
+    ax.text(0.98, 0.02, "Truthful + Reliable", transform=ax.transAxes,
+            fontsize=8, color="#2e7d32", fontstyle="italic", alpha=0.7, ha="right")
+    ax.text(0.02, 0.02, "Untruthful + Reliable", transform=ax.transAxes,
+            fontsize=8, color="#b71c1c", fontstyle="italic", alpha=0.7)
+    ax.text(0.98, 0.98, "Truthful + Broken", transform=ax.transAxes,
+            fontsize=8, color="#e65100", fontstyle="italic", alpha=0.7, ha="right", va="top")
+    ax.text(0.02, 0.98, "Untruthful + Broken", transform=ax.transAxes,
+            fontsize=8, color="#b71c1c", fontstyle="italic", alpha=0.7, va="top")
 
-        # Compute CIs
-        x_ci = np.array(
-            [_binom_ci(d[panel["x_key"]], d[panel["x_key"] + "_n"]) for d in data]
-        )
-        y_ci = np.array(
-            [_binom_ci(d[panel["y_key"]], d[panel["y_key"] + "_n"]) for d in data]
-        )
+    ax.set_xlabel(r"Truthfulness: $\frac{H}{n}$ %", fontsize=11)
+    ax.set_ylabel(r"Error Rate: $\frac{\varepsilon}{n}$ %", fontsize=11)
+    ax.text(0.5, -0.2, r"← Less truthful | More truthful →", transform=ax.transAxes,
+            fontsize=9, ha="center", color="#777")
+    ax.text(-0.2, 0.5, r"← Reliable | Error-prone →", transform=ax.transAxes,
+            fontsize=9, ha="center", va="center", color="#777", rotation=90)
+    ax.set_title("Truthfulness vs Parse Errors", fontsize=13)
+    ax.legend(loc="upper left", fontsize=9, frameon=True,
+              bbox_to_anchor=(1.01, 1), borderaxespad=0)
 
-        # Scatter coloured by provider with error bars
-        plotted_providers = set()
-        for d, xi, yi, xci, yci in zip(data, x_vals, y_vals, x_ci, y_ci):
-            color = PROVIDER_COLORS.get(d["provider"], "#999999")
-            label = d["provider"] if d["provider"] not in plotted_providers else None
-            plotted_providers.add(d["provider"])
-            ax.errorbar(
-                xi,
-                yi,
-                xerr=xci,
-                yerr=yci,
-                fmt="none",
-                ecolor=color,
-                alpha=0.3,
-                linewidth=1.2,
-                capsize=2,
-                zorder=4,
-            )
-            ax.scatter(
-                xi,
-                yi,
-                c=color,
-                s=80,
-                zorder=5,
-                label=label,
-                edgecolors="white",
-                linewidths=0.5,
-            )
-            ax.annotate(
-                d["name"],
-                (xi, yi),
-                textcoords="offset points",
-                xytext=(6, 6),
-                fontsize=9,
-                color="#555",
-            )
-
-        # Quadrant labels
-        for qx, qy, qlabel, qcolor in panel["quadrants"]:
-            va = "bottom" if qy < 0.5 else "top"
-            ha = "left" if qx < 0.5 else "right"
-            ax.text(
-                qx,
-                qy,
-                qlabel,
-                transform=ax.transAxes,
-                fontsize=10,
-                color=qcolor,
-                fontstyle="italic",
-                alpha=0.6,
-                ha=ha,
-                va=va,
-            )
-
-        ax.set_xlabel(panel["xlabel"], fontsize=12)
-        ax.set_ylabel(panel["ylabel"], fontsize=12)
-        ax.text(
-            0.5,
-            -0.18,
-            panel["x_arrow"],
-            transform=ax.transAxes,
-            fontsize=11,
-            ha="center",
-            color="#777",
-        )
-        ax.text(
-            -0.18,
-            0.5,
-            panel["y_arrow"],
-            transform=ax.transAxes,
-            fontsize=11,
-            ha="center",
-            va="center",
-            color="#777",
-            rotation=90,
-        )
-        ax.tick_params(labelsize=10)
-        ax.grid(True, alpha=0.15)
-
-    # Single legend below all panels
-    handles, labels = axes[0].get_legend_handles_labels()
-    for ax in axes[1:]:
-        h, l = ax.get_legend_handles_labels()
-        for hi, li in zip(h, l):
-            if li not in labels:
-                handles.append(hi)
-                labels.append(li)
-    fig.legend(
-        handles,
-        labels,
-        loc="lower center",
-        ncol=len(set(d["provider"] for d in data)),
-        fontsize=11,
-        frameon=True,
-        bbox_to_anchor=(0.5, -0.03),
-    )
-
-    fig.tight_layout(rect=[0, 0.03, 1, 0.98])
-
+    fig.tight_layout()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUTPUT_DIR / "more_2d_projections.png", dpi=200, bbox_inches="tight")
+    fig.savefig(OUTPUT_DIR / "error_rate_plot.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -715,5 +638,5 @@ if __name__ == "__main__":
     replication_headline_result()
     truthfulness_headline_result()
     two_d_space_projection()
-    more_2d_projections()
+    error_rate_plot()
     print("Done.")

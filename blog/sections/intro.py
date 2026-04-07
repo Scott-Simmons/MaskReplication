@@ -1,3 +1,7 @@
+from blog.decorators import interpretation
+
+
+@interpretation
 def tldr() -> str:
     return (
         "**TLDR:** I replicated an AI honesty benchmark's headline result: that scaling improves accuracy "
@@ -36,7 +40,7 @@ def intro() -> str:
 def link_to_ai() -> str:
     return (
         "Just like we can hide our underlying beliefs when subject to social "
-        "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] subject to pressure from a "
+        "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] when subject to pressure from a "
         "prompt. And while scaling up AI models has made them more "
         "capable, a result from [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that "
         "larger models are not more honest."
@@ -45,10 +49,10 @@ def link_to_ai() -> str:
 
 def how_i_reacted() -> str:
     return (
-        "When I first saw this, it was quite provocative, for many reasons. "
-        "How is lying defined? How is truth established? Many of these questions are "
-        "answered in the paper, and while some questions still remain,[^open_questions] "
-        "two questions I want to address in this post are:\n\n"
+        "When I first saw this result, I was provoked. "
+        "How is lying defined? How is truth established? "
+        "The paper addresses many of these questions, and while some questions "
+        "remain,[^open_questions] two questions I want to address in this post are:\n\n"
     )
 
 

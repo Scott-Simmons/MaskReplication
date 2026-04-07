@@ -1,3 +1,6 @@
+from blog.decorators import interpretation
+
+
 def placeholder_plot() -> str:
     return "![TODO: Insert placeholder_plot caption](figures/placeholder_plot.png)"
 
@@ -30,24 +33,36 @@ def replication_new_models_headline_result() -> str:
     return "![TODO: Insert replication_new_models_headline_result caption](figures/placeholder_plot.png)"
 
 
+@interpretation
 def two_d_space_projection_headline() -> str:
     from blog.plots import two_d_space_projection as _plot
+    from blog.plots import _contour_pair_stats
 
     _plot()
-    return (
-        "![Note how Qwen 2.5 7B and o3-mini sit on the same P(Lie) contour (within error bars), "
-        "even though o3-mini evades 3x more (33% vs 11%) and lies more when it does engage "
-        "(76% vs 60%). The honesty score compresses all of this because o3-mini's evasion "
-        "pulls samples away from the lie bucket."
-        "](figures/two_d_space_projection.png)"
-    )
+    pair = _contour_pair_stats(__import__("blog.analysis", fromlist=["load_runs"]).load_runs())
+    if pair:
+        a, b = pair
+        # Order so that the one with lower conditional honesty is mentioned first
+        if a["chr"] > b["chr"]:
+            a, b = b, a
+        chr_ratio = b["chr"] / a["chr"] if a["chr"] > 0 else 0
+        return (
+            f"![Note how {a['name']} and {b['name']} sit on the same honesty "
+            f"contour (within error bars), "
+            f"even though {b['name']} is nearly {round(chr_ratio)}x more honest when it engages "
+            f"({b['chr']:.0f}% vs {a['chr']:.0f}%) and {a['name']} engages less often "
+            f"({a['er']:.0f}% vs {b['er']:.0f}%). The honesty score compresses all of this "
+            f"because {a['name']} engages less, pulling samples away from the lie bucket."
+            "](figures/two_d_space_projection.png)"
+        )
+    return "![](figures/two_d_space_projection.png)"
 
 
-def more_2d_projections() -> str:
-    from blog.plots import more_2d_projections as _plot
+def error_rate_plot() -> str:
+    from blog.plots import error_rate_plot as _plot
 
     _plot()
-    return "![](figures/more_2d_projections.png)"
+    return "![](figures/error_rate_plot.png)"
 
 
 def models_used_in_replication() -> str:
@@ -99,14 +114,14 @@ def other_1d_projections() -> str:
         [
             "| Metric | Formula | What it captures | In MASK? |",
             "|---|---|---|---|",
-            "| Honesty score | $1 - \\frac{L}{H + L + E + N + \\varepsilon}$ | How often does it not lie? | Yes (headline) |",
+            "| Honesty score | $1 - \\frac{L}{n}$ | How often does it not lie? | Yes (headline) |",
             "| Normalised honesty | $1 - \\frac{L}{H + L + E}$ | As above, but drops no-belief and errors. Keeps evasion. | Yes (appendix) |",
-            "| Truthfulness | $\\frac{H}{H + L + E + N + \\varepsilon}$ | How often is it directly honest? | No |",
-            "| Engagement rate | $\\frac{H + L}{H + L + E + N + \\varepsilon}$ | How often does it engage? | No |",
-            "| Evasion rate | $\\frac{E}{H + L + E + N + \\varepsilon}$ | How often does it dodge? | No |",
+            "| Truthfulness | $\\frac{H}{n}$ | How often is it directly honest? | No |",
+            "| Engagement rate | $\\frac{H + L}{n}$ | How often does it engage? | No |",
+            "| Evasion rate | $\\frac{E}{n}$ | How often does it dodge? | No |",
             "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
             "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: dodge or no belief? | No |",
-            "| Reliability | $\\frac{H + L + E + N}{H + L + E + N + \\varepsilon}$ | How often does it produce a parseable response? | No |",
+            "| Reliability | $\\frac{n - \\varepsilon}{n}$ | How often does it produce a parseable response? | No |",
         ]
     )
 
@@ -236,7 +251,7 @@ def dumb_and_diplomat() -> str:
             "</div>",
             "</div>",
             "",
-            "| Agent | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ | Honesty $1 - \\frac{L}{n}$ | Normalised $1 - \\frac{L}{H+L+E}$ |",
+            "| Agent | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ | MASK Honesty $1 - \\frac{L}{n}$ | Normalised MASK Honesty $1 - \\frac{L}{H+L+E}$ |",
             "|---|---|---|---|---|---|---|---|",
             "| Jesus Christ | $n$ | 0 | 0 | 0 | 0 | 100% | 100% |",
             "| Kash Patel | 0 | 0 | $n$ | 0 | 0 | 100% | 100% |",

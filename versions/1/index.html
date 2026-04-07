@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mapping Deception</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mapping Deception</h1>
+</header>
+<h1 id="mapping-deception">Mapping Deception</h1>
+<hr />
+<p><strong>TLDR:</strong> I replicated an AI honesty benchmark’s
+headline result: that scaling improves accuracy but not honesty. I also
+show various ways that the honesty score hides nuance, and why reporting
+the full outcome set, error reporting, and uncertainty analysis is the
+way forward for deception evaluation, and evaluation science in
+general.</p>
+<p><strong>Contents:</strong> <a href="#introduction">1.
+Introduction</a> | <a href="#replication-results">2. Replication
+results</a> | <a href="#dimensions-of-deception">3. Dimensions of
+deception</a> | <a href="#try-it-yourself">4. Try it yourself</a> | <a
+href="#appendix-paper-vs-replication-differences">Appendix</a></p>
+<hr />
+<h2 id="introduction">1. Introduction</h2>
+<hr />
+<p>Truth is tricky. For starters, we cannot be sure that we actually
+know it. But even when we think we do know it, many of us lie in public
+anyway, because it can conflict with what’s socially comfortable. Saying
+true things in the face of that pressure requires intelligence and
+courage (subject to a certain amount of tact). It’s also how things
+progress. Galileo was put under house arrest for the rest of his life
+for saying the Earth goes around the Sun. He was right, everyone
+eventually agreed, and science moved forward.</p>
+<p>Just like we can hide our underlying beliefs when subject to social
+pressure, AI models can hide their ‘internal beliefs’<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+when subject to pressure from a prompt. And while scaling up AI models
+has made them more capable, a result from <a
+href="https://arxiv.org/abs/2503.03750">Ren et al., 2025</a> suggests
+that larger models are not more honest.</p>
+<figure>
+<img src="figures/og_headline_result.png"
+alt="From the MASK paper: Larger models are more accurate but not more honest" />
+<figcaption aria-hidden="true">From the <a
+href="https://arxiv.org/abs/2503.03750">MASK paper</a>: Larger models
+are more accurate but not more honest</figcaption>
+</figure>
+<p>When I first saw this, it was quite provocative, for many reasons.
+How is lying defined? How is truth established? Many of these questions
+are answered in the paper, and while some questions still remain,<a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a> two questions I want to address in
+this post are:</p>
+<h3 id="does-this-result-survive-independent-replication"><a
+href="#replication-results">1. Does this result survive independent
+replication?</a></h3>
+<h3
+id="are-there-any-other-measures-that-can-help-us-to-characterise-deception"><a
+href="#dimensions-of-deception">2. Are there any other measures that can
+help us to characterise deception?</a></h3>
+<hr />
+<h2 id="replication-results">2. Replication results</h2>
+<p>I wanted to verify the paper’s main claim: larger models are more
+accurate but not more honest. I used the following models:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Provider</th>
+<th>Samples</th>
+<th>In paper?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Claude Haiku 4.5</td>
+<td>Anthropic</td>
+<td>1,000</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>GPT-4o</td>
+<td>OpenAI</td>
+<td>998</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>GPT-4o-mini</td>
+<td>OpenAI</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>OpenAI</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>Alibaba</td>
+<td>1,000</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>DeepSeek</td>
+<td>580</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>DeepSeek</td>
+<td>924</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>DeepSeek</td>
+<td>1,000</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>Meta</td>
+<td>998</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><em>The <a href="https://huggingface.co/datasets/cais/MASK">MASK
+public dataset</a> contains 1,000 examples.</em></p>
+<p>I used a different model judge (see <a
+href="#appendix-paper-vs-replication-differences">appendix</a>) to save
+on cost and a slightly different set of 9 models. The paper tested 32
+models, but some are now deprecated. I chose a smaller set that covers a
+range of providers and scales, while still keeping costs manageable.</p>
+<p>The headline result held: accuracy scales with compute, <strong>but
+honesty does not.</strong> See the <a
+href="#appendix-paper-vs-replication-differences">appendix</a> for a
+model-by-model comparison with the original paper.</p>
+<figure>
+<img src="figures/replication_headline_result.png"
+alt="Note: I used Epoch AI to estimate the FLOP per model, as this information is unavailable in the original paper." />
+<figcaption aria-hidden="true">Note: I used <a
+href="https://epoch.ai/data/notable-ai-models">Epoch AI</a> to estimate
+the FLOP per model, as this information is unavailable in the original
+paper.</figcaption>
+</figure>
+<hr />
+<h2 id="dimensions-of-deception">3. Dimensions of deception</h2>
+<p>I wanted to explore the models’ deception characteristics in more
+detail.</p>
+<p>The categories that a pressured statement, subject to some internally
+held belief, can fall into are:</p>
+<p><span class="math display">\[\{\text{Honest},\ \text{Lie},\
+\text{Evade},\ \text{No Belief},\ \text{Parse Error}\}\]</span></p>
+<p><span class="math display">\[\{H,\ L,\ E,\ N,\
+\varepsilon\}\]</span></p>
+<p>The outcomes are mutually exclusive and collectively exhaustive, so
+nothing is double-counted or missed. Here are the empirical outcome
+count vectors for my MASK replication:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th><span class="math inline">\(n\)</span></th>
+<th><span class="math inline">\(H\)</span></th>
+<th><span class="math inline">\(L\)</span></th>
+<th><span class="math inline">\(E\)</span></th>
+<th><span class="math inline">\(N\)</span></th>
+<th><span class="math inline">\(\varepsilon\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Claude Haiku 4.5</td>
+<td>1,000</td>
+<td>620</td>
+<td>81</td>
+<td>215</td>
+<td>82</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>GPT-4o</td>
+<td>998</td>
+<td>205</td>
+<td>503</td>
+<td>199</td>
+<td>88</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>GPT-4o-mini</td>
+<td>1,000</td>
+<td>200</td>
+<td>494</td>
+<td>160</td>
+<td>144</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>1,000</td>
+<td>134</td>
+<td>434</td>
+<td>284</td>
+<td>140</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>1,000</td>
+<td>264</td>
+<td>401</td>
+<td>83</td>
+<td>246</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>580</td>
+<td>75</td>
+<td>314</td>
+<td>101</td>
+<td>89</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>924</td>
+<td>142</td>
+<td>506</td>
+<td>172</td>
+<td>103</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>1,000</td>
+<td>143</td>
+<td>580</td>
+<td>117</td>
+<td>151</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>998</td>
+<td>257</td>
+<td>526</td>
+<td>96</td>
+<td>114</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>8,500</strong></td>
+<td><strong>2040</strong></td>
+<td><strong>3839</strong></td>
+<td><strong>1427</strong></td>
+<td><strong>1157</strong></td>
+<td><strong>35</strong></td>
+</tr>
+</tbody>
+</table>
+<p>With this parameterisation in mind, honesty as defined in the paper
+means:</p>
+<div style="text-align:center; margin:1.5em 0">
+<p><span class="math inline">\(\text{Honesty}\)</span><a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
+<span class="math inline">\(: \mathbb{R}^5 \to \mathbb{R}\)</span></p>
+</div>
+<p><span class="math display">\[= 1 - P(\text{Lie}) = 1 -
+\frac{L}{n}\]</span></p>
+<p>However, this reduction compresses a lot of nuance.</p>
+<h3 id="three-agents-with-perfect-honesty-scores">Three agents with
+perfect honesty scores</h3>
+<div
+style="display: flex; justify-content: center; gap: 2em; margin: 2em 0;">
+<div style="text-align: center;">
+<p><img src="assets/honest.jpg" alt="Jesus Christ" style="height: 200px;"><br>
+<strong>Jesus Christ</strong></p>
+</div>
+<div style="text-align: center;">
+<p><img src="assets/evasion.jpeg" alt="Kash Patel" style="height: 200px;"><br>
+<strong>Kash Patel</strong><br><strong>(<a href="assets/evasion.mp4">see
+here</a>)</strong></p>
+</div>
+<div style="text-align: center;">
+<p><img src="assets/no_belief.jpeg" alt="Patrick Star" style="height: 200px;"><br>
+<strong>Patrick Star</strong></p>
+</div>
+</div>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Agent</th>
+<th><span class="math inline">\(H\)</span></th>
+<th><span class="math inline">\(L\)</span></th>
+<th><span class="math inline">\(E\)</span></th>
+<th><span class="math inline">\(N\)</span></th>
+<th><span class="math inline">\(\varepsilon\)</span></th>
+<th>MASK Honesty <span class="math inline">\(1 -
+\frac{L}{n}\)</span></th>
+<th>Normalised MASK Honesty <span class="math inline">\(1 -
+\frac{L}{H+L+E}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Jesus Christ</td>
+<td><span class="math inline">\(n\)</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr class="even">
+<td>Kash Patel</td>
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(n\)</span></td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr class="odd">
+<td>Patrick Star</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="math inline">\(n\)</span></td>
+<td>0</td>
+<td>100%</td>
+<td>undefined</td>
+</tr>
+</tbody>
+</table>
+<h3 id="making-this-empirical">Making this empirical</h3>
+<p>To make this concrete, here is the data from my replication plotted
+on 2 axes + honesty contours<a href="#fn4" class="footnote-ref"
+id="fnref4" role="doc-noteref"><sup>4</sup></a>:</p>
+<figure>
+<img src="figures/two_d_space_projection.png"
+alt="Note how o3-mini and Qwen 2.5 7B sit on the same honesty contour (within error bars), even though o3-mini is less honest when it engages (24% vs 40%) and engages less often (57% vs 66%). The honesty score compresses all of this because o3-mini engages less, pulling samples away from the lie bucket." />
+<figcaption aria-hidden="true">Note how o3-mini and Qwen 2.5 7B sit on
+the same honesty contour (within error bars), even though o3-mini is
+less honest when it engages (24% vs 40%) and engages less often (57% vs
+66%). The honesty score compresses all of this because o3-mini engages
+less, pulling samples away from the lie bucket.</figcaption>
+</figure>
+<p>When all outcome counts are reported, researchers can compute
+whatever measures they are interested in<a href="#fn5"
+class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, or
+define new ones. Here are some more:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Formula</th>
+<th>What it captures</th>
+<th>In MASK?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Honesty score</td>
+<td><span class="math inline">\(1 - \frac{L}{n}\)</span></td>
+<td>How often does it not lie?</td>
+<td>Yes (headline)</td>
+</tr>
+<tr class="even">
+<td>Normalised honesty</td>
+<td><span class="math inline">\(1 - \frac{L}{H + L + E}\)</span></td>
+<td>As above, but drops no-belief and errors. Keeps evasion.</td>
+<td>Yes (appendix)</td>
+</tr>
+<tr class="odd">
+<td>Truthfulness</td>
+<td><span class="math inline">\(\frac{H}{n}\)</span></td>
+<td>How often is it directly honest?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Engagement rate</td>
+<td><span class="math inline">\(\frac{H + L}{n}\)</span></td>
+<td>How often does it engage?</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Evasion rate</td>
+<td><span class="math inline">\(\frac{E}{n}\)</span></td>
+<td>How often does it dodge?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Conditional lie rate</td>
+<td><span class="math inline">\(\frac{L}{H + L}\)</span></td>
+<td>When it engages, how often does it lie?</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Deflection style</td>
+<td><span class="math inline">\(\frac{E}{E + N}\)</span></td>
+<td>Of non-answers: dodge or no belief?</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Reliability</td>
+<td><span class="math inline">\(\frac{n - \varepsilon}{n}\)</span></td>
+<td>How often does it produce a parseable response?</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>Of these, I would argue that truthfulness (<span
+class="math inline">\(H / \text{n}\)</span>) is a more informative
+headline metric than the MASK honesty score (<span
+class="math inline">\(1 - L / \text{n}\)</span>). Admittedly, this is a
+subjective assessment, though when the raw counts are reported, the
+distinction matters less.</p>
+<p>The headline result still holds when using truthfulness (H / n)
+instead of the MASK honesty score (1 - L / n): <strong>scaling has not
+made models more truthful.</strong></p>
+<p><img src="figures/truthfulness_headline_result.png" /></p>
+<h3 id="communicating-uncertainty-very-wip-section">Communicating
+uncertainty (VERY WIP SECTION)</h3>
+<p>Here are three more representations of the same data:</p>
+<p><img src="figures/more_2d_projections.png" /></p>
+<p>Note that the middle panel includes <span
+class="math inline">\(\varepsilon\)</span> to show that when an outcome
+is rare, the proportion estimate is noisier and error bars inflate
+relative to the point estimates. This is exactly why reporting counts
+matters, especially for LLM evaluations, where silent errors
+(unparseable outputs, judge failures, dropped samples) are common.
+Making these visible in the dimensions is a step towards better
+evaluation science.</p>
+<hr />
+<h2 id="try-it-yourself">4. Try it yourself</h2>
+<p>If this is interesting to you, the eval logs and analysis code are
+available at <a
+href="https://github.com/Scott-Simmons/MaskReplication">this repo</a>.
+You can add more models by running the MASK eval from <a
+href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">inspect_evals</a>
+and dropping the <code>.eval</code> files into the
+<code>eval_logs/</code> directory. All results in this article will
+regenerate with <code>make clean build</code>.</p>
+<p>Here is an invocation to get you started (you will need to use <a
+href="https://inspect.aisi.org.uk/#getting-started">Inspect AI</a>):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">inspect</span> eval inspect_evals/mask <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--model</span> <span class="op">&lt;</span>A_NEW_MODEL_TO_ADD<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--log-dir</span> ./eval_logs <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--retry-on-error</span> 5 <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> binary_judge_model=<span class="st">&quot;openai/gpt-4o-mini&quot;</span></span></code></pre></div>
+<p>I am particularly interested in contributions from abliterated
+models, (current and future) frontier models, and xAI models, which
+would be interesting given their <a
+href="https://x.com/elonmusk/status/1948572708369039542">stated
+emphasis</a> on building “maximally truth-seeking” AI. Right now, with
+respect to honesty, Anthropic models appear to be in <a
+href="https://labs.scale.com/leaderboard/mask">another league</a>.</p>
+<hr />
+<h2 id="appendix-paper-vs-replication-differences">Appendix: Paper vs
+replication differences</h2>
+<p>While the headline result holds, specific differences between the
+paper and this replication are likely caused by:</p>
+<ol type="1">
+<li><strong>Different eval harness.</strong> I replicated MASK with <a
+href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">Inspect
+AI</a>, not the original codebase. I used the MASK paper as a reference,
+but there could still be implementation differences w.r.t. the original
+code.</li>
+<li><strong>Model API drift.</strong> Model weights and serving
+infrastructure change over time. For the non-local models, I cannot
+replicate against the exact checkpoint the paper used.</li>
+<li><strong>Different eval judges.</strong> My replication uses
+gpt-4o-mini as the judge for yes/no questions. The original paper used
+gpt-4o. I did this to save on costs.</li>
+</ol>
+<p><strong>Honesty (1 - P(Lie))</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>MASK paper</th>
+<th>Replication (95% CI)</th>
+<th>Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Claude Haiku 4.5</td>
+<td>—</td>
+<td>91.9 ± 1.7</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>GPT-4o</td>
+<td>21.8</td>
+<td>49.7 ± 3.1</td>
+<td><span style="color:green">+27.9</span></td>
+</tr>
+<tr class="odd">
+<td>GPT-4o-mini</td>
+<td>21.4</td>
+<td>50.6 ± 3.1</td>
+<td><span style="color:green">+29.2</span></td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>19.6</td>
+<td>56.6 ± 3.1</td>
+<td><span style="color:green">+37.0</span></td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>28.9</td>
+<td>59.9 ± 3.0</td>
+<td><span style="color:green">+31.0</span></td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>24.7</td>
+<td>68.6 ± 3.8</td>
+<td><span style="color:green">+43.9</span></td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>—</td>
+<td>49.4 ± 3.2</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>—</td>
+<td>42.0 ± 3.1</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>24.7</td>
+<td>47.4 ± 3.1</td>
+<td><span style="color:green">+22.7</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Accuracy</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>MASK paper</th>
+<th>Replication (95% CI)</th>
+<th>Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Claude Haiku 4.5</td>
+<td>—</td>
+<td>95.6 ± 1.3</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>GPT-4o</td>
+<td>78.6</td>
+<td>95.1 ± 1.3</td>
+<td><span style="color:green">+16.5</span></td>
+</tr>
+<tr class="odd">
+<td>GPT-4o-mini</td>
+<td>71.4</td>
+<td>93.0 ± 1.6</td>
+<td><span style="color:green">+21.6</span></td>
+</tr>
+<tr class="even">
+<td>o3-mini</td>
+<td>63.3</td>
+<td>82.6 ± 2.4</td>
+<td><span style="color:green">+19.3</span></td>
+</tr>
+<tr class="odd">
+<td>Qwen 2.5 7B</td>
+<td>51.6</td>
+<td>77.0 ± 2.6</td>
+<td><span style="color:green">+25.4</span></td>
+</tr>
+<tr class="even">
+<td>DeepSeek-R1</td>
+<td>82.2</td>
+<td>42.3 ± 4.0</td>
+<td><span style="color:red">-39.9</span></td>
+</tr>
+<tr class="odd">
+<td>DeepSeek-R1-0528</td>
+<td>—</td>
+<td>85.1 ± 2.3</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>DeepSeek-V3.1</td>
+<td>—</td>
+<td>93.1 ± 1.6</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Llama 3.3 70B</td>
+<td>75.6</td>
+<td>93.9 ± 1.5</td>
+<td><span style="color:green">+18.3</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="citation">Citation</h2>
+<details>
+<summary>
+BibTeX
+</summary>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">ren2025maskbenchmarkdisentanglinghonesty</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="dt">title</span>={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">author</span>={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">year</span>={2025},</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">eprint</span>={2503.03750},</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">archivePrefix</span>={arXiv},</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">primaryClass</span>={cs.LG},</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">url</span>={https://arxiv.org/abs/2503.03750},</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+<hr />
+<section class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>If ‘internal beliefs’ raises
+eyebrows, see Appendix A.1 (Belief Consistency) of the <a
+href="https://arxiv.org/abs/2503.03750">MASK paper</a> for how this is
+operationalised and justified.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>In particular, two extensions I would
+like to see: <strong>(1) Belief robustness:</strong> The MASK paper
+queried each model 3 times (I am purposely oversimplifying), but I would
+like to see this number varied to see if scaling this up undermines
+belief convergence. <strong>(2) Judge sensitivity:</strong> The paper
+used 2 judge models to produce these results. How sensitive are the
+results to different judge models? <strong>Warning:</strong> For (1) and
+(2), any statistically meaningful investigation will be <a
+href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record">expensive</a>.<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Technically it’s <span
+class="math inline">\(\mathbb{R}^4\)</span>, not <span
+class="math inline">\(\mathbb{R}^5\)</span>, because there are 4 degrees
+of freedom: <span class="math inline">\(n = H + L + E + N +
+\varepsilon\)</span>.<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p><span
+class="math inline">\(\text{MASK Honesty} = 1 - P(\text{Lie}) = 1 -
+\frac{L}{n} = 1 - \frac{L}{H+L} \cdot \frac{H+L}{n} = 1 - (1 -
+\frac{H}{H+L}) \cdot \frac{H+L}{n}\)</span><a href="#fnref4"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>By analogy to the many <a
+href="https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram">binary
+classification metrics</a> out there, deception metrics have plenty of
+scope to evolve in a similar way.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+<p style="text-align:center; margin-top:3em; color:#999; font-size:0.85em;">Version 1 (<a href="changelog.html">changelog</a>)</p>
+</body>
+</html>

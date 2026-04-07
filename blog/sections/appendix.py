@@ -1,3 +1,24 @@
+def citation() -> str:
+    return "\n".join([
+        "<details>",
+        "<summary>BibTeX</summary>",
+        "",
+        "```bibtex",
+        "@misc{ren2025maskbenchmarkdisentanglinghonesty,",
+        "      title={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},",
+        "      author={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},",
+        "      year={2025},",
+        "      eprint={2503.03750},",
+        "      archivePrefix={arXiv},",
+        "      primaryClass={cs.LG},",
+        "      url={https://arxiv.org/abs/2503.03750},",
+        "}",
+        "```",
+        "",
+        "</details>",
+    ])
+
+
 def paper_vs_replication() -> str:
     return "\n".join(
         [

@@ -1,3 +1,6 @@
+from blog.decorators import interpretation as _interpretation_decorator
+
+
 def what_i_wanted_to_do() -> str:
     return (
         "I wanted to verify the paper's main claim: larger models are more accurate "
@@ -7,7 +10,7 @@ def what_i_wanted_to_do() -> str:
 
 def differences_to_og() -> str:
     return (
-        "*The MASK public dataset contains 1,000 examples.*\n\n"
+        "*The [MASK public dataset](https://huggingface.co/datasets/cais/MASK) contains 1,000 examples.*\n\n"
         + _differences_to_og_text()
     )
 
@@ -25,6 +28,7 @@ def _differences_to_og_text() -> str:
     )
 
 
+@_interpretation_decorator
 def interpretation() -> str:
     return (
         "The headline result held: accuracy "

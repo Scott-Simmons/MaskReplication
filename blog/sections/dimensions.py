@@ -1,3 +1,6 @@
+from blog.decorators import interpretation
+
+
 def preamble() -> str:
     return "I wanted to explore the models' deception characteristics in more detail."
 
@@ -17,7 +20,7 @@ def empirical_dimensions_intro() -> str:
 
 
 def honesty_in_terms_of_dimensions() -> str:
-    return "With this in mind, honesty as defined in the paper means:"
+    return "With this parameterisation in mind, honesty as defined in the paper means:"
 
 
 def honesty_is_lossy() -> str:
@@ -33,20 +36,20 @@ def hypothetical_commentary() -> str:
 
 
 def making_this_empirical_subheader() -> str:
-    return "### Making this empirical (PLOT IS WIP)"
+    return "### Making this empirical"
 
 
 def empirical_lossy_demonstration() -> str:
     return (
         "To make this concrete, here is the data from my "
-        "replication plotted on 2 axes + contours:"
+        "replication plotted on 2 axes + honesty contours[^contour_math]:"
     )
 
 
 def one_d_projections() -> str:
     return (
         "When all outcome counts are reported, researchers can compute whatever "
-        "measures they are interested in[^classification_analogy], or define new ones. Here are some more:"
+        "measures they are interested in, or define new ones[^classification_analogy]. Here are some more:"
     )
 
 
@@ -58,25 +61,45 @@ def truthfulness_argument() -> str:
     )
 
 
+@interpretation
 def headline_still_holds() -> str:
     return "The headline result still holds when using truthfulness (H / n) instead of the MASK honesty score (1 - L / n): **scaling has not made models more truthful.**"
 
 
-def communicating_uncertainty_subheader() -> str:
-    return "### Communicating uncertainty (VERY WIP SECTION)"
+def reporting_errors_subheader() -> str:
+    return "### Reporting errors"
 
 
-def more_examples_of_2d_projections() -> str:
-    return "Here are three more representations of the same data:"
-
-
-def more_2d_projections_commentary() -> str:
+def reporting_errors_prose() -> str:
     return (
-        "Note that the middle panel "
-        "includes $\\varepsilon$ to show that when an outcome is "
-        "rare, the proportion estimate is noisier and error bars inflate relative "
-        "to the point estimates. This is exactly why reporting counts matters, "
-        "especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped "
-        "samples) are common. Making these visible in the dimensions is a step towards better "
-        "evaluation science."
+        "*[AI slop — needs rewrite]*\n\n"
+        "When I ran this eval, I noticed that transient errors happen all the time — "
+        "network timeouts, rate limits, API hiccups — stopping samples from fully completing. "
+        "[Inspect AI](https://inspect.aisi.org.uk) provides "
+        "[eval-retry functionality](https://inspect.aisi.org.uk/errors-and-limits.html) "
+        "to help with this, but transient failures are only half the story. "
+        "LLMs can also produce unparseable outputs — going off the rails in unexpected ways "
+        "that no retry will fix. These are not edge cases; they are routine in LLM evaluations.\n\n"
+        "Another advantage of reporting the full outcome counts is to provide visibility into this:"
+    )
+
+
+def reporting_uncertainty_subheader() -> str:
+    return "### Reporting uncertainty"
+
+
+def reporting_uncertainty_prose() -> str:
+    # TODO: AI slop — needs rewrite
+    return (
+        "*[AI slop — needs rewrite]*\n\n"
+        "When an outcome is rare, the proportion estimate is noisier and "
+        "error bars inflate relative to the point estimates. "
+        "This also applies across models: a score computed from 80 samples "
+        "is a much weaker claim than one computed from 1,000. "
+        "Right now, DeepSeek-R1 has fewer samples in my replication, so its "
+        "error bars are wider — that is information, not noise.\n\n"
+        "Even if researchers choose not to report confidence intervals, "
+        "reporting the raw counts lets readers derive them. "
+        "A percentage without a sample size is unverifiable. "
+        "A count is all you need to reconstruct the uncertainty."
     )
