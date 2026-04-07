@@ -17,7 +17,7 @@ def classification_dimensions_analogy() -> str:
 
 def open_questions() -> str:
     return (
-        "[^open_questions]: In particular, two extensions I would like to see: "
+        "[^open_questions]: In particular, three extensions I would like to see: "
         "**(1) Belief robustness:** The MASK paper queried each model 3 times "
         "(I am purposely oversimplifying), but I would like to see this number varied "
         "to see if scaling this up undermines belief convergence. "

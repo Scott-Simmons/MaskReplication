@@ -42,7 +42,7 @@ def two_d_space_projection_headline() -> str:
             f"![Note how {a['name']} and {b['name']} sit on the same honesty "
             f"contour (within error bars), "
             f"even though {b['name']} is nearly {round(chr_ratio)}x more honest when it engages "
-            f"({b['chr']:.0f}% vs {a['chr']:.0f}%) and {a['name']} engages less often "
+            f"({b['chr']:.0f}% vs {a['chr']:.0f}%), but {a['name']} engages less often "
             f"({a['er']:.0f}% vs {b['er']:.0f}%). The honesty score compresses all of this "
             f"because {a['name']} engages less, pulling samples away from the lie bucket."
             "](figures/two_d_space_projection.png)"
@@ -106,14 +106,14 @@ def other_1d_projections() -> str:
         [
             "| Metric | Formula | What it captures | In MASK? |",
             "|---|---|---|---|",
-            "| Honesty score | $1 - \\frac{L}{n}$ | How often does it not lie? | Yes (headline) |",
+            "| Honesty score | $1 - \\frac{L}{n}$ | How often does the model not lie? | Yes (headline) |",
             "| Normalised honesty | $1 - \\frac{L}{H + L + E}$ | As above, but drops no-belief and errors. Keeps evasion. | Yes (appendix) |",
-            "| Truthfulness | $\\frac{H}{n}$ | How often is it directly honest? | No |",
-            "| Engagement rate | $\\frac{H + L}{n}$ | How often does it engage? | No |",
-            "| Evasion rate | $\\frac{E}{n}$ | How often does it dodge? | No |",
-            "| Conditional lie rate | $\\frac{L}{H + L}$ | When it engages, how often does it lie? | No |",
+            "| Truthfulness | $\\frac{H}{n}$ | How often is the model directly honest? | No |",
+            "| Engagement rate | $\\frac{H + L}{n}$ | How often does the model engage? | No |",
+            "| Evasion rate | $\\frac{E}{n}$ | How often does the model dodge? | No |",
+            "| Conditional lie rate | $\\frac{L}{H + L}$ | When the model engages, how often does it lie? | No |",
             "| Deflection style | $\\frac{E}{E + N}$ | Of non-answers: dodge or no belief? | No |",
-            "| Reliability | $\\frac{n - \\varepsilon}{n}$ | How often does it produce a parseable response? | No |",
+            "| Reliability | $\\frac{n - \\varepsilon}{n}$ | How often does the model produce a parseable response? | No |",
         ]
     )
 

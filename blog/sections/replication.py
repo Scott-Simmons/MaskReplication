@@ -20,11 +20,9 @@ def _differences_to_og_text() -> str:
 
     n_models = len(load_runs())
     return (
-        "I used a different model judge (see [appendix](#appendix-paper-vs-replication-differences)) to save on cost "
-        f"and a slightly different set of {n_models} models. The paper tested 32 models, "
-        "but some are now deprecated. "
-        "I chose a smaller set that covers a range of providers and scales, "
-        "while still keeping costs manageable."
+        "I used a different model judge to save on cost (see [appendix](#appendix-paper-vs-replication-differences)) "
+        f"and a smaller set of {n_models} models covering a range of providers and scales. "
+        "The paper tested 32, but some are now deprecated."
     )
 
 

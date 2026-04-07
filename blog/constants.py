@@ -53,6 +53,7 @@ LOG10_FLOP: dict[str, tuple[float | None, str]] = {
     "together/deepseek-ai/DeepSeek-R1": (24.54, "confident"),           # 3.5e24: 37B active × 14.8T + RL
     "together/deepseek-ai/DeepSeek-V3.1": (24.56, "confident"),         # 3.59e24: V3 base + continued pretraining
     "together/deepseek-ai/DeepSeek-R1-0528": (24.60, "confident"),      # 4.02e24: pretraining + post-training + fine-tuning
+    "groq/llama-3.1-8b-instant": (23.86, "confident"),                         # 7.21e23: 6 × 8.03B × 15T tokens
     "together/meta-llama/Llama-3.3-70B-Instruct-Turbo": (24.84, "confident"),  # 6.87e24: geomean of 6ND and GPU-hours
     # Speculative (Epoch AI, estimated from benchmark scores)
     "openai/gpt-4o-mini": (24.87, "speculative"),                       # ~7.36e24
@@ -62,7 +63,11 @@ LOG10_FLOP: dict[str, tuple[float | None, str]] = {
     # gives ~6e23 to 1.2e24 FLOP. We use 24.0 (1e24) as a rough midpoint.
     # TREAT WITH EXTREME CAUTION — this is a guess.
     "anthropic/claude-haiku-4-5-20251001": (24.0, "author_estimate"),
-    "openai/o3-mini": (None, "unknown"),
+    # Author estimate: o3-mini is a reasoning model; OpenAI has not disclosed
+    # training compute. Benchmark performance sits between gpt-4o-mini and gpt-4o,
+    # suggesting comparable base-model FLOP plus RL overhead. We guess ~25.0
+    # (1e25). TREAT WITH EXTREME CAUTION.
+    "openai/o3-mini": (25.0, "author_estimate"),
 }
 
 # Original paper Table 3 results (Ren et al., 2025).

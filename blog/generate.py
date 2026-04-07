@@ -61,6 +61,7 @@ STRUCTURE = [
             dimensions.making_this_empirical_subheader,
             dimensions.empirical_lossy_demonstration,
             figures.two_d_space_projection_headline,
+            dimensions.what_else_subheader,
             dimensions.one_d_projections,
             figures.other_1d_projections,
             dimensions.truthfulness_argument,

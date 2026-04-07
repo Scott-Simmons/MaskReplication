@@ -7,8 +7,8 @@ def preamble() -> str:
 
 def introduce_the_dimensions() -> str:
     return (
-        "The categories that a pressured statement, subject to some internally held "
-        "belief, can fall into are:"
+        "When a model is pressured to answer against its own belief, "
+        "its response can fall into one of these categories:"
     )
 
 
@@ -44,6 +44,10 @@ def empirical_lossy_demonstration() -> str:
         "To make this concrete, here is the data from my "
         "replication plotted on 2 axes + honesty contours[^contour_math]:"
     )
+
+
+def what_else_subheader() -> str:
+    return "### What else can we measure?"
 
 
 def one_d_projections() -> str:
