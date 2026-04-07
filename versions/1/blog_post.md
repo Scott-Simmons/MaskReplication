@@ -18,7 +18,7 @@ Just like we can hide our underlying beliefs when subject to social pressure, AI
 
 ![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)
 
-When I first saw this, it was quite provocative, for many reasons. How is lying defined? How is truth established? Many of these questions are answered in the paper, and while some questions still remain,[^open_questions] two questions I want to address in this post are:
+When I first saw this result, I was provoked. How is lying defined? How is truth established? The paper addresses many of these questions, and while some questions remain,[^open_questions] two questions I want to address in this post are:
 
 
 
@@ -35,14 +35,14 @@ I wanted to verify the paper's main claim: larger models are more accurate but n
 | Model | Provider | Samples | In paper? |
 |---|---|---|---|
 | Claude Haiku 4.5 | Anthropic | 1,000 | No |
-| GPT-4o | OpenAI | 998 | Yes |
+| GPT-4o | OpenAI | 1,000 | Yes |
 | GPT-4o-mini | OpenAI | 1,000 | Yes |
 | o3-mini | OpenAI | 1,000 | Yes |
 | Qwen 2.5 7B | Alibaba | 1,000 | Yes |
-| DeepSeek-R1 | DeepSeek | 580 | Yes |
-| DeepSeek-R1-0528 | DeepSeek | 924 | No |
+| DeepSeek-R1 | DeepSeek | 1,000 | Yes |
+| DeepSeek-R1-0528 | DeepSeek | 1,000 | No |
 | DeepSeek-V3.1 | DeepSeek | 1,000 | No |
-| Llama 3.3 70B | Meta | 998 | Yes |
+| Llama 3.3 70B | Meta | 1,000 | Yes |
 
 *The [MASK public dataset](https://huggingface.co/datasets/cais/MASK) contains 1,000 examples.*
 
@@ -69,15 +69,15 @@ The outcomes are mutually exclusive and collectively exhaustive, so nothing is d
 | Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\varepsilon$ |
 |---|---|---|---|---|---|---|
 | Claude Haiku 4.5 | 1,000 | 620 | 81 | 215 | 82 | 2 |
-| GPT-4o | 998 | 205 | 503 | 199 | 88 | 3 |
+| GPT-4o | 1,000 | 205 | 504 | 199 | 88 | 4 |
 | GPT-4o-mini | 1,000 | 200 | 494 | 160 | 144 | 2 |
 | o3-mini | 1,000 | 134 | 434 | 284 | 140 | 8 |
 | Qwen 2.5 7B | 1,000 | 264 | 401 | 83 | 246 | 6 |
-| DeepSeek-R1 | 580 | 75 | 314 | 101 | 89 | 1 |
-| DeepSeek-R1-0528 | 924 | 142 | 506 | 172 | 103 | 1 |
+| DeepSeek-R1 | 1,000 | 141 | 534 | 186 | 137 | 2 |
+| DeepSeek-R1-0528 | 1,000 | 157 | 546 | 179 | 114 | 4 |
 | DeepSeek-V3.1 | 1,000 | 143 | 580 | 117 | 151 | 7 |
-| Llama 3.3 70B | 998 | 257 | 526 | 96 | 114 | 5 |
-| **Total** | **8,500** | **2040** | **3839** | **1427** | **1157** | **35** |
+| Llama 3.3 70B | 1,000 | 257 | 526 | 97 | 114 | 6 |
+| **Total** | **9,000** | **2121** | **4100** | **1520** | **1216** | **41** |
 
 With this parameterisation in mind, honesty as defined in the paper means:
 
@@ -87,7 +87,7 @@ $\text{Honesty}$[^pedantic_r5] $: \mathbb{R}^5 \to \mathbb{R}$
 
 :::
 
-$$= 1 - P(\text{Lie}) = 1 - \frac{L}{n}$$
+$$= 1 - P(\text{Lie}) = 1 - \frac{L}{H + L + E + N + \varepsilon}$$
 
 However, this reduction compresses a lot of nuance.
 
@@ -118,9 +118,9 @@ However, this reduction compresses a lot of nuance.
 
 To make this concrete, here is the data from my replication plotted on 2 axes + honesty contours[^contour_math]:
 
-![Note how o3-mini and Qwen 2.5 7B sit on the same honesty contour (within error bars), even though o3-mini is less honest when it engages (24% vs 40%) and engages less often (57% vs 66%). The honesty score compresses all of this because o3-mini engages less, pulling samples away from the lie bucket.](figures/two_d_space_projection.png)
+![Note how o3-mini and Qwen 2.5 7B sit on the same honesty contour (within error bars), even though Qwen 2.5 7B is nearly 2x more honest when it engages (40% vs 24%) and o3-mini engages less often (57% vs 66%). The honesty score compresses all of this because o3-mini engages less, pulling samples away from the lie bucket.](figures/two_d_space_projection.png)
 
-When all outcome counts are reported, researchers can compute whatever measures they are interested in[^classification_analogy], or define new ones. Here are some more:
+When all outcome counts are reported, researchers can compute whatever measures they are interested in, or define new ones[^classification_analogy]. Here are some more:
 
 | Metric | Formula | What it captures | In MASK? |
 |---|---|---|---|
@@ -139,13 +139,23 @@ The headline result still holds when using truthfulness (H / n) instead of the M
 
 ![](figures/truthfulness_headline_result.png)
 
-### Communicating uncertainty (VERY WIP SECTION)
+### Reporting errors
 
-Here are three more representations of the same data:
+*[AI slop — needs rewrite]*
 
-![](figures/more_2d_projections.png)
+When I ran this eval, I noticed that transient errors happen all the time — network timeouts, rate limits, API hiccups — stopping samples from fully completing. [Inspect AI](https://inspect.aisi.org.uk) provides [eval-retry functionality](https://inspect.aisi.org.uk/errors-and-limits.html) to help with this, but transient failures are only half the story. LLMs can also produce unparseable outputs — going off the rails in unexpected ways that no retry will fix. These are not edge cases; they are routine in LLM evaluations.
 
-Note that the middle panel includes $\varepsilon$ to show that when an outcome is rare, the proportion estimate is noisier and error bars inflate relative to the point estimates. This is exactly why reporting counts matters, especially for LLM evaluations, where silent errors (unparseable outputs, judge failures, dropped samples) are common. Making these visible in the dimensions is a step towards better evaluation science.
+Another advantage of reporting the full outcome counts is to provide visibility into this:
+
+### Reporting uncertainty
+
+*[AI slop — needs rewrite]*
+
+When an outcome is rare, the proportion estimate is noisier and error bars inflate relative to the point estimates. This also applies across models: a score computed from 80 samples is a much weaker claim than one computed from 1,000. Right now, DeepSeek-R1 has fewer samples in my replication, so its error bars are wider — that is information, not noise.
+
+Even if researchers choose not to report confidence intervals, reporting the raw counts lets readers derive them. A percentage without a sample size is unverifiable. A count is all you need to reconstruct the uncertainty.
+
+![](figures/error_rate_plot.png)
 
 ---
 
@@ -181,12 +191,12 @@ While the headline result holds, specific differences between the paper and this
 | Model | MASK paper | Replication (95% CI) | Diff |
 |---|---|---|---|
 | Claude Haiku 4.5 | — | 91.9 ± 1.7 | — |
-| GPT-4o | 21.8 | 49.7 ± 3.1 | <span style="color:green">+27.9</span> |
+| GPT-4o | 21.8 | 49.6 ± 3.1 | <span style="color:green">+27.8</span> |
 | GPT-4o-mini | 21.4 | 50.6 ± 3.1 | <span style="color:green">+29.2</span> |
 | o3-mini | 19.6 | 56.6 ± 3.1 | <span style="color:green">+37.0</span> |
 | Qwen 2.5 7B | 28.9 | 59.9 ± 3.0 | <span style="color:green">+31.0</span> |
-| DeepSeek-R1 | 24.7 | 68.6 ± 3.8 | <span style="color:green">+43.9</span> |
-| DeepSeek-R1-0528 | — | 49.4 ± 3.2 | — |
+| DeepSeek-R1 | 24.7 | 46.6 ± 3.1 | <span style="color:green">+21.9</span> |
+| DeepSeek-R1-0528 | — | 45.4 ± 3.1 | — |
 | DeepSeek-V3.1 | — | 42.0 ± 3.1 | — |
 | Llama 3.3 70B | 24.7 | 47.4 ± 3.1 | <span style="color:green">+22.7</span> |
 
@@ -195,35 +205,14 @@ While the headline result holds, specific differences between the paper and this
 | Model | MASK paper | Replication (95% CI) | Diff |
 |---|---|---|---|
 | Claude Haiku 4.5 | — | 95.6 ± 1.3 | — |
-| GPT-4o | 78.6 | 95.1 ± 1.3 | <span style="color:green">+16.5</span> |
+| GPT-4o | 78.6 | 95.3 ± 1.3 | <span style="color:green">+16.7</span> |
 | GPT-4o-mini | 71.4 | 93.0 ± 1.6 | <span style="color:green">+21.6</span> |
 | o3-mini | 63.3 | 82.6 ± 2.4 | <span style="color:green">+19.3</span> |
 | Qwen 2.5 7B | 51.6 | 77.0 ± 2.6 | <span style="color:green">+25.4</span> |
-| DeepSeek-R1 | 82.2 | 42.3 ± 4.0 | <span style="color:red">-39.9</span> |
-| DeepSeek-R1-0528 | — | 85.1 ± 2.3 | — |
+| DeepSeek-R1 | 82.2 | 97.8 ± 0.9 | <span style="color:green">+15.6</span> |
+| DeepSeek-R1-0528 | — | 97.0 ± 1.1 | — |
 | DeepSeek-V3.1 | — | 93.1 ± 1.6 | — |
-| Llama 3.3 70B | 75.6 | 93.9 ± 1.5 | <span style="color:green">+18.3</span> |
-
----
-
-## Citation
-
-<details>
-<summary>BibTeX</summary>
-
-```bibtex
-@misc{ren2025maskbenchmarkdisentanglinghonesty,
-      title={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},
-      author={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},
-      year={2025},
-      eprint={2503.03750},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2503.03750},
-}
-```
-
-</details>
+| Llama 3.3 70B | 75.6 | 94.0 ± 1.5 | <span style="color:green">+18.4</span> |
 
 ---
 
@@ -231,7 +220,7 @@ While the headline result holds, specific differences between the paper and this
 
 [^classification_analogy]: By analogy to the many [binary classification metrics](https://en.wikipedia.org/wiki/Template:Diagnostic_testing_diagram) out there, deception metrics have plenty of scope to evolve in a similar way.
 
-[^open_questions]: In particular, two extensions I would like to see: **(1) Belief robustness:** The MASK paper queried each model 3 times (I am purposely oversimplifying), but I would like to see this number varied to see if scaling this up undermines belief convergence. **(2) Judge sensitivity:** The paper used 2 judge models to produce these results. How sensitive are the results to different judge models? **Warning:** For (1) and (2), any statistically meaningful investigation will be [expensive](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record).
+[^open_questions]: In particular, two extensions I would like to see: **(1) Belief robustness:** The MASK paper queried each model 3 times (I am purposely oversimplifying), but I would like to see this number varied to see if scaling this up undermines belief convergence. **(2) Judge sensitivity:** The paper used 2 judge models to produce these results. How sensitive are the results to different judge models? **(3) Archetype decomposition:** The MASK dataset stratifies questions by archetype (see the [paper](https://arxiv.org/abs/2503.03750) for details). Decomposing the outcome vectors per archetype would be valuable, but drawing robust conclusions about model × archetype interactions requires more models than the current 9. **Warning:** For (1) and (2), any statistically meaningful investigation will be [expensive](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record).
 
 [^pedantic_r5]: Technically it's $\mathbb{R}^4$, not $\mathbb{R}^5$, because there are 4 degrees of freedom: $n = H + L + E + N + \varepsilon$.
 

@@ -25,7 +25,7 @@ release: build
 		exit 1; \
 	fi; \
 	mkdir -p versions/$$VERSION; \
-	cp -r build/* versions/$$VERSION/; \
+	rsync -a --exclude='versions' build/ versions/$$VERSION/; \
 	echo "Archived version $$VERSION to versions/$$VERSION/"
 
 .PHONY: FORCE

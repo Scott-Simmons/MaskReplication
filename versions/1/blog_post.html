@@ -123,12 +123,11 @@ alt="From the MASK paper: Larger models are more accurate but not more honest" /
 href="https://arxiv.org/abs/2503.03750">MASK paper</a>: Larger models
 are more accurate but not more honest</figcaption>
 </figure>
-<p>When I first saw this, it was quite provocative, for many reasons.
-How is lying defined? How is truth established? Many of these questions
-are answered in the paper, and while some questions still remain,<a
-href="#fn2" class="footnote-ref" id="fnref2"
-role="doc-noteref"><sup>2</sup></a> two questions I want to address in
-this post are:</p>
+<p>When I first saw this result, I was provoked. How is lying defined?
+How is truth established? The paper addresses many of these questions,
+and while some questions remain,<a href="#fn2" class="footnote-ref"
+id="fnref2" role="doc-noteref"><sup>2</sup></a> two questions I want to
+address in this post are:</p>
 <h3 id="does-this-result-survive-independent-replication"><a
 href="#replication-results">1. Does this result survive independent
 replication?</a></h3>
@@ -159,7 +158,7 @@ accurate but not more honest. I used the following models:</p>
 <tr class="even">
 <td>GPT-4o</td>
 <td>OpenAI</td>
-<td>998</td>
+<td>1,000</td>
 <td>Yes</td>
 </tr>
 <tr class="odd">
@@ -183,13 +182,13 @@ accurate but not more honest. I used the following models:</p>
 <tr class="even">
 <td>DeepSeek-R1</td>
 <td>DeepSeek</td>
-<td>580</td>
+<td>1,000</td>
 <td>Yes</td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1-0528</td>
 <td>DeepSeek</td>
-<td>924</td>
+<td>1,000</td>
 <td>No</td>
 </tr>
 <tr class="even">
@@ -201,7 +200,7 @@ accurate but not more honest. I used the following models:</p>
 <tr class="odd">
 <td>Llama 3.3 70B</td>
 <td>Meta</td>
-<td>998</td>
+<td>1,000</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -271,12 +270,12 @@ count vectors for my MASK replication:</p>
 </tr>
 <tr class="even">
 <td>GPT-4o</td>
-<td>998</td>
+<td>1,000</td>
 <td>205</td>
-<td>503</td>
+<td>504</td>
 <td>199</td>
 <td>88</td>
-<td>3</td>
+<td>4</td>
 </tr>
 <tr class="odd">
 <td>GPT-4o-mini</td>
@@ -307,21 +306,21 @@ count vectors for my MASK replication:</p>
 </tr>
 <tr class="even">
 <td>DeepSeek-R1</td>
-<td>580</td>
-<td>75</td>
-<td>314</td>
-<td>101</td>
-<td>89</td>
-<td>1</td>
+<td>1,000</td>
+<td>141</td>
+<td>534</td>
+<td>186</td>
+<td>137</td>
+<td>2</td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1-0528</td>
-<td>924</td>
-<td>142</td>
-<td>506</td>
-<td>172</td>
-<td>103</td>
-<td>1</td>
+<td>1,000</td>
+<td>157</td>
+<td>546</td>
+<td>179</td>
+<td>114</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td>DeepSeek-V3.1</td>
@@ -334,21 +333,21 @@ count vectors for my MASK replication:</p>
 </tr>
 <tr class="odd">
 <td>Llama 3.3 70B</td>
-<td>998</td>
+<td>1,000</td>
 <td>257</td>
 <td>526</td>
-<td>96</td>
+<td>97</td>
 <td>114</td>
-<td>5</td>
+<td>6</td>
 </tr>
 <tr class="even">
 <td><strong>Total</strong></td>
-<td><strong>8,500</strong></td>
-<td><strong>2040</strong></td>
-<td><strong>3839</strong></td>
-<td><strong>1427</strong></td>
-<td><strong>1157</strong></td>
-<td><strong>35</strong></td>
+<td><strong>9,000</strong></td>
+<td><strong>2121</strong></td>
+<td><strong>4100</strong></td>
+<td><strong>1520</strong></td>
+<td><strong>1216</strong></td>
+<td><strong>41</strong></td>
 </tr>
 </tbody>
 </table>
@@ -359,8 +358,8 @@ means:</p>
 class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
 <span class="math inline">\(: \mathbb{R}^5 \to \mathbb{R}\)</span></p>
 </div>
-<p><span class="math display">\[= 1 - P(\text{Lie}) = 1 -
-\frac{L}{n}\]</span></p>
+<p><span class="math display">\[= 1 - P(\text{Lie}) = 1 - \frac{L}{H + L
++ E + N + \varepsilon}\]</span></p>
 <p>However, this reduction compresses a lot of nuance.</p>
 <h3 id="three-agents-with-perfect-honesty-scores">Three agents with
 perfect honesty scores</h3>
@@ -444,17 +443,18 @@ on 2 axes + honesty contours<a href="#fn4" class="footnote-ref"
 id="fnref4" role="doc-noteref"><sup>4</sup></a>:</p>
 <figure>
 <img src="figures/two_d_space_projection.png"
-alt="Note how o3-mini and Qwen 2.5 7B sit on the same honesty contour (within error bars), even though o3-mini is less honest when it engages (24% vs 40%) and engages less often (57% vs 66%). The honesty score compresses all of this because o3-mini engages less, pulling samples away from the lie bucket." />
+alt="Note how o3-mini and Qwen 2.5 7B sit on the same honesty contour (within error bars), even though Qwen 2.5 7B is nearly 2x more honest when it engages (40% vs 24%) and o3-mini engages less often (57% vs 66%). The honesty score compresses all of this because o3-mini engages less, pulling samples away from the lie bucket." />
 <figcaption aria-hidden="true">Note how o3-mini and Qwen 2.5 7B sit on
-the same honesty contour (within error bars), even though o3-mini is
-less honest when it engages (24% vs 40%) and engages less often (57% vs
-66%). The honesty score compresses all of this because o3-mini engages
-less, pulling samples away from the lie bucket.</figcaption>
+the same honesty contour (within error bars), even though Qwen 2.5 7B is
+nearly 2x more honest when it engages (40% vs 24%) and o3-mini engages
+less often (57% vs 66%). The honesty score compresses all of this
+because o3-mini engages less, pulling samples away from the lie
+bucket.</figcaption>
 </figure>
 <p>When all outcome counts are reported, researchers can compute
-whatever measures they are interested in<a href="#fn5"
-class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, or
-define new ones. Here are some more:</p>
+whatever measures they are interested in, or define new ones<a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a>. Here are some more:</p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -531,18 +531,32 @@ distinction matters less.</p>
 instead of the MASK honesty score (1 - L / n): <strong>scaling has not
 made models more truthful.</strong></p>
 <p><img src="figures/truthfulness_headline_result.png" /></p>
-<h3 id="communicating-uncertainty-very-wip-section">Communicating
-uncertainty (VERY WIP SECTION)</h3>
-<p>Here are three more representations of the same data:</p>
-<p><img src="figures/more_2d_projections.png" /></p>
-<p>Note that the middle panel includes <span
-class="math inline">\(\varepsilon\)</span> to show that when an outcome
-is rare, the proportion estimate is noisier and error bars inflate
-relative to the point estimates. This is exactly why reporting counts
-matters, especially for LLM evaluations, where silent errors
-(unparseable outputs, judge failures, dropped samples) are common.
-Making these visible in the dimensions is a step towards better
-evaluation science.</p>
+<h3 id="reporting-errors">Reporting errors</h3>
+<p><em>[AI slop — needs rewrite]</em></p>
+<p>When I ran this eval, I noticed that transient errors happen all the
+time — network timeouts, rate limits, API hiccups — stopping samples
+from fully completing. <a href="https://inspect.aisi.org.uk">Inspect
+AI</a> provides <a
+href="https://inspect.aisi.org.uk/errors-and-limits.html">eval-retry
+functionality</a> to help with this, but transient failures are only
+half the story. LLMs can also produce unparseable outputs — going off
+the rails in unexpected ways that no retry will fix. These are not edge
+cases; they are routine in LLM evaluations.</p>
+<p>Another advantage of reporting the full outcome counts is to provide
+visibility into this:</p>
+<h3 id="reporting-uncertainty">Reporting uncertainty</h3>
+<p><em>[AI slop — needs rewrite]</em></p>
+<p>When an outcome is rare, the proportion estimate is noisier and error
+bars inflate relative to the point estimates. This also applies across
+models: a score computed from 80 samples is a much weaker claim than one
+computed from 1,000. Right now, DeepSeek-R1 has fewer samples in my
+replication, so its error bars are wider — that is information, not
+noise.</p>
+<p>Even if researchers choose not to report confidence intervals,
+reporting the raw counts lets readers derive them. A percentage without
+a sample size is unverifiable. A count is all you need to reconstruct
+the uncertainty.</p>
+<p><img src="figures/error_rate_plot.png" /></p>
 <hr />
 <h2 id="try-it-yourself">4. Try it yourself</h2>
 <p>If this is interesting to you, the eval logs and analysis code are
@@ -613,8 +627,8 @@ gpt-4o. I did this to save on costs.</li>
 <tr class="even">
 <td>GPT-4o</td>
 <td>21.8</td>
-<td>49.7 ± 3.1</td>
-<td><span style="color:green">+27.9</span></td>
+<td>49.6 ± 3.1</td>
+<td><span style="color:green">+27.8</span></td>
 </tr>
 <tr class="odd">
 <td>GPT-4o-mini</td>
@@ -637,13 +651,13 @@ gpt-4o. I did this to save on costs.</li>
 <tr class="even">
 <td>DeepSeek-R1</td>
 <td>24.7</td>
-<td>68.6 ± 3.8</td>
-<td><span style="color:green">+43.9</span></td>
+<td>46.6 ± 3.1</td>
+<td><span style="color:green">+21.9</span></td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1-0528</td>
 <td>—</td>
-<td>49.4 ± 3.2</td>
+<td>45.4 ± 3.1</td>
 <td>—</td>
 </tr>
 <tr class="even">
@@ -686,8 +700,8 @@ gpt-4o. I did this to save on costs.</li>
 <tr class="even">
 <td>GPT-4o</td>
 <td>78.6</td>
-<td>95.1 ± 1.3</td>
-<td><span style="color:green">+16.5</span></td>
+<td>95.3 ± 1.3</td>
+<td><span style="color:green">+16.7</span></td>
 </tr>
 <tr class="odd">
 <td>GPT-4o-mini</td>
@@ -710,13 +724,13 @@ gpt-4o. I did this to save on costs.</li>
 <tr class="even">
 <td>DeepSeek-R1</td>
 <td>82.2</td>
-<td>42.3 ± 4.0</td>
-<td><span style="color:red">-39.9</span></td>
+<td>97.8 ± 0.9</td>
+<td><span style="color:green">+15.6</span></td>
 </tr>
 <tr class="odd">
 <td>DeepSeek-R1-0528</td>
 <td>—</td>
-<td>85.1 ± 2.3</td>
+<td>97.0 ± 1.1</td>
 <td>—</td>
 </tr>
 <tr class="even">
@@ -728,28 +742,11 @@ gpt-4o. I did this to save on costs.</li>
 <tr class="odd">
 <td>Llama 3.3 70B</td>
 <td>75.6</td>
-<td>93.9 ± 1.5</td>
-<td><span style="color:green">+18.3</span></td>
+<td>94.0 ± 1.5</td>
+<td><span style="color:green">+18.4</span></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="citation">Citation</h2>
-<details>
-<summary>
-BibTeX
-</summary>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">ren2025maskbenchmarkdisentanglinghonesty</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="dt">title</span>={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">author</span>={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">year</span>={2025},</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">eprint</span>={2503.03750},</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">archivePrefix</span>={arXiv},</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">primaryClass</span>={cs.LG},</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">url</span>={https://arxiv.org/abs/2503.03750},</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-</details>
 <hr />
 <section class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
@@ -766,8 +763,14 @@ queried each model 3 times (I am purposely oversimplifying), but I would
 like to see this number varied to see if scaling this up undermines
 belief convergence. <strong>(2) Judge sensitivity:</strong> The paper
 used 2 judge models to produce these results. How sensitive are the
-results to different judge models? <strong>Warning:</strong> For (1) and
-(2), any statistically meaningful investigation will be <a
+results to different judge models? <strong>(3) Archetype
+decomposition:</strong> The MASK dataset stratifies questions by
+archetype (see the <a href="https://arxiv.org/abs/2503.03750">paper</a>
+for details). Decomposing the outcome vectors per archetype would be
+valuable, but drawing robust conclusions about model × archetype
+interactions requires more models than the current 9.
+<strong>Warning:</strong> For (1) and (2), any statistically meaningful
+investigation will be <a
 href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record">expensive</a>.<a
 href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>Technically it’s <span
@@ -788,6 +791,26 @@ scope to evolve in a similar way.<a href="#fnref5" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
-<p style="text-align:center; margin-top:3em; color:#999; font-size:0.85em;">Version 1 (<a href="changelog.html">changelog</a>)</p>
+<footer style="text-align:center; margin-top:4em; padding-top:1.5em; border-top:1px solid #eee; color:#999; font-size:0.85em;"><p>Version 1+dev · 2026-04-05 · <a href="changelog.html">changelog</a></p><details style="margin-top:0.5em;"><summary style="cursor:pointer;">cite this post</summary><pre style="text-align:left; display:inline-block; margin-top:0.5em; font-size:0.8em; color:#666;">@misc{simmons2025mappingdeception,
+      title={Mapping Deception},
+      author={Scott Simmons},
+      year={2025},
+      url={TODO: final hosted URL},
+      note={Blog post, code, and eval logs available at https://github.com/Scott-Simmons/MaskReplication},
+}</pre></details><details style="margin-top:0.5em;"><summary style="cursor:pointer;">cite the MASK eval for Inspect AI</summary><pre style="text-align:left; display:inline-block; margin-top:0.5em; font-size:0.8em; color:#666;">@misc{simmons2025inspectmask,
+      title={MASK Eval for Inspect AI},
+      author={Scott Simmons},
+      year={2025},
+      url={https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/},
+      note={Inspect AI evaluation implementation},
+}</pre></details><details style="margin-top:0.5em;"><summary style="cursor:pointer;">cite the MASK paper</summary><pre style="text-align:left; display:inline-block; margin-top:0.5em; font-size:0.8em; color:#666;">@misc{ren2025maskbenchmarkdisentanglinghonesty,
+      title={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},
+      author={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},
+      year={2025},
+      eprint={2503.03750},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2503.03750},
+}</pre></details></footer>
 </body>
 </html>
