@@ -71,7 +71,7 @@ STRUCTURE = [
         ],
     ),
     (
-        "## 4. Errors and uncertainty",
+        "## 4. Reporting errors and uncertainty",
         [
             dimensions.errors_intro,
             dimensions.transient_errors_subheader,
@@ -89,6 +89,8 @@ STRUCTURE = [
             dimensions.sampling_uncertainty_intro,
             dimensions.uncertainty_concrete_example,
             figures.error_rate_plot,
+            figures.reporting_maturity,
+            dimensions.clustering_caveat,
         ],
     ),
     (

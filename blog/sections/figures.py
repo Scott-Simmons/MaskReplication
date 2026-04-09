@@ -72,7 +72,7 @@ def error_failure_modes() -> str:
         "no_judge_call": "No judge model invoked",
     }
     lines = [
-        "| Failure mode (assessed by gpt-4o with Scout) | Count | % |",
+        "| Failure mode (with the help of Scout) | Count | % |",
         "|---|---|---|",
     ]
     for key in ["subject_unparseable", "reasoning_exhaustion", "output_truncated", "null_values", "no_judge_call"]:
@@ -88,6 +88,28 @@ def error_by_archetype() -> str:
 
     _plot()
     return "![](figures/error_by_archetype.png)"
+
+
+def reporting_maturity() -> str:
+    levels = [
+        ("1", "Report raw outcome counts", "#f0f0f0", "#888"),
+        ("2", "Make the outcome space explicit and MECE", "#e8e8e8", "#666"),
+        ("3", "Add confidence intervals", "#e0e0e0", "#444"),
+        ("4", "Think carefully about independence and clustering", "#d8d8d8", "#222"),
+    ]
+    rows = []
+    for num, label, bg, color in levels:
+        marker = ' <span style="color:#5c6bc0; font-weight:bold;">← this post</span>' if num == "3" else ""
+        rows.append(
+            f'<div style="background:{bg}; color:{color}; padding:0.6em 1em; '
+            f'border-left:4px solid {color}; margin-bottom:2px; font-size:0.95em;">'
+            f'<strong>{num}.</strong> {label}{marker}</div>'
+        )
+    return (
+        '<div style="max-width:500px; margin:1.5em auto;">'
+        + "\n".join(reversed(rows))
+        + "</div>"
+    )
 
 
 def models_used_in_replication() -> str:

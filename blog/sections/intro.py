@@ -18,7 +18,7 @@ def toc() -> str:
             "1. [Introduction](#introduction)\n"
             "2. [Replication results](#replication-results)\n"
             "3. [Dimensions of deception](#dimensions-of-deception)\n"
-            "4. [Errors and uncertainty](#errors-and-uncertainty)\n"
+            "4. [Reporting errors and uncertainty](#reporting-errors-and-uncertainty)\n"
             "5. [Try it yourself](#try-it-yourself)\n"
             "6. [Appendix](#appendix-paper-vs-replication-differences)",
         ]

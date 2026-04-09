@@ -75,7 +75,11 @@ def headline_still_holds() -> str:
 
 
 def errors_intro() -> str:
-    return ""
+    return (
+        "I think that reporting raw counts, including errors, and confidence intervals is important. "
+        "Here is what I think good practice looks like, "
+        "using tools from the [Inspect AI](https://inspect.aisi.org.uk/) [ecosystem](https://inspect.aisi.org.uk/extensions/)."
+    )
 
 
 def transient_errors_subheader() -> str:
@@ -87,7 +91,9 @@ def transient_errors_body() -> str:
         "Transient API failures are retried automatically with "
         "[Inspect AI](https://inspect.aisi.org.uk/)'s "
         "[`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) "
-        "flag. This is very convenient!"
+        "flag. Very convenient! Especially for evals that make "
+        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix), "
+        "which in my experience have high chances of samples being silently dropped."
     )
 
 
@@ -98,6 +104,7 @@ def parse_errors_subheader() -> str:
 def parse_errors_intro() -> str:
     return (
         "LLMs sometimes fail to produce valid output in the expected shape. "
+        "If these failures are not reported, they silently inflate or deflate headline scores. "
         "For example, a question about Detroit's population had an error in 6 / 10 models in my replication, "
         "because the judge ran out of token budget before completing its JSON:"
     )
@@ -121,7 +128,7 @@ def parse_errors_investigation() -> str:
         "[eval logs](https://inspect.aisi.org.uk/eval-logs.html) make this transparent. "
         "[Inspect Scout](https://inspect.aisi.org.uk/inspect-scout.html) was also helpful "
         "for diagnosing the *why*[^llm_judge_squared]. "
-        "Here is an invocation that summarises the failure modes behind the parse errors:"
+        "Here is a Scout invocation that summarises the failure modes behind the parse errors:"
     )
 
 
@@ -147,7 +154,7 @@ def parse_errors_explanation() -> str:
     return (
         "The Statistics questions use a separate judge (o3-mini) to parse numerical answers. "
         "Tuning parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` "
-        "would likely resolve this, though it would diverge from the defaults used in the MASK eval."
+        "would likely resolve this, though it would diverge from the defaults used in the original MASK eval."
     )
 
 
@@ -158,10 +165,7 @@ def sampling_uncertainty_subheader() -> str:
 def sampling_uncertainty_intro() -> str:
     return (
         "Even when the eval runs perfectly, finite samples mean not every difference is real. "
-        "With confidence intervals and raw counts, we can make comparisons more confidently. "
-        "This is especially useful for evals that make "
-        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix). "
-        "For example:"
+        "With confidence intervals and raw counts, we can make comparisons more confidently."
     )
 
 
@@ -184,9 +188,21 @@ def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
 def uncertainty_concrete_example() -> str:
     haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
     return (
-        f"The claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
+        f"For example, the claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
         f"However, claiming that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
         "conflates noise with real differences. Based on our previous investigation "
         "on parse errors, this matches what we already expect: errors are intrinsic to "
         "the o3-mini judge, not something that varies across the models being assessed."
+    )
+
+
+def clustering_caveat() -> str:
+    return (
+        "As we saw, parse errors cluster by question type, and other outcomes may too. "
+        "If certain question types systematically produce more lies, "
+        "the CIs on honesty are too narrow, and "
+        "[clustered confidence intervals](https://en.wikipedia.org/wiki/Clustered_standard_errors) "
+        "are the right tool. "
+        "But at the risk of upsetting statisticians: "
+        "I would rather see eval papers at level 3 than no staircase at all."
     )

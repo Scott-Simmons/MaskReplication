@@ -40,6 +40,7 @@ def llm_judge_squared() -> str:
     return "[^llm_judge_squared]: Running an LLM scanner on an eval that uses LLM-as-a-judge = (LLM-as-a-judge)$^2$."
 
 
+
 def contour_math() -> str:
     return (
         "[^contour_math]: The MASK honesty score is the product of the conditional lie rate "
