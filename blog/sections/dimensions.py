@@ -76,7 +76,8 @@ def headline_still_holds() -> str:
 
 def errors_intro() -> str:
     return (
-        "I think that reporting raw counts, including errors, and confidence intervals is important. "
+        "The previous section showed how much a single honesty score can hide. "
+        "To compute alternative metrics, or to catch systematic errors, you need the full outcome counts and confidence intervals. "
         "Here is what I think good practice looks like, "
         "using tools from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
     )
