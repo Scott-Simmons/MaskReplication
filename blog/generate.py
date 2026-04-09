@@ -42,6 +42,7 @@ STRUCTURE = [
             replication.differences_to_og,
             replication.interpretation,
             figures.replication_headline_result,
+            replication.caveat,
         ],
     ),
     (
@@ -67,21 +68,31 @@ STRUCTURE = [
             dimensions.truthfulness_argument,
             dimensions.headline_still_holds,
             figures.truthfulness_headline_result,
-            dimensions.reporting_errors_subheader,
-            dimensions.yes_errors_happen,
-            dimensions.transient_errors_can_be_mitigated,
-            dimensions.parse_errors_also_happen,
+        ],
+    ),
+    (
+        "## 4. Errors and uncertainty",
+        [
+            dimensions.errors_intro,
+            dimensions.transient_errors_subheader,
+            dimensions.transient_errors_body,
+            dimensions.parse_errors_subheader,
+            dimensions.parse_errors_intro,
             dimensions.parse_error_example,
-            dimensions.inspect_ai_keeps_it_visible,
-            dimensions.but_actually_its_part_of_the_process,
-            dimensions.reporting_uncertainty_subheader,
-            dimensions.reporting_uncertainty_prose,
+            dimensions.parse_errors_investigation,
+            dimensions.scout_invocation,
+            figures.error_failure_modes,
+            dimensions.parse_errors_not_random,
+            figures.error_by_archetype,
+            dimensions.parse_errors_explanation,
+            dimensions.sampling_uncertainty_subheader,
+            dimensions.sampling_uncertainty_intro,
             dimensions.uncertainty_concrete_example,
             figures.error_rate_plot,
         ],
     ),
     (
-        "## 4. Try it yourself",
+        "## 5. Try it yourself",
         [
             recap.recap,
         ],
@@ -100,6 +111,7 @@ STRUCTURE = [
             footnotes.classification_dimensions_analogy,
             footnotes.open_questions,
             footnotes.pedantic_r5,
+            footnotes.llm_judge_squared,
             footnotes.contour_math,
         ],
     ),
@@ -207,6 +219,7 @@ def main() -> None:
     pre_style = 'style="text-align:left; display:inline-block; margin-top:0.5em; font-size:0.8em; color:#666;"'
     version_html = (
         '<footer style="text-align:center; margin-top:4em; padding-top:1.5em; border-top:1px solid #eee; color:#999; font-size:0.85em;">'
+        '<p>Thanks to Nelson Gardner-Challis, Matt Fisher, Celia Waggoner, and Dan Wilhelm for reviewing the <a href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">MASK eval for Inspect AI</a>.</p>'
         f'<p>Version {version_label} · {version_date} · <a href="changelog.html">changelog</a></p>'
         f"<details {details_style}><summary {summary_style}>cite this post</summary>"
         f"<pre {pre_style}>{blog_bibtex}</pre></details>"

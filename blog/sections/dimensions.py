@@ -24,7 +24,7 @@ def honesty_in_terms_of_dimensions() -> str:
 
 
 def honesty_is_lossy() -> str:
-    return "However, this reduction compresses a lot of nuance."
+    return "However, this reduction compresses a lot of nuance, as we will see."
 
 
 def hypothetical_subheader() -> str:
@@ -32,7 +32,11 @@ def hypothetical_subheader() -> str:
 
 
 def hypothetical_commentary() -> str:
-    return ""
+    return (
+        "An agent that always evades, or one that holds no beliefs at all, "
+        "still scores 100% MASK honesty! The MASK paper's appendix handles the Patrick Star case "
+        "with a normalised honesty score, but not the Kash Patel case."
+    )
 
 
 def making_this_empirical_subheader() -> str:
@@ -41,7 +45,7 @@ def making_this_empirical_subheader() -> str:
 
 def empirical_lossy_demonstration() -> str:
     return (
-        "To make this concrete, here is the data from my "
+        "Here is the data from my "
         "replication plotted on 2 axes + honesty contours[^contour_math]:"
     )
 
@@ -70,68 +74,95 @@ def headline_still_holds() -> str:
     return "The headline result still holds when using truthfulness (H / n) instead of the MASK honesty score (1 - L / n): **scaling has not made models more truthful.**"
 
 
-def reporting_errors_subheader() -> str:
-    return "### Reporting errors (WIP)"
+def errors_intro() -> str:
+    return ""
 
 
-def yes_errors_happen() -> str:
-    return "Errors are an unavoidable part of LLM evaluation. Here are two types that I cannot get away from, no matter how much I try:"
+def transient_errors_subheader() -> str:
+    return "### Transient errors"
 
 
-def transient_errors_can_be_mitigated() -> str:
+def transient_errors_body() -> str:
     return (
-        "**(1) Transient errors:** can be retried automatically using "
-        "Inspect AI's [`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) flag. "
-        "This is very convenient!"
+        "Transient API failures are retried automatically with "
+        "[Inspect AI](https://inspect.aisi.org.uk/)'s "
+        "[`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) "
+        "flag. This is very convenient!"
     )
 
 
-def parse_errors_also_happen() -> str:
+def parse_errors_subheader() -> str:
+    return "### Parse errors"
+
+
+def parse_errors_intro() -> str:
     return (
-        "**(2) LLM parse errors:** A fact of (LLM) life. "
-        "For example, a question about Detroit's population had an error in 6 / 10 models, becuase the LLM judge "
-        "ran out of token budget before producing a valid JSON block as the final step in its reasoning:"
+        "LLMs sometimes fail to produce valid output in the expected shape. "
+        "For example, a question about Detroit's population had an error in 6 / 10 models in my replication, "
+        "because the judge ran out of token budget before completing its JSON:"
     )
 
 
 def parse_error_example() -> str:
     return (
-        "```json\n"
+        "```\n"
         "{\n"
         '  "lower_bound": -10.5,\n'
         '  "upper_bound": -10.5,\n'
         '  "relative_lower_bound": -10.5,\n'
-        '  "relative_upper_bound": "<TRUNCATED>"\n'
-        "}\n"
+        '  "relative_upper_bo\n'
         "```\n"
     )
 
 
-def inspect_ai_keeps_it_visible() -> str:
+def parse_errors_investigation() -> str:
     return (
-        "LLM parse errors are made transparently visible with Inspect AI's [eval logs](https://inspect.aisi.org.uk/eval-logs.html)."
-        "This is also very convenient! [Inspect Scout]() was also conveniently used to analyse the logs for the parse errors, to "
-        "find that <some_hopefully_nice_finding>."
+        "Thankfully, [Inspect AI](https://inspect.aisi.org.uk/)'s "
+        "[eval logs](https://inspect.aisi.org.uk/eval-logs.html) make this transparent. "
+        "[Inspect Scout](https://inspect.aisi.org.uk/inspect-scout.html) was also helpful "
+        "for diagnosing the *why*[^llm_judge_squared]. "
+        "Here is an invocation that summarises the failure modes behind the parse errors:"
     )
 
 
-def error_distribution() -> str:
-    return "<error_distribution_here>"
-
-
-def but_actually_its_part_of_the_process() -> str:
+def scout_invocation() -> str:
     return (
-        "Tuning judge parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` would likely resolve this, though it would diverge "
-        "from the defaults used in the MASK paper."
+        "```bash\n"
+        "scout scan error_scanner.py \\\n"
+        "  -T eval_logs/ \\\n"
+        '  -F "score.honesty = \'error\'" \\\n'
+        "  --model openai/gpt-4o\n"
+        "```"
     )
 
 
-def reporting_uncertainty_subheader() -> str:
-    return "### Reporting uncertainty"
+def parse_errors_not_random() -> str:
+    return (
+        "When we break the errors down by question type, "
+        "the Statistics questions stick out like a sore thumb:"
+    )
 
 
-def reporting_uncertainty_prose() -> str:
-    return "Reporting confidence intervals separates claims that the data can support from ones it cannot."
+def parse_errors_explanation() -> str:
+    return (
+        "The Statistics questions use a separate judge (o3-mini) to parse numerical answers. "
+        "Tuning parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` "
+        "would likely resolve this, though it would diverge from the defaults used in the MASK eval."
+    )
+
+
+def sampling_uncertainty_subheader() -> str:
+    return "### Sampling uncertainty"
+
+
+def sampling_uncertainty_intro() -> str:
+    return (
+        "Even when the eval runs perfectly, finite samples mean not every difference is real. "
+        "With confidence intervals and raw counts, we can make comparisons more confidently. "
+        "This is especially useful for evals that make "
+        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix). "
+        "For example:"
+    )
 
 
 def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
@@ -154,8 +185,8 @@ def uncertainty_concrete_example() -> str:
     haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
     return (
         f"The claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
-        f"However, asserting that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
-        "risks conflating noise with real differences. Based on prior observations, it’s likely that the "
-        "error rate is determined by the properties of the numeric judge model, so this result checks out "
-        "with our available evidence."
+        f"However, claiming that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
+        "conflates noise with real differences. Based on our previous investigation "
+        "on parse errors, this matches what we already expect: errors are intrinsic to "
+        "the o3-mini judge, not something that varies across the models being assessed."
     )

@@ -83,7 +83,9 @@ def _scores_from_samples(z: zipfile.ZipFile) -> tuple[float, float, float, dict[
         s = json.loads(z.read(sf))
         scores = s.get("scores", {})
         scorer = scores.get("accuracy_and_honesty") or next(iter(scores.values()), None)
-        if scorer is None:
+        if scorer is None or not scorer.get("value"):
+            honesty_counts["error"] += 1
+            accuracy_counts["error"] += 1
             continue
         vals = scorer["value"]
         honesty_counts[vals["honesty"]] += 1
@@ -108,6 +110,154 @@ def _scores_from_samples(z: zipfile.ZipFile) -> tuple[float, float, float, dict[
     }
 
     return honesty, truthfulness, accuracy, dimensions
+
+
+def load_errors_by_archetype() -> dict[str, dict[str, int]]:
+    """Load error counts and sample counts per archetype across all best runs.
+
+    Returns {archetype: {"errors": int, "samples": int, "models_affected": int}}.
+    """
+    best: dict[str, str] = {}
+    for fname in os.listdir(EVAL_LOGS_DIR):
+        if not fname.endswith(".eval"):
+            continue
+        fpath = EVAL_LOGS_DIR / fname
+        z = zipfile.ZipFile(fpath)
+        header = json.loads(z.read("header.json"))
+        model_id = header["eval"]["model"]
+        n = header.get("results", {}).get("completed_samples", 0)
+        if n == 0:
+            n = sum(1 for name in z.namelist() if name.startswith("samples/"))
+        if model_id not in best or n > int(best[model_id].split("|")[0]):
+            best[model_id] = f"{n}|{fpath}"
+
+    archetypes: dict[str, dict[str, int]] = {}
+    for model_id, val in best.items():
+        _, fpath = val.split("|", 1)
+        z = zipfile.ZipFile(fpath)
+        model_errors_by_arch: dict[str, bool] = {}
+        for sf in [n for n in z.namelist() if n.startswith("samples/")]:
+            s = json.loads(z.read(sf))
+            config = s.get("metadata", {}).get("config", "unknown")
+            scores = s.get("scores", {})
+            scorer = scores.get("accuracy_and_honesty") or next(iter(scores.values()), None)
+            honesty = scorer["value"]["honesty"] if scorer and scorer.get("value") else "error"
+
+            if config not in archetypes:
+                archetypes[config] = {"errors": 0, "samples": 0, "models_affected": 0}
+            archetypes[config]["samples"] += 1
+            if honesty == "error":
+                archetypes[config]["errors"] += 1
+                model_errors_by_arch[config] = True
+
+        for config in model_errors_by_arch:
+            archetypes[config]["models_affected"] += 1
+
+    return archetypes
+
+
+def load_error_failure_modes() -> dict[str, int]:
+    """Classify error samples by their technical failure mode.
+
+    Examines the judge model events in each error sample to determine
+    what went wrong in the scoring pipeline.
+
+    Returns {failure_mode: count}.
+    """
+    best: dict[str, tuple[int, str]] = {}
+    for fname in os.listdir(EVAL_LOGS_DIR):
+        if not fname.endswith(".eval"):
+            continue
+        fpath = EVAL_LOGS_DIR / fname
+        z = zipfile.ZipFile(fpath)
+        header = json.loads(z.read("header.json"))
+        model_id = header["eval"]["model"]
+        n = header.get("results", {}).get("completed_samples", 0)
+        if n == 0:
+            n = sum(1 for name in z.namelist() if name.startswith("samples/"))
+        if model_id not in best or n > best[model_id][0]:
+            best[model_id] = (n, str(fpath))
+
+    counts: Counter[str] = Counter()
+    for model_id, (_, fpath) in best.items():
+        z = zipfile.ZipFile(fpath)
+        for sf in [n for n in z.namelist() if n.startswith("samples/")]:
+            s = json.loads(z.read(sf))
+            scores = s.get("scores", {})
+            scorer = scores.get("accuracy_and_honesty") or next(
+                iter(scores.values()), None
+            )
+            # Match load_errors_by_archetype: missing scorer/value counts as error
+            honesty = (
+                scorer["value"]["honesty"]
+                if scorer and scorer.get("value")
+                else "error"
+            )
+            if honesty != "error":
+                continue
+
+            events = s.get("events", [])
+            judge_calls = [
+                e
+                for e in events
+                if e.get("event") == "model" and e.get("model", "") != model_id
+            ]
+
+            if not judge_calls:
+                counts["no_judge_call"] += 1
+                continue
+
+            last_judge = judge_calls[-1]
+            choices = last_judge.get("output", {}).get("choices", [{}])
+            if not choices:
+                counts["no_judge_call"] += 1
+                continue
+
+            content = choices[0].get("message", {}).get("content", "")
+            if isinstance(content, list):
+                text_parts = [
+                    p for p in content if isinstance(p, dict) and p.get("type") == "text"
+                ]
+                reasoning_parts = [
+                    p for p in content if isinstance(p, dict) and p.get("type") == "reasoning"
+                ]
+                if not text_parts and reasoning_parts:
+                    counts["reasoning_exhaustion"] += 1
+                elif text_parts:
+                    text = text_parts[0].get("text", "")
+                    if "attachment://" in text:
+                        counts["output_truncated"] += 1
+                    elif text.strip().startswith("{"):
+                        try:
+                            parsed = json.loads(text)
+                            if any(v is None for v in parsed.values()):
+                                counts["null_values"] += 1
+                            else:
+                                counts["subject_unparseable"] += 1
+                        except json.JSONDecodeError:
+                            counts["output_truncated"] += 1
+                    else:
+                        counts["output_truncated"] += 1
+                else:
+                    counts["reasoning_exhaustion"] += 1
+            elif isinstance(content, str):
+                if content.strip().startswith("{"):
+                    try:
+                        parsed = json.loads(content)
+                        if any(v is None for v in parsed.values()):
+                            counts["null_values"] += 1
+                        else:
+                            counts["subject_unparseable"] += 1
+                    except json.JSONDecodeError:
+                        counts["output_truncated"] += 1
+                elif not content.strip():
+                    counts["reasoning_exhaustion"] += 1
+                else:
+                    counts["output_truncated"] += 1
+            else:
+                counts["other"] += 1
+
+    return dict(counts)
 
 
 def load_runs() -> list[ModelRun]:

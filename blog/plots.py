@@ -11,7 +11,7 @@ from scipy import stats
 import shutil
 
 
-from blog.analysis import PROVIDER_COLORS, load_runs
+from blog.analysis import PROVIDER_COLORS, load_errors_by_archetype, load_runs
 
 OUTPUT_DIR = Path("build/figures")
 
@@ -634,9 +634,129 @@ def error_rate_plot() -> None:
     plt.close(fig)
 
 
+ARCHETYPE_DISPLAY = {
+    "provided_facts": "Provided Facts",
+    "known_facts": "Known Facts",
+    "doubling_down_known_facts": "Doubling Down",
+    "continuations": "Continuations",
+    "disinformation": "Disinformation",
+    "statistics": "Statistics",
+}
+
+ARCHETYPE_JUDGES = {
+    "provided_facts": "gpt-4o-mini",
+    "known_facts": "gpt-4o-mini",
+    "doubling_down_known_facts": "gpt-4o-mini",
+    "continuations": "gpt-4o-mini",
+    "disinformation": "gpt-4o-mini",
+    "statistics": "o3-mini",
+}
+
+
+def error_by_archetype_plot() -> None:
+    """Dot plot: error rate by archetype with 95% CIs."""
+    arch_data = load_errors_by_archetype()
+
+    display_order = [
+        "provided_facts",
+        "known_facts",
+        "doubling_down_known_facts",
+        "continuations",
+        "disinformation",
+        "statistics",
+    ]
+
+    JUDGE_MARKERS = {"gpt-4o-mini": "^", "o3-mini": "X", "both": "D"}
+    JUDGE_COLORS = {"gpt-4o-mini": "#555555", "o3-mini": "#c62828", "both": "#1565c0"}
+
+    labels = []
+    rates = []
+    cis = []
+    judges = []
+    for key in display_order:
+        d = arch_data.get(key, {"errors": 0, "samples": 0})
+        n = d["samples"]
+        e = d["errors"]
+        rate = (e / n * 100) if n > 0 else 0
+        ci = _binom_ci(rate, n)
+        display = ARCHETYPE_DISPLAY.get(key, key)
+        judge = ARCHETYPE_JUDGES.get(key, "?")
+        labels.append(display)
+        rates.append(rate)
+        cis.append(ci)
+        judges.append(judge)
+
+    # Add overall row
+    total_errors = sum(arch_data.get(k, {}).get("errors", 0) for k in display_order)
+    total_samples = sum(arch_data.get(k, {}).get("samples", 0) for k in display_order)
+    overall_rate = (total_errors / total_samples * 100) if total_samples > 0 else 0
+    overall_ci = _binom_ci(overall_rate, total_samples)
+    labels.append("Overall")
+    rates.append(overall_rate)
+    cis.append(overall_ci)
+    judges.append("both")
+
+    n_rows = len(labels)
+    fig, ax = plt.subplots(figsize=(8, 0.7 * n_rows + 0.8))
+
+    y_pos = np.arange(n_rows)
+    for i in range(n_rows):
+        color = JUDGE_COLORS[judges[i]]
+        ax.errorbar(
+            rates[i], y_pos[i], xerr=cis[i], fmt="none",
+            ecolor=color, elinewidth=1.5, capsize=4, zorder=4,
+        )
+
+    # Plot each judge type separately for legend
+    legend_drawn: set[str] = set()
+    for i in range(n_rows):
+        judge = judges[i]
+        color = JUDGE_COLORS[judge]
+        marker = JUDGE_MARKERS[judge]
+        label = judge if judge not in legend_drawn else None
+        legend_drawn.add(judge)
+        ax.scatter(
+            rates[i], y_pos[i], c=color, s=80, zorder=5,
+            marker=marker, edgecolors="white", linewidths=0.5, label=label,
+        )
+
+    # Separator line before overall
+    ax.axhline(y=n_rows - 1.5, color="#cccccc", linewidth=0.8, linestyle="--")
+
+    archetype_keys = display_order + [None]
+    for i, key in enumerate(archetype_keys):
+        if key is not None:
+            d = arch_data.get(key, {"errors": 0, "samples": 0})
+            err, samp = d["errors"], d["samples"]
+        else:
+            err, samp = total_errors, total_samples
+        color = JUDGE_COLORS[judges[i]]
+        text_x = rates[i] + cis[i]
+        ax.annotate(
+            f" {rates[i]:.1f}%  ({err}/{samp:,})",
+            (text_x, i), textcoords="offset points",
+            xytext=(6, 0), fontsize=9, color=color, va="center",
+        )
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(labels, fontsize=10)
+    ax.invert_yaxis()
+    ax.set_xlabel("Error Rate (95% CI)", fontsize=11)
+    ax.set_title("Parse Errors by Question Archetype", fontsize=13)
+    ax.legend(title="Judge model", loc="lower right", fontsize=9, title_fontsize=9)
+    ax.grid(True, axis="x", alpha=0.2)
+    ax.set_xlim(-0.5, max(r + c for r, c in zip(rates, cis)) + 2)
+
+    fig.tight_layout()
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    fig.savefig(OUTPUT_DIR / "error_by_archetype.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     replication_headline_result()
     truthfulness_headline_result()
     two_d_space_projection()
     error_rate_plot()
+    error_by_archetype_plot()
     print("Done.")

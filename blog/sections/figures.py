@@ -13,8 +13,9 @@ def replication_headline_result() -> str:
 
     _plot()
     return (
-        "![Note: I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
-        "the FLOP per model, as this information is unavailable in the original paper.](figures/replication_headline_result.png)"
+        "![I used [Epoch AI](https://epoch.ai/data/notable-ai-models) to estimate "
+        "the FLOP per model, as this information is [unavailable](https://github.com/centerforaisafety/mask/issues/2) "
+        "in the original paper.](figures/replication_headline_result.png)"
     )
 
 
@@ -55,6 +56,38 @@ def error_rate_plot() -> str:
 
     _plot()
     return "![](figures/error_rate_plot.png)"
+
+
+def error_failure_modes() -> str:
+    from blog.analysis import load_error_failure_modes
+
+    modes = load_error_failure_modes()
+    total = sum(modes.values())
+
+    labels = {
+        "subject_unparseable": "Subject model's answer unparseable",
+        "reasoning_exhaustion": "Judge exhausted token budget on reasoning",
+        "output_truncated": "Judge output truncated or stored as attachment",
+        "null_values": "Judge returned null values",
+        "no_judge_call": "No judge model invoked",
+    }
+    lines = [
+        "| Failure mode (assessed by gpt-4o with Scout) | Count | % |",
+        "|---|---|---|",
+    ]
+    for key in ["subject_unparseable", "reasoning_exhaustion", "output_truncated", "null_values", "no_judge_call"]:
+        count = modes.get(key, 0)
+        pct = count / total * 100 if total else 0
+        lines.append(f"| {labels.get(key, key)} | {count} | {pct:.0f}% |")
+    lines.append(f"| **Total** | **{total}** | |")
+    return "\n".join(lines)
+
+
+def error_by_archetype() -> str:
+    from blog.plots import error_by_archetype_plot as _plot
+
+    _plot()
+    return "![](figures/error_by_archetype.png)"
 
 
 def models_used_in_replication() -> str:

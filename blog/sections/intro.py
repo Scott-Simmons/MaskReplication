@@ -14,12 +14,13 @@ def tldr() -> str:
 def toc() -> str:
     return "\n".join(
         [
-            "**Contents:** "
-            "[1. Introduction](#introduction) | "
-            "[2. Replication results](#replication-results) | "
-            "[3. Dimensions of deception](#dimensions-of-deception) | "
-            "[4. Try it yourself](#try-it-yourself) | "
-            "[Appendix](#appendix-paper-vs-replication-differences)",
+            "**Contents:**\n\n"
+            "1. [Introduction](#introduction)\n"
+            "2. [Replication results](#replication-results)\n"
+            "3. [Dimensions of deception](#dimensions-of-deception)\n"
+            "4. [Errors and uncertainty](#errors-and-uncertainty)\n"
+            "5. [Try it yourself](#try-it-yourself)\n"
+            "6. [Appendix](#appendix-paper-vs-replication-differences)",
         ]
     )
 

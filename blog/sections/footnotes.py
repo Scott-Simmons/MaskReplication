@@ -36,9 +36,14 @@ def pedantic_r5() -> str:
     return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$, not $\\mathbb{R}^5$, because there are 4 degrees of freedom: $n = H + L + E + N + \\varepsilon$."
 
 
+def llm_judge_squared() -> str:
+    return "[^llm_judge_squared]: Running an LLM scanner on an eval that uses LLM-as-a-judge = (LLM-as-a-judge)$^2$."
+
+
 def contour_math() -> str:
     return (
-        "[^contour_math]: $\\text{MASK Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{n} "
+        "[^contour_math]: The MASK honesty score is the product of the conditional lie rate "
+        "and the engagement rate: $\\text{MASK Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{n} "
         "= 1 - \\frac{L}{H+L} \\cdot \\frac{H+L}{n} = 1 - (1 - \\frac{H}{H+L}) "
         "\\cdot \\frac{H+L}{n}$"
     )
