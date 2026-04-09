@@ -43,7 +43,7 @@ def two_d_space_projection_headline() -> str:
             f"![Note how {a['name']} and {b['name']} sit on the same honesty "
             f"contour (within error bars), "
             f"even though {b['name']} is nearly {round(chr_ratio)}x more honest when it engages "
-            f"({b['chr']:.0f}% vs {a['chr']:.0f}%), but {a['name']} engages less often "
+            f"({b['chr']:.0f}% vs {a['chr']:.0f}%) and {a['name']} engages less often "
             f"({a['er']:.0f}% vs {b['er']:.0f}%). The honesty score compresses all of this "
             f"because {a['name']} engages less, pulling samples away from the lie bucket."
             "](figures/two_d_space_projection.png)"

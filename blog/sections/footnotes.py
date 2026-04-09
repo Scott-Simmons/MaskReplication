@@ -26,7 +26,7 @@ def open_questions() -> str:
         "**(3) Archetype decomposition:** The MASK dataset stratifies questions by archetype "
         "(see the [paper](https://arxiv.org/abs/2503.03750) for details). "
         "Decomposing the outcome vectors per archetype would be valuable, but drawing robust conclusions "
-        "about model × archetype interactions requires more models than the current 9. "
+        "about model × archetype interactions requires more models than the current 10. "
         "**Warning:** For (1) and (2), any statistically meaningful investigation will be "
         "[expensive](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#expected-number-of-llm-invocations-per-record)."
     )
@@ -54,5 +54,5 @@ def contour_math() -> str:
         "[^contour_math]: The MASK honesty score is the product of the conditional lie rate "
         "and the engagement rate: $\\text{MASK Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{n} "
         "= 1 - \\frac{L}{H+L} \\cdot \\frac{H+L}{n} = 1 - (1 - \\frac{H}{H+L}) "
-        "\\cdot \\frac{H+L}{n}$"
+        "\\cdot \\frac{H+L}{n}.$"
     )

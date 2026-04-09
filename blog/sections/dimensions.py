@@ -94,7 +94,7 @@ def transient_errors_body() -> str:
         "[`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) "
         "flag. Very convenient! Especially for evals that make "
         "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix), "
-        "which in my experience have high chances of samples being silently dropped."
+        "which in my experience have a high chance of samples being silently dropped."
     )
 
 
@@ -196,7 +196,7 @@ def uncertainty_concrete_example() -> str:
         f"For example, the claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
         f"However, claiming that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
         "conflates noise with real differences. Based on our previous investigation "
-        "on parse errors, this matches what we already expect: errors are intrinsic to "
+        "into parse errors, this matches what we already expect: errors are intrinsic to "
         "the o3-mini judge, not something that varies across the models being assessed."
     )
 
