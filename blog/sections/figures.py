@@ -92,22 +92,22 @@ def error_by_archetype() -> str:
 
 def reporting_maturity() -> str:
     levels = [
-        ("1", "Report raw outcome counts", "#f0f0f0", "#888"),
-        ("2", "Make the outcome space explicit and MECE", "#e8e8e8", "#666"),
-        ("3", "Add confidence intervals", "#e0e0e0", "#444"),
-        ("4", "Think carefully about independence and clustering", "#d8d8d8", "#222"),
+        ("1", "Report raw outcome counts", "#e8e8e8", "#666", "0em"),
+        ("2", "Make the outcome space explicit and MECE", "#ddd", "#555", "1em"),
+        ("3", "Add confidence intervals", "#d0d0d0", "#333", "2em"),
+        ("4", "Think carefully about independence and clustering", "#c4c4c4", "#111", "3em"),
     ]
     rows = []
-    for num, label, bg, color in levels:
-        marker = ' <span style="color:#5c6bc0; font-weight:bold;">← this post</span>' if num == "3" else ""
+    for num, label, bg, color, indent in reversed(levels):
+        marker = ""
         rows.append(
-            f'<div style="background:{bg}; color:{color}; padding:0.6em 1em; '
-            f'border-left:4px solid {color}; margin-bottom:2px; font-size:0.95em;">'
+            f'<div style="margin-left:{indent}; background:{bg}; color:{color}; padding:0.5em 0.8em; '
+            f'margin-bottom:2px; font-size:0.9em; border-radius:3px;">'
             f'<strong>{num}.</strong> {label}{marker}</div>'
         )
     return (
-        '<div style="max-width:500px; margin:1.5em auto;">'
-        + "\n".join(reversed(rows))
+        '<div style="max-width:100%; margin:1.5em auto;">'
+        + "\n".join(rows)
         + "</div>"
     )
 

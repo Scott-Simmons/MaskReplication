@@ -41,6 +41,14 @@ def llm_judge_squared() -> str:
 
 
 
+def clustering() -> str:
+    return (
+        "[^clustering]: As we saw with parse errors clustering by question type, "
+        "independence assumptions do not always hold. "
+        "See: [Clustered standard errors](https://en.wikipedia.org/wiki/Clustered_standard_errors)."
+    )
+
+
 def contour_math() -> str:
     return (
         "[^contour_math]: The MASK honesty score is the product of the conditional lie rate "

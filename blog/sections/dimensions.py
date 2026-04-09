@@ -78,7 +78,7 @@ def errors_intro() -> str:
     return (
         "I think that reporting raw counts, including errors, and confidence intervals is important. "
         "Here is what I think good practice looks like, "
-        "using tools from the [Inspect AI](https://inspect.aisi.org.uk/) [ecosystem](https://inspect.aisi.org.uk/extensions/)."
+        "using tools from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
     )
 
 
@@ -124,9 +124,13 @@ def parse_error_example() -> str:
 
 def parse_errors_investigation() -> str:
     return (
-        "Thankfully, [Inspect AI](https://inspect.aisi.org.uk/)'s "
-        "[eval logs](https://inspect.aisi.org.uk/eval-logs.html) make this transparent. "
-        "[Inspect Scout](https://inspect.aisi.org.uk/inspect-scout.html) was also helpful "
+        "Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html) help make this transparent."
+    )
+
+
+def parse_errors_scout() -> str:
+    return (
+        "[Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) was also helpful "
         "for diagnosing the *why*[^llm_judge_squared]. "
         "Here is a Scout invocation that summarises the failure modes behind the parse errors:"
     )
@@ -154,7 +158,7 @@ def parse_errors_explanation() -> str:
     return (
         "The Statistics questions use a separate judge (o3-mini) to parse numerical answers. "
         "Tuning parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` "
-        "would likely resolve this, though it would diverge from the defaults used in the original MASK eval."
+        "would likely resolve this, though this diverges from the defaults used in the original MASK eval."
     )
 
 
@@ -165,7 +169,7 @@ def sampling_uncertainty_subheader() -> str:
 def sampling_uncertainty_intro() -> str:
     return (
         "Even when the eval runs perfectly, finite samples mean not every difference is real. "
-        "With confidence intervals and raw counts, we can make comparisons more confidently."
+        "With confidence intervals and raw counts, we can make comparisons more confidently[^clustering]."
     )
 
 
@@ -196,13 +200,25 @@ def uncertainty_concrete_example() -> str:
     )
 
 
+def rigour_subheader() -> str:
+    return "### How rigorous is rigorous enough?"
+
+
 def clustering_caveat() -> str:
     return (
-        "As we saw, parse errors cluster by question type, and other outcomes may too. "
-        "If certain question types systematically produce more lies, "
-        "the CIs on honesty are too narrow, and "
-        "[clustered confidence intervals](https://en.wikipedia.org/wiki/Clustered_standard_errors) "
-        "are the right tool. "
-        "But at the risk of upsetting statisticians: "
-        "I would rather see eval papers at level 3 than no staircase at all."
+        "Thinking about confidence intervals naturally leads to thinking about "
+        "[independence and clustering](https://en.wikipedia.org/wiki/Clustered_standard_errors). "
+        "We saw this earlier with how the parse errors clustered by question type."
+    )
+
+
+def rigour_commentary() -> str:
+    return (
+        "Personally, and I know this could trigger some statisticians, "
+        "I would not get hung up on level 4 just yet. "
+        "It is probably better to spend time thinking about "
+        "whether this is the right eval in the first place, and how it will "
+        "[lead towards AI safety improvement](https://www.lesswrong.com/posts/8t8jdTyq6X2B7D8St/have-an-unreasonably-specific-story-about-the-future). "
+        "The MASK eval has introduced a lot of interesting framings "
+        "that the eval community is going to be able to extend."
     )
