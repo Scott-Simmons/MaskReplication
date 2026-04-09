@@ -71,20 +71,58 @@ def headline_still_holds() -> str:
 
 
 def reporting_errors_subheader() -> str:
-    return "### Reporting errors"
+    return "### Reporting errors (WIP)"
 
 
-def reporting_errors_prose() -> str:
+def yes_errors_happen() -> str:
+    return "Errors are an unavoidable part of LLM evaluation. Here are two types that I cannot get away from, no matter how much I try:"
+
+
+def transient_errors_can_be_mitigated() -> str:
     return (
-        "*[AI slop — needs rewrite]*\n\n"
-        "When I ran this eval, I noticed that transient errors happen all the time — "
-        "network timeouts, rate limits, API hiccups — stopping samples from fully completing. "
-        "[Inspect AI](https://inspect.aisi.org.uk) provides "
-        "[eval-retry functionality](https://inspect.aisi.org.uk/errors-and-limits.html) "
-        "to help with this, but transient failures are only half the story. "
-        "LLMs can also produce unparseable outputs — going off the rails in unexpected ways "
-        "that no retry will fix. These are not edge cases; they are routine in LLM evaluations.\n\n"
-        "Another advantage of reporting the full outcome counts is to provide visibility into this:"
+        "**(1) Transient errors:** can be retried automatically using "
+        "Inspect AI's [`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) flag. "
+        "This is very convenient!"
+    )
+
+
+def parse_errors_also_happen() -> str:
+    return (
+        "**(2) LLM parse errors:** A fact of (LLM) life. "
+        "For example, a question about Detroit's population had an error in 6 / 10 models, becuase the LLM judge "
+        "ran out of token budget before producing a valid JSON block as the final step in its reasoning:"
+    )
+
+
+def parse_error_example() -> str:
+    return (
+        "```json\n"
+        "{\n"
+        '  "lower_bound": -10.5,\n'
+        '  "upper_bound": -10.5,\n'
+        '  "relative_lower_bound": -10.5,\n'
+        '  "relative_upper_bound": "<TRUNCATED>"\n'
+        "}\n"
+        "```\n"
+    )
+
+
+def inspect_ai_keeps_it_visible() -> str:
+    return (
+        "LLM parse errors are made transparently visible with Inspect AI's [eval logs](https://inspect.aisi.org.uk/eval-logs.html)."
+        "This is also very convenient! [Inspect Scout]() was also conveniently used to analyse the logs for the parse errors, to "
+        "find that <some_hopefully_nice_finding>."
+    )
+
+
+def error_distribution() -> str:
+    return "<error_distribution_here>"
+
+
+def but_actually_its_part_of_the_process() -> str:
+    return (
+        "Tuning judge parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` would likely resolve this, though it would diverge "
+        "from the defaults used in the MASK paper."
     )
 
 
@@ -93,17 +131,31 @@ def reporting_uncertainty_subheader() -> str:
 
 
 def reporting_uncertainty_prose() -> str:
-    # TODO: AI slop — needs rewrite
+    return "Reporting confidence intervals separates claims that the data can support from ones it cannot."
+
+
+def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
+    from blog.analysis import load_runs
+
+    runs = {r.display_name: r for r in load_runs()}
+    haiku = runs["Claude Haiku 4.5"]
+    o3 = runs["o3-mini"]
+    ratio = haiku.truthfulness / o3.truthfulness
     return (
-        "*[AI slop — needs rewrite]*\n\n"
-        "When an outcome is rare, the proportion estimate is noisier and "
-        "error bars inflate relative to the point estimates. "
-        "This also applies across models: a score computed from 80 samples "
-        "is a much weaker claim than one computed from 1,000. "
-        "Right now, DeepSeek-R1 has fewer samples in my replication, so its "
-        "error bars are wider — that is information, not noise.\n\n"
-        "Even if researchers choose not to report confidence intervals, "
-        "reporting the raw counts lets readers derive them. "
-        "A percentage without a sample size is unverifiable. "
-        "A count is all you need to reconstruct the uncertainty."
+        haiku.display_name,
+        o3.display_name,
+        ratio,
+        haiku.dimensions["error"],
+        o3.dimensions["error"],
+    )
+
+
+def uncertainty_concrete_example() -> str:
+    haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
+    return (
+        f"The claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
+        f"However, asserting that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
+        "risks conflating noise with real differences. Based on prior observations, it’s likely that the "
+        "error rate is determined by the properties of the numeric judge model, so this result checks out "
+        "with our available evidence."
     )

@@ -68,9 +68,15 @@ STRUCTURE = [
             dimensions.headline_still_holds,
             figures.truthfulness_headline_result,
             dimensions.reporting_errors_subheader,
-            dimensions.reporting_errors_prose,
+            dimensions.yes_errors_happen,
+            dimensions.transient_errors_can_be_mitigated,
+            dimensions.parse_errors_also_happen,
+            dimensions.parse_error_example,
+            dimensions.inspect_ai_keeps_it_visible,
+            dimensions.but_actually_its_part_of_the_process,
             dimensions.reporting_uncertainty_subheader,
             dimensions.reporting_uncertainty_prose,
+            dimensions.uncertainty_concrete_example,
             figures.error_rate_plot,
         ],
     ),
@@ -146,7 +152,7 @@ def check_review() -> None:
         print("ERROR: The following sections need review before building:\n")
         for qname, _, dec_names in needs:
             print(f"  - {qname}  [{', '.join(dec_names)}]")
-        print(f"\nRun 'make review' to approve them for the current version.")
+        print("\nRun 'make review' to approve them for the current version.")
         sys.exit(1)
 
 
@@ -161,7 +167,10 @@ def main() -> None:
     html_text = generate_html(md_text)
     # Inject version stamp at the very bottom, after pandoc renders footnotes
     from blog.version import VERSION, CHANGELOG
-    version_label = f"{VERSION}+dev" if Path(f"versions/{VERSION}").exists() else VERSION
+
+    version_label = (
+        f"{VERSION}+dev" if Path(f"versions/{VERSION}").exists() else VERSION
+    )
     # Find the date for the current version
     version_date = next((date for v, date, _ in CHANGELOG if v == VERSION), "")
     paper_bibtex = (
@@ -199,13 +208,13 @@ def main() -> None:
     version_html = (
         '<footer style="text-align:center; margin-top:4em; padding-top:1.5em; border-top:1px solid #eee; color:#999; font-size:0.85em;">'
         f'<p>Version {version_label} · {version_date} · <a href="changelog.html">changelog</a></p>'
-        f'<details {details_style}><summary {summary_style}>cite this post</summary>'
-        f'<pre {pre_style}>{blog_bibtex}</pre></details>'
-        f'<details {details_style}><summary {summary_style}>cite the MASK eval for Inspect AI</summary>'
-        f'<pre {pre_style}>{inspect_mask_bibtex}</pre></details>'
-        f'<details {details_style}><summary {summary_style}>cite the MASK paper</summary>'
-        f'<pre {pre_style}>{paper_bibtex}</pre></details>'
-        '</footer>'
+        f"<details {details_style}><summary {summary_style}>cite this post</summary>"
+        f"<pre {pre_style}>{blog_bibtex}</pre></details>"
+        f"<details {details_style}><summary {summary_style}>cite the MASK eval for Inspect AI</summary>"
+        f"<pre {pre_style}>{inspect_mask_bibtex}</pre></details>"
+        f"<details {details_style}><summary {summary_style}>cite the MASK paper</summary>"
+        f"<pre {pre_style}>{paper_bibtex}</pre></details>"
+        "</footer>"
     )
     html_text = html_text.replace("</body>", f"{version_html}\n</body>")
     (output_dir / "blog_post.html").write_text(html_text)
