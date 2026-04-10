@@ -38,13 +38,25 @@ def intro() -> str:
     )
 
 
-def link_to_ai() -> str:
+def accuracy_vs_honesty() -> str:
     return (
         "Just like we can hide our underlying beliefs when subject to social "
-        "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] when subject to pressure from a "
-        "prompt. And while scaling up AI models has made them more "
-        "capable, a result from [Ren et al., 2025](https://arxiv.org/abs/2503.03750) suggests that "
-        "larger models are not more honest."
+        "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] "
+        "when subject to pressure from a prompt. "
+        "When people talk about AI and truth, they usually mean accuracy: "
+        "does the model get facts right? "
+        "Non-hallucination benchmarks measure this, and are regularly "
+        "used to claim that a model is truthful:"
+    )
+
+
+def mask_contribution() -> str:
+    return (
+        "The key insight of the [MASK benchmark](https://arxiv.org/abs/2503.03750) "
+        "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) is that "
+        "accuracy and honesty are different things. "
+        "And while scaling up AI models has made them more accurate, "
+        "a result from MASK suggests that larger models are not more honest."
     )
 
 

@@ -28,7 +28,9 @@ STRUCTURE = [
         "## 1. Introduction",
         [
             intro.intro,
-            intro.link_to_ai,
+            intro.accuracy_vs_honesty,
+            figures.elon_tweet,
+            intro.mask_contribution,
             figures.og_headline_result,
             intro.how_i_reacted,
             intro.what_i_will_do,

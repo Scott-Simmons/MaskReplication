@@ -1,6 +1,21 @@
 from blog.decorators import interpretation
 
 
+def elon_tweet() -> str:
+    return (
+        '<div style="text-align:center; margin:1.5em 0;">'
+        '<img src="assets/elon_tweet.png" alt="Elon Musk on X, April 9 2026: '
+        'Grok is the AI to use if you value truth" '
+        'style="max-width:350px; border-radius:6px;">'
+        '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; '
+        'margin-top:0.5em; font-style:italic;">'
+        "Non-hallucination benchmarks test factual recall. "
+        "They say nothing about whether a model will lie under pressure."
+        "</p>"
+        "</div>"
+    )
+
+
 def og_headline_result() -> str:
     from blog.plots import og_headline_result as _plot
 
