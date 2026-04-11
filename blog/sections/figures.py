@@ -1,4 +1,4 @@
-from blog.decorators import interpretation
+from blog.decorators import interpretation, references_numbers
 
 
 def elon_tweet() -> str:
@@ -41,6 +41,7 @@ def truthfulness_headline_result() -> str:
     return "![](figures/truthfulness_headline_result.png)"
 
 
+@references_numbers
 @interpretation
 def two_d_space_projection_headline() -> str:
     from blog.plots import two_d_space_projection as _plot
@@ -73,6 +74,7 @@ def error_rate_plot() -> str:
     return "![](figures/error_rate_plot.png)"
 
 
+@references_numbers
 def error_failure_modes() -> str:
     import json
     from pathlib import Path
@@ -130,6 +132,7 @@ def reporting_maturity() -> str:
     )
 
 
+@references_numbers
 def models_used_in_replication() -> str:
     from blog.analysis import load_runs
 
@@ -144,6 +147,7 @@ def models_used_in_replication() -> str:
     return "\n".join(lines)
 
 
+@references_numbers
 def dimensions_vectors_empirical() -> str:
     from blog.analysis import load_runs
 
@@ -207,6 +211,7 @@ def _binom_ci_str(p_pct: float, n: int) -> str:
     return f"{p_pct:.1f} ± {hw:.1f}"
 
 
+@references_numbers
 def paper_vs_replication_table() -> str:
     from blog.analysis import DISPLAY_TO_OG, load_runs
     from blog.constants import OG_PAPER_SCORES
@@ -225,7 +230,7 @@ def paper_vs_replication_table() -> str:
 
     # Honesty table
     hon_lines = [
-        "**Honesty (1 - P(Lie))**",
+        "**MASK Honesty (1 - P(Lie))**",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",

@@ -43,7 +43,7 @@ def llm_judge_squared() -> str:
 
 def clustering() -> str:
     return (
-        "[^clustering]: As we saw with parse errors clustering by question type, "
+        "[^clustering]: As the parse error analysis showed, clustering by question type means "
         "independence assumptions do not always hold. "
         "See: [Clustered standard errors](https://en.wikipedia.org/wiki/Clustered_standard_errors)."
     )

@@ -1,3 +1,7 @@
+from blog.decorators import interpretation
+
+
+@interpretation
 def recap() -> str:
     return "\n".join(
         [
@@ -20,7 +24,7 @@ def recap() -> str:
             "```",
             "",
             "I am particularly interested in contributions from "
-            "abliterated models, (current and future) frontier models, and xAI models, which would be "
+            "[abliterated models](https://huggingface.co/blog/mlabonne/abliteration), (current and future) frontier models, and xAI models, which would be "
             "interesting given their "
             '[stated emphasis](https://x.com/elonmusk/status/1948572708369039542) on building "maximally truth-seeking" AI. '
             "Right now, with respect to honesty, Anthropic models appear to be in [another league](https://labs.scale.com/leaderboard/mask).",

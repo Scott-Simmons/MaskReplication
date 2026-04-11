@@ -1,4 +1,5 @@
 from blog.decorators import interpretation as _interpretation_decorator
+from blog.decorators import references_numbers
 
 
 def what_i_wanted_to_do() -> str:
@@ -8,6 +9,7 @@ def what_i_wanted_to_do() -> str:
     )
 
 
+@references_numbers
 def differences_to_og() -> str:
     return (
         "*The [MASK public dataset](https://huggingface.co/datasets/cais/MASK) contains 1,000 examples.*\n\n"
@@ -17,12 +19,13 @@ def differences_to_og() -> str:
 
 def _differences_to_og_text() -> str:
     from blog.analysis import load_runs
+    from blog.constants import OG_PAPER_MODEL_NAMES
 
     n_models = len(load_runs())
     return (
         "I used a different model judge to save on cost (see [appendix](#appendix-paper-vs-replication-differences)) "
         f"and a smaller set of {n_models} models covering a range of providers and scales. "
-        "The paper tested 32, but some are now deprecated."
+        f"The paper tested {len(OG_PAPER_MODEL_NAMES)}, but some are now deprecated."
     )
 
 
@@ -34,6 +37,8 @@ def interpretation() -> str:
     )
 
 
+@references_numbers
+@_interpretation_decorator
 def caveat() -> str:
     from blog.analysis import DISPLAY_TO_OG, load_runs
     from blog.constants import OG_PAPER_SCORES

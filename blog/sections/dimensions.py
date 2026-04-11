@@ -1,4 +1,4 @@
-from blog.decorators import interpretation
+from blog.decorators import interpretation, references_numbers
 
 
 def preamble() -> str:
@@ -24,7 +24,7 @@ def honesty_in_terms_of_dimensions() -> str:
 
 
 def honesty_is_lossy() -> str:
-    return "However, this reduction compresses a lot of nuance, as we will see."
+    return "However, this reduction compresses a lot of nuance, as I will show."
 
 
 def hypothetical_subheader() -> str:
@@ -51,7 +51,7 @@ def empirical_lossy_demonstration() -> str:
 
 
 def what_else_subheader() -> str:
-    return "### What else can we measure?"
+    return "### What else can I measure?"
 
 
 def one_d_projections() -> str:
@@ -61,6 +61,7 @@ def one_d_projections() -> str:
     )
 
 
+@interpretation
 def truthfulness_argument() -> str:
     return (
         "Of these, I would argue that truthfulness ($H / \\text{n}$) is a more "
@@ -76,7 +77,7 @@ def headline_still_holds() -> str:
 
 def errors_intro() -> str:
     return (
-        "So far we have been computing metrics from raw outcome counts without questioning them. "
+        "So far I have been computing metrics from raw outcome counts without questioning them. "
         "But errors and finite sample sizes both affect how those metrics should be interpreted. "
         "Here is what accounting for this looks like in practice, "
         "using tooling from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
@@ -102,11 +103,15 @@ def parse_errors_subheader() -> str:
     return "### Parse errors"
 
 
+@references_numbers
 def parse_errors_intro() -> str:
+    from blog.analysis import load_runs
+
+    n_models = len(load_runs())
     return (
         "LLMs sometimes produce invalid output. "
         "If not reported, they could silently shift headline scores. "
-        "For example, a question about Detroit's population had an error in 6 / 10 models in my replication, "
+        f"For example, a question about Detroit's population had an error in 6 / {n_models} models in my replication, "
         "because the judge ran out of token budget before completing its JSON:"
     )
 
@@ -148,7 +153,7 @@ def scout_invocation() -> str:
 
 def parse_errors_not_random() -> str:
     return (
-        "When we break the errors down by question type, "
+        "When I break the errors down by question type, "
         "the Statistics questions stick out like a sore thumb:"
     )
 
@@ -168,7 +173,7 @@ def sampling_uncertainty_subheader() -> str:
 def sampling_uncertainty_intro() -> str:
     return (
         "Even when the eval runs perfectly, finite samples mean not every difference is real. "
-        "With confidence intervals and raw counts, we can make comparisons more confidently[^clustering]."
+        "With confidence intervals and raw counts, I can make comparisons more confidently[^clustering]."
     )
 
 
@@ -188,13 +193,15 @@ def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
     )
 
 
+@references_numbers
+@interpretation
 def uncertainty_concrete_example() -> str:
     haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
     return (
         f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} is valid. "
         f"However, claiming that {haiku_name} has a roughly {int(round(o3_errors / haiku_errors))} times lower error rate "
-        "conflates noise with real differences. Based on our previous investigation "
-        "into parse errors, this matches what we already expect: errors are intrinsic to "
+        "conflates noise with real differences. Based on my previous investigation "
+        "into parse errors, this matches what I already expect: errors are intrinsic to "
         "the o3-mini judge, not something that varies across the models being assessed."
     )
 
@@ -207,7 +214,7 @@ def clustering_caveat() -> str:
     return (
         "Thinking about confidence intervals naturally leads to thinking about "
         "[independence and clustering](https://en.wikipedia.org/wiki/Clustered_standard_errors). "
-        "We saw this earlier with how the parse errors clustered by question type."
+        "I showed this earlier with how the parse errors clustered by question type."
     )
 
 
