@@ -115,7 +115,6 @@ STRUCTURE = [
             footnotes.classification_dimensions_analogy,
             footnotes.open_questions,
             footnotes.pedantic_r5,
-            footnotes.llm_judge_squared,
             footnotes.clustering,
             footnotes.contour_math,
         ],

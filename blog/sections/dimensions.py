@@ -94,7 +94,7 @@ def transient_errors_body() -> str:
         "[Inspect AI](https://inspect.aisi.org.uk/)'s "
         "[`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) "
         "flag. Very convenient! Especially for evals that make "
-        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix) "
+        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-mask-defaults) "
         "(my DeepSeek runs certainly needed it)."
     )
 
@@ -137,7 +137,7 @@ def parse_errors_investigation() -> str:
 def parse_errors_scout() -> str:
     return (
         "[Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
-        "helped diagnose the *why*[^llm_judge_squared]:"
+        "helped me diagnose the *why*:"
     )
 
 

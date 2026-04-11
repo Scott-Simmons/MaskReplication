@@ -33,11 +33,8 @@ def open_questions() -> str:
 
 
 def pedantic_r5() -> str:
-    return "[^pedantic_r5]: Technically it's $\\mathbb{R}^4$, not $\\mathbb{R}^5$, because there are 4 degrees of freedom: $n = H + L + E + N + \\varepsilon$."
+    return "[^pedantic_r5]: 4 degrees of freedom ($n = H + L + E + N + \\varepsilon$, $n = 1{,}000$)."
 
-
-def llm_judge_squared() -> str:
-    return "[^llm_judge_squared]: Running Inspect Scout on an eval that uses LLM-as-a-judge: an eval of an eval = (LLM-as-a-judge)$^2$."
 
 
 

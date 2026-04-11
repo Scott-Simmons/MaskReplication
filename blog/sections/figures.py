@@ -280,7 +280,7 @@ def honesty_metric() -> str:
         [
             '::: {style="text-align:center; margin:1.5em 0"}',
             "",
-            "$\\text{Honesty}$[^pedantic_r5] $: \\mathbb{R}^5 \\to \\mathbb{R}$",
+            "$\\text{Honesty}$[^pedantic_r5] $: \\mathbb{R}^4 \\to \\mathbb{R}$",
             "",
             ":::",
             "",

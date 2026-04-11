@@ -1,0 +1,9 @@
+12. README still uses "config" not QuestionArchetype.
+
+13b. HUGGINGFACE_TOKEN is used but should be HF_TOKEN. New PR needed.
+
+14. In the README, the count distribution is a plot but should be a table.
+
+15. Eval report could reference the blog post (cross-link).
+
+13a. Add empirical distributions into the eval appendix.
