@@ -51,7 +51,7 @@ def empirical_lossy_demonstration() -> str:
 
 
 def what_else_subheader() -> str:
-    return "### What else can I measure?"
+    return "### What else can be measured?"
 
 
 def one_d_projections() -> str:
@@ -205,11 +205,11 @@ def uncertainty_concrete_example() -> str:
 
 @interpretation
 def ci_punchline() -> str:
-    haiku_name, _, _, haiku_errors, o3_errors = _uncertainty_numbers()
+    haiku_name, o3_name, _, haiku_errors, o3_errors = _uncertainty_numbers()
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
         f"Without confidence intervals on this plot, it would be easy to mistakenly conclude that "
-        f"{haiku_name} is almost {error_ratio} times more reliable than {o3_errors} ({round(o3_errors)} vs {round(haiku_errors)}), "
+        f"{haiku_name} is almost {error_ratio} times more reliable than {o3_name} ({round(o3_errors**-1, 2)} vs {round(haiku_errors**-1, 2)}), "
         "even though this difference is likely noise."
     )
 

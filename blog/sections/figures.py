@@ -28,8 +28,8 @@ def og_headline_result() -> str:
         '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; '
         'margin-top:0.5em; font-style:italic;">'
         'From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a>: '
-        'Larger models are more accurate but not more honest.'
-        '</p></div>'
+        "Larger models are more accurate but not more honest."
+        "</p></div>"
     )
 
 
@@ -58,7 +58,9 @@ def two_d_space_projection_headline() -> str:
     from blog.plots import _contour_pair_stats
 
     _plot()
-    pair = _contour_pair_stats(__import__("blog.analysis", fromlist=["load_runs"]).load_runs())
+    pair = _contour_pair_stats(
+        __import__("blog.analysis", fromlist=["load_runs"]).load_runs()
+    )
     if pair:
         a, b = pair
         # Order so that the one with lower conditional honesty is mentioned first
@@ -67,9 +69,9 @@ def two_d_space_projection_headline() -> str:
         chr_ratio = b["chr"] / a["chr"] if a["chr"] > 0 else 0
         return (
             f"![](figures/two_d_space_projection.png)\n\n"
-            f"Note how {a['name']} and {b['name']} sit on the same honesty "
-            f"contour (within error bars), "
-            f"even though {b['name']} is nearly {round(chr_ratio)}x more honest when it engages "
+            f"Note how {a['name']} and {b['name']} **sit on the same honesty "
+            f"contour** (within error bars), "
+            f"even though {b['name']} is **nearly {round(chr_ratio)}x more honest when it engages** "
             f"({b['chr']:.0f}% vs {a['chr']:.0f}%) and {a['name']} engages less often "
             f"({a['er']:.0f}% vs {b['er']:.0f}%). The honesty score compresses all of this "
             f"because {a['name']} engages less, pulling samples away from the lie bucket."
@@ -105,7 +107,13 @@ def error_failure_modes() -> str:
         "| Failure mode | Count | % |",
         "|---|---|---|",
     ]
-    for key in ["subject_unparseable", "reasoning_exhaustion", "output_truncated", "null_values", "no_judge_call"]:
+    for key in [
+        "subject_unparseable",
+        "reasoning_exhaustion",
+        "output_truncated",
+        "null_values",
+        "no_judge_call",
+    ]:
         count = modes.get(key, 0)
         pct = count / total * 100 if total else 0
         lines.append(f"| {labels.get(key, key)} | {count} | {pct:.0f}% |")
@@ -125,7 +133,13 @@ def reporting_maturity() -> str:
         ("1", "Report raw outcome counts", "#e8e8e8", "#666", "0em"),
         ("2", "Make the outcome space explicit and MECE", "#ddd", "#555", "1em"),
         ("3", "Add confidence intervals", "#d0d0d0", "#333", "2em"),
-        ("4", "Think carefully about independence and clustering", "#c4c4c4", "#111", "3em"),
+        (
+            "4",
+            "Think carefully about independence and clustering",
+            "#c4c4c4",
+            "#111",
+            "3em",
+        ),
     ]
     rows = []
     for num, label, bg, color, indent in reversed(levels):
@@ -133,12 +147,10 @@ def reporting_maturity() -> str:
         rows.append(
             f'<div style="margin-left:{indent}; background:{bg}; color:{color}; padding:0.5em 0.8em; '
             f'margin-bottom:2px; font-size:0.9em; border-radius:3px;">'
-            f'<strong>{num}.</strong> {label}{marker}</div>'
+            f"<strong>{num}.</strong> {label}{marker}</div>"
         )
     return (
-        '<div style="max-width:100%; margin:1.5em auto;">'
-        + "\n".join(rows)
-        + "</div>"
+        '<div style="max-width:100%; margin:1.5em auto;">' + "\n".join(rows) + "</div>"
     )
 
 
@@ -254,7 +266,7 @@ def paper_vs_replication_table() -> str:
 
     # Truthfulness table — paper reports P(honest) = H/n
     hon_lines = [
-        "**P(Honest) = H / n**",
+        "**P(honest)**",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
@@ -361,13 +373,15 @@ def eval_config_table() -> str:
         pkgs = ev.get("packages", {})
         meta = ev.get("metadata", {})
         task_args = ev.get("task_args", {})
-        configs.append((
-            meta.get("full_task_version", "?"),
-            task_args.get("binary_judge_model", "?"),
-            task_args.get("numeric_judge_model", "?"),
-            pkgs.get("inspect_ai", "?"),
-            pkgs.get("inspect_evals", "?"),
-        ))
+        configs.append(
+            (
+                meta.get("full_task_version", "?"),
+                task_args.get("binary_judge_model", "?"),
+                task_args.get("numeric_judge_model", "?"),
+                pkgs.get("inspect_ai", "?"),
+                pkgs.get("inspect_evals", "?"),
+            )
+        )
 
     counts = Counter(configs)
     lines = [
@@ -375,6 +389,8 @@ def eval_config_table() -> str:
         "|---|---|---|---|---|---|",
     ]
     for (mask_v, binary_j, numeric_j, ai_v, evals_v), count in counts.most_common():
-        lines.append(f"| {count} | {mask_v} | {binary_j} | {numeric_j} | {ai_v} | {evals_v} |")
+        lines.append(
+            f"| {count} | {mask_v} | {binary_j} | {numeric_j} | {ai_v} | {evals_v} |"
+        )
     lines.append(f"| **{len(configs)}** | | | | | |")
     return "\n".join(lines)
