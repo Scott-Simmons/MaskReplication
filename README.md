@@ -8,13 +8,6 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 |---|---|
 | `blog/` | Blog post source — sections, figures, and the build pipeline |
 | `eval_logs/` | Raw `.eval` log files from the replication runs |
-| `scan_logs/` | Error scan results used by the plots |
-
-## Explore the eval logs
-
-```bash
-uv run inspect view eval_logs/
-```
 
 ## Build the blog post
 
@@ -23,6 +16,22 @@ uv sync
 make build                # scans eval_logs/, generates build/blog_post.html
 make serve                # local preview at localhost:9437
 ```
+
+## If you are interested
+
+Explore the raw eval logs:
+
+```bash
+uv run inspect view eval_logs/
+```
+
+Run the eval yourself against a model of your choice:
+
+```bash
+uv run inspect eval inspect_evals/mask --model openai/gpt-4o
+```
+
+More details on running the eval [here](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#usage).
 
 ## Contributions welcome
 
