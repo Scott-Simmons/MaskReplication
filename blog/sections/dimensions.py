@@ -175,19 +175,21 @@ def sampling_uncertainty_intro() -> str:
     )
 
 
-def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
+def _uncertainty_numbers() -> tuple[str, str, float, float, float]:
     from blog.analysis import load_runs
 
     runs = {r.display_name: r for r in load_runs()}
     haiku = runs["Claude Haiku 4.5"]
     o3 = runs["o3-mini"]
     ratio = haiku.truthfulness / o3.truthfulness
+    haiku_error_rate = haiku.dimensions["error"] / haiku.n * 100
+    o3_error_rate = o3.dimensions["error"] / o3.n * 100
     return (
         haiku.display_name,
         o3.display_name,
         ratio,
-        haiku.dimensions["error_rate"],
-        o3.dimensions["error_rate"],
+        haiku_error_rate,
+        o3_error_rate,
     )
 
 
@@ -209,7 +211,7 @@ def ci_punchline() -> str:
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
         f"But without confidence intervals reported on this plot, it **would be easy to mistakenly conclude that "
-        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 2)} vs {round(haiku_errors, 2)}), "
+        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 2)}% vs {round(haiku_errors, 2)}%), "
         "even though this difference is likely noise."
     )
 

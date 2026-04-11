@@ -11,9 +11,9 @@ LABEL = "eval:MASK"
 
 # Eval reviewers (thanked separately in the footer).
 REVIEWERS = [
+    {"name": "Celia Waggoner", "login": "celiawaggoner"},
     {"name": "Nelson Gardner-Challis", "login": "NelsonG-C"},
     {"name": "Matt Fisher", "login": "mattfisher"},
-    {"name": "Celia Waggoner", "login": "celiawaggoner"},
     {"name": "Jay Bailey", "login": "Jay-Bailey"},
     {"name": "Dan Wilhelm", "login": "danwilhelm"},
 ]

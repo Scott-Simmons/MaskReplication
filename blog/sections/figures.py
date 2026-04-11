@@ -2,37 +2,40 @@ from blog.decorators import interpretation, references_numbers
 
 
 def elon_tweet() -> str:
-    return """
-        <div style="display:flex; flex-direction:column; align-items:center; margin:1.5em 0;">
-  <img src="assets/elon_tweet.png"
-       alt="Elon Musk on X, April 9 2026: Grok is the AI to use if you value truth"
-       style="width:320px; max-width:70vw; height:auto; border-radius:6px;">
-
-  <p style="color:#c0392b; font-weight:bold; font-size:0.85em; margin-top:0.5em; font-style:italic; text-align:center; max-width:500px;">
-    Non-hallucination benchmarks like
-    <a href="https://arxiv.org/pdf/2511.13029">AA-Omniscience</a>
-    measure factual recall, not honesty under pressure.
-  </p>
-</div>
-        """
+    return (
+        '<div style="display:flex; flex-direction:column; align-items:center; margin:1.5em 0;">\n'
+        '<img src="assets/elon_tweet.png"'
+        ' alt="Elon Musk on X, April 9 2026: Grok is the AI to use if you value truth"'
+        ' style="width:320px; max-width:70vw; height:auto; border-radius:6px;">\n'
+        '<p style="color:#c0392b; font-weight:bold; font-size:0.85em; margin-top:0.5em;'
+        ' font-style:italic; text-align:center; max-width:500px;">\n'
+        'Non-hallucination benchmarks like\n'
+        '<a href="https://arxiv.org/pdf/2511.13029">AA-Omniscience</a>\n'
+        "measure factual recall, not honesty under pressure.\n"
+        "</p>\n"
+        "</div>"
+    )
 
 
 def og_headline_result() -> str:
     from blog.plots import og_headline_result as _plot
 
     _plot()
-    return """
-        <div style="display:flex; flex-direction:column; align-items:center; margin:1.5em 0;">
-  <img src="figures/og_headline_result.png"
-       alt="From the MASK paper: Larger models are more accurate but not more honest"
-       style="width:800px; max-width:95vw; height:auto; border-radius:6px;">
-
-  <p style="color:#c0392b; font-weight:bold; font-size:0.9em; margin-top:0.5em; font-style:italic; text-align:center;">
-    From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a>:
-    Larger models are more accurate but not more honest.
-  </p>
-</div>
-        """
+    return (
+        '<div style="display:flex; flex-direction:column; align-items:center; margin:2em 0; padding:1.5em;'
+        ' background:#fdf3f3; border:2px solid #c0392b; border-radius:10px;">\n'
+        '<p style="color:#c0392b; font-weight:bold; font-size:1.5em; margin:0 0 1em 0; text-align:center; line-height:1.4;">\n'
+        "Scaling up AI models has made them more accurate.<br>\n"
+        '<span style="font-size:1.15em;">Larger models are <em>not</em> more honest.</span>\n'
+        "</p>\n"
+        '<img src="figures/og_headline_result.png"'
+        ' alt="From the MASK paper: Larger models are more accurate but not more honest"'
+        ' style="width:100%; max-width:900px; height:auto; border-radius:6px;">\n'
+        '<p style="color:#888; font-size:0.85em; margin-top:0.75em; font-style:italic; text-align:center;">\n'
+        'From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a> (Ren et al., 2025)\n'
+        "</p>\n"
+        "</div>"
+    )
 
 
 def replication_headline_result() -> str:
