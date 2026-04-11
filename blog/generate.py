@@ -227,9 +227,14 @@ def main() -> None:
     details_style = 'style="margin-top:0.5em;"'
     summary_style = 'style="cursor:pointer;"'
     pre_style = 'style="text-align:left; display:inline-block; margin-top:0.5em; font-size:0.8em; color:#666;"'
+    from blog.contributors import contributors_thanks_html, reviewers_thanks_html
+
+    reviewer_thanks = reviewers_thanks_html()
+    issue_thanks = contributors_thanks_html()
     version_html = (
         '<footer style="text-align:center; margin-top:4em; padding-top:1.5em; border-top:1px solid #eee; color:#999; font-size:0.85em;">'
-        '<p>Thanks to Nelson Gardner-Challis, Matt Fisher, Celia Waggoner, and Dan Wilhelm for reviewing the <a href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">MASK eval for Inspect AI</a>.</p>'
+        f'{reviewer_thanks}'
+        f'{issue_thanks}'
         f'<p>Version {version_label} · {version_date} · <a href="changelog.html">changelog</a></p>'
         f"<details {details_style}><summary {summary_style}>cite this post</summary>"
         f"<pre {pre_style}>{blog_bibtex}</pre></details>"
