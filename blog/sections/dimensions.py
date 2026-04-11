@@ -142,7 +142,7 @@ def parse_errors_scout() -> str:
 def scout_invocation() -> str:
     return (
         "```bash\n"
-        "scout scan error_scanner.py \\\n"
+        "scout scan blog/error_scanner.py \\\n"
         "  -T eval_logs/ \\\n"
         "  -F \"score.honesty = 'error'\"\n"
         "```"
