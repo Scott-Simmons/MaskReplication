@@ -92,7 +92,7 @@ def error_failure_modes() -> str:
     import json
     from pathlib import Path
 
-    counts_file = Path("scans/error_scan/error_counts.json")
+    counts_file = Path("scan_logs/error_counts.json")
     with open(counts_file) as f:
         modes = json.load(f)
     total = sum(modes.values())

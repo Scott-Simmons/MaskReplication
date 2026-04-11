@@ -8,7 +8,7 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 |---|---|
 | `blog/` | Blog post source — sections, figures, and the build pipeline |
 | `eval_logs/` | Raw `.eval` log files from the replication runs |
-| `scans/error_scan/` | Error scan results used by the plots |
+| `scan_logs/` | Error scan results used by the plots |
 
 ## Build the blog post
 
