@@ -6,3 +6,4 @@ build/
 todo*.txt
 contributors_cache.json
 .mypy_cache/
+logs/
