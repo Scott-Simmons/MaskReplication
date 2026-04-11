@@ -10,6 +10,12 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 | `eval_logs/` | Raw `.eval` log files from the replication runs |
 | `scan_logs/` | Error scan results used by the plots |
 
+## Explore the eval logs
+
+```bash
+uv run inspect view eval_logs/
+```
+
 ## Build the blog post
 
 ```bash
