@@ -6,11 +6,11 @@ def elon_tweet() -> str:
         '<div style="text-align:center; margin:1.5em 0;">'
         '<img src="assets/elon_tweet.png" alt="Elon Musk on X, April 9 2026: '
         'Grok is the AI to use if you value truth" '
-        'style="max-width:350px; border-radius:6px;">'
+        'style="max-width:350px; border-radius:6px; margin:0 auto;">'
         '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; '
         'margin-top:0.5em; font-style:italic;">'
-        "Non-hallucination benchmarks test factual recall. "
-        "They say nothing about whether a model will lie under pressure."
+        'Non-hallucination benchmarks like <a href="https://arxiv.org/pdf/2511.13029">AA-Omniscience</a> '
+        "measure accuracy, not honesty."
         "</p>"
         "</div>"
     )
@@ -55,13 +55,13 @@ def two_d_space_projection_headline() -> str:
             a, b = b, a
         chr_ratio = b["chr"] / a["chr"] if a["chr"] > 0 else 0
         return (
-            f"![Note how {a['name']} and {b['name']} sit on the same honesty "
+            f"![](figures/two_d_space_projection.png)\n\n"
+            f"Note how {a['name']} and {b['name']} sit on the same honesty "
             f"contour (within error bars), "
             f"even though {b['name']} is nearly {round(chr_ratio)}x more honest when it engages "
             f"({b['chr']:.0f}% vs {a['chr']:.0f}%) and {a['name']} engages less often "
             f"({a['er']:.0f}% vs {b['er']:.0f}%). The honesty score compresses all of this "
             f"because {a['name']} engages less, pulling samples away from the lie bucket."
-            "](figures/two_d_space_projection.png)"
         )
     return "![](figures/two_d_space_projection.png)"
 
@@ -74,9 +74,12 @@ def error_rate_plot() -> str:
 
 
 def error_failure_modes() -> str:
-    from blog.analysis import load_error_failure_modes
+    import json
+    from pathlib import Path
 
-    modes = load_error_failure_modes()
+    counts_file = Path("scans/error_scanner_final/error_counts.json")
+    with open(counts_file) as f:
+        modes = json.load(f)
     total = sum(modes.values())
 
     labels = {
@@ -87,14 +90,14 @@ def error_failure_modes() -> str:
         "no_judge_call": "No judge model invoked",
     }
     lines = [
-        "| Failure mode (with the help of Scout) | Count | % |",
+        "| Failure mode | Count | % |",
         "|---|---|---|",
     ]
     for key in ["subject_unparseable", "reasoning_exhaustion", "output_truncated", "null_values", "no_judge_call"]:
         count = modes.get(key, 0)
         pct = count / total * 100 if total else 0
         lines.append(f"| {labels.get(key, key)} | {count} | {pct:.0f}% |")
-    lines.append(f"| **Total** | **{total}** | |")
+    lines.append(f"| **Total** | **{total}** | **100%** |")
     return "\n".join(lines)
 
 

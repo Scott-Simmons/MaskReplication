@@ -1,6 +1,10 @@
 from blog.decorators import interpretation
 
 
+def byline() -> str:
+    return '<p style="color:#666; font-size:0.95em; margin-top:-0.5em;">Scott Simmons</p>'
+
+
 @interpretation
 def tldr() -> str:
     return (
@@ -26,7 +30,7 @@ def toc() -> str:
 
 
 def intro() -> str:
-    return "---\n\n" + (
+    return (
         "Truth is tricky. For starters, we cannot be sure that we actually "
         "know it. But even when we think we do know it, many of us lie "
         "in public anyway, because it can conflict with what's "
@@ -45,18 +49,18 @@ def accuracy_vs_honesty() -> str:
         "when subject to pressure from a prompt. "
         "When people talk about AI and truth, they usually mean accuracy: "
         "does the model get facts right? "
-        "Non-hallucination benchmarks measure this, and are regularly "
-        "used to claim that a model is truthful:"
+        "Non-hallucination benchmarks measure this, and are [regularly "
+        "used](https://x.com/elonmusk/status/2042034018724803055) to claim that a model is truthful."
     )
 
 
 def mask_contribution() -> str:
     return (
-        "The key insight of the [MASK benchmark](https://arxiv.org/abs/2503.03750) "
-        "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) is that "
+        "The [MASK benchmark](https://arxiv.org/abs/2503.03750) "
+        "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) operationalised a higher-fidelity distinction: "
         "accuracy and honesty are different things. "
-        "And while scaling up AI models has made them more accurate, "
-        "a result from MASK suggests that larger models are not more honest."
+        "The MASK authors found that while scaling up AI models has made them more accurate, "
+        "larger models are not more honest."
     )
 
 
@@ -64,7 +68,7 @@ def how_i_reacted() -> str:
     return (
         "When I first saw this result, I was provoked. "
         "How is lying defined? How is truth established? "
-        "The paper addresses many of these questions, and while some questions "
+        "The [paper](https://arxiv.org/abs/2503.03750) addresses many of these questions, and while some questions "
         "remain,[^open_questions] two questions I want to address in this post are:\n\n"
     )
 

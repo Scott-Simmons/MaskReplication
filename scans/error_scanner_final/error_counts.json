@@ -1,0 +1,7 @@
+{
+  "subject_unparseable": 23,
+  "reasoning_exhaustion": 12,
+  "output_truncated": 9,
+  "null_values": 2,
+  "no_judge_call": 1
+}

@@ -37,7 +37,7 @@ def pedantic_r5() -> str:
 
 
 def llm_judge_squared() -> str:
-    return "[^llm_judge_squared]: Running an LLM scanner on an eval that uses LLM-as-a-judge = (LLM-as-a-judge)$^2$."
+    return "[^llm_judge_squared]: Running Inspect Scout on an eval that uses LLM-as-a-judge: an eval of an eval = (LLM-as-a-judge)$^2$."
 
 
 

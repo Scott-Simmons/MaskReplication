@@ -53,7 +53,7 @@ def caveat() -> str:
     return (
         '::: {.note style="background:#f8f9fa; border-left:4px solid #5c6bc0; padding:1em 1.2em; margin:1.5em 0; border-radius:4px;"}\n'
         "**Note:** the headline relationship replicates: accuracy scales favourably with FLOPs, honesty does not. "
-        f"The scores differ from the paper: honesty runs higher by ~{hon_lo}-{hon_hi} percentage points, "
+        f"But the scores differ from the paper: honesty runs higher by ~{hon_lo}-{hon_hi} percentage points, "
         f"accuracy lower by ~{abs(acc_hi)}-{abs(acc_lo)} percentage points. "
         "See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model "
         "comparison.\n"

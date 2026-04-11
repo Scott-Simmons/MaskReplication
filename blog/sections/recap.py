@@ -6,7 +6,7 @@ def recap() -> str:
             "models by running the MASK eval from "
             "[inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/) and dropping "
             "the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with "
-            "`make clean build`.",
+            "`make clean build`. Raise a PR!",
             "",
             "Here is an invocation to get you started (you will need to use [Inspect AI](https://inspect.aisi.org.uk/#getting-started)):",
             "",

@@ -76,10 +76,10 @@ def headline_still_holds() -> str:
 
 def errors_intro() -> str:
     return (
-        "The previous section showed how much a single honesty score can hide. "
-        "To compute alternative metrics, or to catch systematic errors, you need the full outcome counts and confidence intervals. "
-        "Here is what I think good practice looks like, "
-        "using tools from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
+        "So far we have been computing metrics from raw outcome counts without questioning them. "
+        "But errors and finite sample sizes both affect how those metrics should be interpreted. "
+        "Here is what accounting for this looks like in practice, "
+        "using tooling from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
     )
 
 
@@ -93,8 +93,8 @@ def transient_errors_body() -> str:
         "[Inspect AI](https://inspect.aisi.org.uk/)'s "
         "[`--retry-on-error`](https://inspect.aisi.org.uk/reference/inspect_eval.html) "
         "flag. Very convenient! Especially for evals that make "
-        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix), "
-        "which in my experience have a high chance of samples being silently dropped."
+        "[a lot of invocations](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/appendix.html#with-n_s-10-as-used-in-the-mask-paper-appendix) "
+        "(my DeepSeek runs certainly needed it)."
     )
 
 
@@ -104,8 +104,8 @@ def parse_errors_subheader() -> str:
 
 def parse_errors_intro() -> str:
     return (
-        "LLMs sometimes fail to produce valid output in the expected shape. "
-        "If these failures are not reported, they silently inflate or deflate headline scores. "
+        "LLMs sometimes produce invalid output. "
+        "If not reported, they could silently shift headline scores. "
         "For example, a question about Detroit's population had an error in 6 / 10 models in my replication, "
         "because the judge ran out of token budget before completing its JSON:"
     )
@@ -125,15 +125,14 @@ def parse_error_example() -> str:
 
 def parse_errors_investigation() -> str:
     return (
-        "Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html) help make this transparent."
+        "Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html) make these failure modes transparent and auditable."
     )
 
 
 def parse_errors_scout() -> str:
     return (
-        "[Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) was also helpful "
-        "for diagnosing the *why*[^llm_judge_squared]. "
-        "Here is a Scout invocation that summarises the failure modes behind the parse errors:"
+        "[Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
+        "helped diagnose the *why*[^llm_judge_squared]:"
     )
 
 
@@ -142,8 +141,7 @@ def scout_invocation() -> str:
         "```bash\n"
         "scout scan error_scanner.py \\\n"
         "  -T eval_logs/ \\\n"
-        '  -F "score.honesty = \'error\'" \\\n'
-        "  --model openai/gpt-4o\n"
+        '  -F "score.honesty = \'error\'"\n'
         "```"
     )
 
@@ -193,8 +191,8 @@ def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
 def uncertainty_concrete_example() -> str:
     haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
     return (
-        f"For example, the claim that {haiku_name} is {ratio:.1f}x more truthful than {o3_name} is valid. "
-        f"However, claiming that {haiku_name} has a {haiku_errors / o3_errors:.2f}x lower error rate "
+        f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} is valid. "
+        f"However, claiming that {haiku_name} has a roughly {int(round(o3_errors / haiku_errors))} times lower error rate "
         "conflates noise with real differences. Based on our previous investigation "
         "into parse errors, this matches what we already expect: errors are intrinsic to "
         "the o3-mini judge, not something that varies across the models being assessed."

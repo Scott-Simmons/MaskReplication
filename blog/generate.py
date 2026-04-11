@@ -20,6 +20,7 @@ STRUCTURE = [
     (
         "# Mapping Deception",
         [
+            intro.byline,
             intro.tldr,
             intro.toc,
         ],
@@ -29,8 +30,8 @@ STRUCTURE = [
         [
             intro.intro,
             intro.accuracy_vs_honesty,
-            figures.elon_tweet,
             intro.mask_contribution,
+            figures.elon_tweet,
             figures.og_headline_result,
             intro.how_i_reacted,
             intro.what_i_will_do,
@@ -127,13 +128,16 @@ ASSETS_DIR = Path(__file__).parent / "assets"
 
 def generate() -> str:
     parts: list[str] = []
-    for heading, blocks in STRUCTURE:
+    for i, (heading, blocks) in enumerate(STRUCTURE):
         if heading is not None:
             parts.append(heading)
         parts.append("---" if heading and heading.startswith("# ") else "")
         for block in blocks:
             parts.append(block())
-        parts.append("---")
+        # Skip trailing --- if next section has a ## heading (avoids double rules)
+        next_heading = STRUCTURE[i + 1][0] if i + 1 < len(STRUCTURE) else None
+        if not (next_heading and next_heading.startswith("## ")):
+            parts.append("---")
     # Remove trailing --- and any empty strings, then rejoin
     while parts and parts[-1] in ("---", ""):
         parts.pop()

@@ -1,0 +1,82 @@
+{
+  "scan_id": "3y3MPbkUW6ykdzNJdRGdtr",
+  "scan_name": "mask_blog_post",
+  "timestamp": "2026-04-11T12:54:02.028284+10:00",
+  "revision": {
+    "type": "git",
+    "origin": "https://github.com/Scott-Simmons/MaskReplication.git",
+    "version": "0.0.0-dev.0+unknown",
+    "commit": "a7780a6d"
+  },
+  "packages": {
+    "inspect_ai": "0.3.205",
+    "inspect_scout": "0.4.25"
+  },
+  "options": {
+    "max_transcripts": 25
+  },
+  "transcripts": {
+    "type": "eval_log",
+    "filter": [
+      "score.honesty = 'error'"
+    ],
+    "transcript_ids": {
+      "BdQW9LyaQLGTGNJs2gDvFd": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-15-09-00-00_mask_G9gxBnZLRzuf5HdiJZJATe.eval",
+      "PWf3ZuzW2wac34duaFq9nv": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-15-09-00-00_mask_G9gxBnZLRzuf5HdiJZJATe.eval",
+      "hEA7gXeTYRGCDLbCoZD4e8": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-15-09-00-00_mask_G9gxBnZLRzuf5HdiJZJATe.eval",
+      "9k5aEUVWgzAvCsPanTGgto": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-15-09-00-00_mask_G9gxBnZLRzuf5HdiJZJATe.eval",
+      "KyoKNjvfCm6fVKqxmfqMjb": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "7JC9khgLnFLgaCF7Pf5u8B": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "o7CVurYDPcWJu9SQkjvdeZ": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "TGMhj3GApd2H6nHjhYGVCc": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "ApboF7wxgWRvKYa6n6b5Vd": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "daRh5buR6oxuwRtnhEQscr": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "dhGZtyfczeX9snzEG8fTDp": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_LSy2LVSNpJC6WpEzdDeaRy.eval",
+      "bJnZTf9kJPq5FPhnCXzqsT": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "WSnQxW9NisGAYw6z7UxiED": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "4zZUZwUWGpMqYauwz3hjuB": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "fwQGx339HCS2GmdZiHKUke": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "aUAgXP6TNd63abyeGaAnUi": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "dPp28oEeJXfVPvsnz8w5Km": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "RFvVNNSqshJ6NhgN3ERdBG": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "bFc4iaYek6ndPCBiKYKUbw": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-49-21+00-00_mask_DG6d2gtd3hRX8gw4x2Wc2L.eval",
+      "RVxuyPiFN7GrdpSDySR8MQ": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-20-14-00-00_mask_XjRuMW5svNAfs3ncN6NBDK.eval",
+      "LNd4WkZABythvxh3wtaByN": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-20-14-00-00_mask_XjRuMW5svNAfs3ncN6NBDK.eval",
+      "Ee8dfRr7GdPW46YP8ad4HE": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-51-41+00-00_mask_XnJdEuQVxwUfT6Gdgbqjhv.eval",
+      "e7GTeqjeP23EHMEimemJ9f": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-51-41+00-00_mask_XnJdEuQVxwUfT6Gdgbqjhv.eval",
+      "D4C4BCuorddsTKu2oQQi43": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "KCRNEdy7JVj3jU5y24RHrh": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "GXmmHtz9FTHunsxSMc5ob4": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "gErfoRJ5HxfrrY4c283qLr": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "7Br29h5MzVgf8WCY7uJCiv": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "5XhZRfRdnyT7x5zsbWUHy3": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T04-13-24-00-00_mask_FzY6AMX4kryaptxiyAqGwG.eval",
+      "i6sE2DbAPaXEDfcW4EBzcg": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "AsWxRLMXzGXDL6ZnBnRpWS": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "EN6HhJk9xUV5hemWZ8dQzR": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "RvsmCfHbFYqMQxBGb5V3NP": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "EREVZCdE5vdGqeCuQC2yYt": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "CWabCWziNktEsuTtLL5xy8": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T21-19-21-00-00_mask_B3md3VSSuXdibPM6tvadP2.eval",
+      "9zUWRqGVxBvexSVopi7b9d": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T03-57-28-00-00_mask_GT4MaJRpC9mtLz2Puo7Reb.eval",
+      "VvrNbC755iRzuDzDczJMVo": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T03-57-28-00-00_mask_GT4MaJRpC9mtLz2Puo7Reb.eval",
+      "nhCLNWjw9y7nd7cTo2gNyd": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T03-57-28-00-00_mask_GT4MaJRpC9mtLz2Puo7Reb.eval",
+      "cRN4Caabun93UaJFAnEyKi": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-07T03-57-28-00-00_mask_GT4MaJRpC9mtLz2Puo7Reb.eval",
+      "MDJN3S6X5WumP2obwMUhec": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "HcyhGZDsFzkrpWNZhuiRSh": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "jb9ynrN333oXKthWYT4c2m": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "574cBo9sL5kLqg3uVHEyo8": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "8DAuEyJHq62BuYP3zofaKT": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "XaSCiKTJBpN5hu6B2RB5BY": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T10-18-12+00-00_mask_VLfWLU2GTYvXvYcQRuhn6J.eval",
+      "AZCqwzDvnRujLrTqKXcWtf": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-28-31+00-00_mask_Yi3DsmQyqAVjroqLLCNqst.eval",
+      "WeLeCiCzCZjEVMELmkCTEp": "/home/scott-simmons/inspect_development/mask_blog_post/eval_logs/2026-04-01T09-28-31+00-00_mask_Yi3DsmQyqAVjroqLLCNqst.eval"
+    },
+    "count": 0
+  },
+  "scanners": {
+    "error_scanner": {
+      "name": "error_scanner",
+      "version": 0,
+      "file": "error_scanner.py",
+      "params": {}
+    }
+  }
+}
