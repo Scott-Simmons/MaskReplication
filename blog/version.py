@@ -8,7 +8,6 @@ CHANGELOG: list[tuple[str, str, list[str]]] = [
         "Add P(honest) and P(lie) comparison tables to appendix",
         "Fix changelog back-link",
         "Byline links to sdsimmons.com",
-        "Repo cleanup and full reproducibility via make build",
     ]),
     ("1", "2026-04-05", ["Initial blog post publication"]),
 ]

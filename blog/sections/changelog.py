@@ -10,7 +10,7 @@ def changelog() -> str:
     lines = [
         "## Changelog",
         "",
-        f"[← Back to current version (v{VERSION})](index.html)",
+        f"[← Back to current version (v{VERSION})](https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html)",
         "",
     ]
     for version, date, items in CHANGELOG:
