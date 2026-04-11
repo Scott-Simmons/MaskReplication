@@ -9,8 +9,6 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 | `blog/` | Blog post source — sections, figures, and the build pipeline |
 | `eval_logs/` | Raw `.eval` log files from the replication runs |
 | `scans/` | Parsed error scan results used by the plots |
-| `audit_eval_logs.py` | Deep audit of eval log sample data |
-| `error_analysis.py` | Error distribution analysis across models and archetypes |
 
 ## Build the blog post
 
