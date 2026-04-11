@@ -134,8 +134,8 @@ def parse_errors_investigation() -> str:
 
 def parse_errors_scout() -> str:
     return (
-        "I also used [Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
-        "to help diagnose the *why*:"
+        "I used [Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
+        "to help further diagnose the *why*:"
     )
 
 
