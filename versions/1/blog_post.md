@@ -192,7 +192,7 @@ Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html)
 I used [Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) to help further diagnose the *why*:
 
 ```bash
-scout scan error_scanner.py \
+scout scan blog/error_scanner.py \
   -T eval_logs/ \
   -F "score.honesty = 'error'"
 ```

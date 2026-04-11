@@ -30,8 +30,7 @@ serve:
 	$(PYTHON) -m http.server $(SERVER_PORT) --directory build
 
 view:
-	@echo opening eval viewer
-	$(PYTHON) -m inspect_ai view eval_logs/
+	uv run inspect view eval_logs/
 
 release: build
 	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \
