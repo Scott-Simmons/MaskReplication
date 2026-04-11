@@ -2,7 +2,9 @@ from blog.decorators import interpretation
 
 
 def byline() -> str:
-    return '<p style="color:#666; font-size:0.95em; margin-top:-0.5em;">Scott Simmons</p>'
+    return (
+        '<p style="color:#666; font-size:0.95em; margin-top:-0.5em;">Scott Simmons</p>'
+    )
 
 
 @interpretation
@@ -47,26 +49,24 @@ def accuracy_vs_honesty() -> str:
         "Just like we can hide our underlying beliefs when subject to social "
         "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] "
         "when subject to pressure from a prompt. "
-        "When people talk about AI and truth, they usually mean accuracy: "
-        "does the model get facts right? "
-        "Non-hallucination benchmarks measure this, and are [regularly "
+        "Non-hallucination benchmarks are [regularly "
         "used](https://x.com/elonmusk/status/2042034018724803055) to claim that a model is truthful."
     )
 
 
 def mask_contribution() -> str:
     return (
-        "The [MASK benchmark](https://arxiv.org/abs/2503.03750) "
+        "However, the [MASK benchmark](https://arxiv.org/abs/2503.03750) "
         "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) measures something fundamentally different: "
         "it applies prompt pressure to separate what a model believes from what it says. "
-        "The MASK authors found that while scaling up AI models has made them more accurate, "
-        "larger models are not more honest."
+        "The MASK authors found that **while scaling up AI models has made them more accurate, "
+        "larger models are not more honest.**"
     )
 
 
 def how_i_reacted() -> str:
     return (
-        "When I first saw the MASK result, I was provoked. "
+        "When I first saw this result, I was provoked. "
         "How is lying defined? How is truth established? "
         "The [paper](https://arxiv.org/abs/2503.03750) addresses many of these questions, and while some questions "
         "remain,[^open_questions] two questions I want to address in this post are:"

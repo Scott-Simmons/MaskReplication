@@ -9,7 +9,7 @@ def recap() -> str:
             "[this repo](https://github.com/Scott-Simmons/MaskReplication). You can add more "
             "models by running the MASK eval from "
             "[inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/) and dropping "
-            "the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with "
+            "the `.eval` files into the `eval_logs/` directory.\n\nAll results in this article will regenerate with "
             "`make clean build`. Raise a PR!",
             "",
             "Here is an invocation to get you started (you will need to install [inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#installation)):",

@@ -266,7 +266,7 @@ def paper_vs_replication_table() -> str:
 
     # Truthfulness table — paper reports P(honest) = H/n
     hon_lines = [
-        "**P(honest)**",
+        "**P(honest) (i.e. truthfulness)**",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",

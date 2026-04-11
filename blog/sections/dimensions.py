@@ -186,8 +186,8 @@ def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
         haiku.display_name,
         o3.display_name,
         ratio,
-        haiku.dimensions["error"],
-        o3.dimensions["error"],
+        haiku.dimensions["error_rate"],
+        o3.dimensions["error_rate"],
     )
 
 
@@ -208,8 +208,8 @@ def ci_punchline() -> str:
     haiku_name, o3_name, _, haiku_errors, o3_errors = _uncertainty_numbers()
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
-        f"Without confidence intervals on this plot, it would be easy to mistakenly conclude that "
-        f"{haiku_name} is almost {error_ratio} times more reliable than {o3_name} ({round(o3_errors**-1, 2)} vs {round(haiku_errors**-1, 2)}), "
+        f"But without confidence intervals reported on this plot, it **would be easy to mistakenly conclude that "
+        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 2)} vs {round(haiku_errors, 2)}), "
         "even though this difference is likely noise."
     )
 

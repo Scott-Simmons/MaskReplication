@@ -1,22 +1,24 @@
 def citation() -> str:
-    return "\n".join([
-        "<details>",
-        "<summary>BibTeX</summary>",
-        "",
-        "```bibtex",
-        "@misc{ren2025maskbenchmarkdisentanglinghonesty,",
-        "      title={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},",
-        "      author={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},",
-        "      year={2025},",
-        "      eprint={2503.03750},",
-        "      archivePrefix={arXiv},",
-        "      primaryClass={cs.LG},",
-        "      url={https://arxiv.org/abs/2503.03750},",
-        "}",
-        "```",
-        "",
-        "</details>",
-    ])
+    return "\n".join(
+        [
+            "<details>",
+            "<summary>BibTeX</summary>",
+            "",
+            "```bibtex",
+            "@misc{ren2025maskbenchmarkdisentanglinghonesty,",
+            "      title={The MASK Benchmark: Disentangling Honesty From Accuracy in AI Systems},",
+            "      author={Richard Ren and Arunim Agarwal and Mantas Mazeika and Cristina Menghini and Robert Vacareanu and Brad Kenstler and Mick Yang and Isabelle Barrass and Alice Gatti and Xuwang Yin and Eduardo Trevino and Matias Geralnik and Adam Khoja and Dean Lee and Summer Yue and Dan Hendrycks},",
+            "      year={2025},",
+            "      eprint={2503.03750},",
+            "      archivePrefix={arXiv},",
+            "      primaryClass={cs.LG},",
+            "      url={https://arxiv.org/abs/2503.03750},",
+            "}",
+            "```",
+            "",
+            "</details>",
+        ]
+    )
 
 
 def paper_vs_replication() -> str:
@@ -27,13 +29,14 @@ def paper_vs_replication() -> str:
             "1. **Different eval harness.** I replicated MASK with [Inspect AI](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/), not the original codebase. I used the MASK paper as a reference, but there could still be implementation differences w.r.t. the original code.",
             "2. **Model API drift.** Non-open-weight models may have drifted since the paper's evaluation window.",
             "3. **Different eval judges.** My replication uses gpt-4o-mini as the judge for yes/no questions. The original paper used gpt-4o. I did this to save on costs.",
+            "",
+            "The below tables take the difference between the MASK paper (table 3) and my replication.",
         ]
     )
 
 
 def eval_config_intro() -> str:
     return (
-        "Configuration summary from the eval log files. "
-        "Changes to eval comparability are tracked by the "
-        "[MASK version](https://ukgovernmentbeis.github.io/inspect_evals/contributing/repo/TASK_VERSIONING.html#task-version-structure):"
+        "Configuration summary. More information is stored in the [eval logs](https://github.com/Scott-Simmons/MaskReplication/tree/main/eval_logs). "
+        "To learn more about task versions, see [here](https://ukgovernmentbeis.github.io/inspect_evals/contributing/repo/TASK_VERSIONING.html#task-version-structure)."
     )
