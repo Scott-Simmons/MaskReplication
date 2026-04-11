@@ -50,7 +50,7 @@ def accuracy_vs_honesty() -> str:
         "pressure, AI models can hide their 'internal beliefs'[^internal_beliefs] "
         "when subject to pressure from a prompt. "
         "Non-hallucination benchmarks are [regularly "
-        "used](https://x.com/elonmusk/status/2042034018724803055) to claim that a model is truthful."
+        "used](https://x.com/elonmusk/status/2042034018724803055) to assess and compare model's truthfulness."
     )
 
 

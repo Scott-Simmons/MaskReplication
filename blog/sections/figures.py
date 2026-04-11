@@ -6,7 +6,7 @@ def elon_tweet() -> str:
         '<div style="display:flex; flex-direction:column; align-items:center; margin:1.5em 0;">\n'
         '<img src="assets/elon_tweet.png"'
         ' alt="Elon Musk on X, April 9 2026: Grok is the AI to use if you value truth"'
-        ' style="width:320px; max-width:70vw; height:auto; border-radius:6px;">\n'
+        ' style="width:320px; max-width:70vw; height:auto; border-radius:6px; margin:0 auto;">\n'
         '<p style="color:#c0392b; font-weight:bold; font-size:0.85em; margin-top:0.5em;'
         ' font-style:italic; text-align:center; max-width:500px;">\n'
         'Non-hallucination benchmarks like\n'
@@ -22,17 +22,13 @@ def og_headline_result() -> str:
 
     _plot()
     return (
-        '<div style="display:flex; flex-direction:column; align-items:center; margin:2em 0; padding:1.5em;'
-        ' background:#fdf3f3; border:2px solid #c0392b; border-radius:10px;">\n'
-        '<p style="color:#c0392b; font-weight:bold; font-size:1.5em; margin:0 0 1em 0; text-align:center; line-height:1.4;">\n'
-        "Scaling up AI models has made them more accurate.<br>\n"
-        '<span style="font-size:1.15em;">Larger models are <em>not</em> more honest.</span>\n'
-        "</p>\n"
+        '<div style="display:flex; flex-direction:column; align-items:center; margin:1.5em 0;">\n'
         '<img src="figures/og_headline_result.png"'
         ' alt="From the MASK paper: Larger models are more accurate but not more honest"'
-        ' style="width:100%; max-width:900px; height:auto; border-radius:6px;">\n'
-        '<p style="color:#888; font-size:0.85em; margin-top:0.75em; font-style:italic; text-align:center;">\n'
-        'From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a> (Ren et al., 2025)\n'
+        ' style="width:100%; max-width:1100px; height:auto; border-radius:6px; margin:0 auto;">\n'
+        '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; margin-top:0.5em; font-style:italic; text-align:center;">\n'
+        'From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a>:'
+        ' Larger models are more accurate but not more honest.\n'
         "</p>\n"
         "</div>"
     )
