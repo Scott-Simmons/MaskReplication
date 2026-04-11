@@ -700,7 +700,7 @@ def error_by_archetype_plot() -> None:
     judges.append("both")
 
     n_rows = len(labels)
-    fig, ax = plt.subplots(figsize=(8, 0.7 * n_rows + 0.8))
+    fig, ax = plt.subplots(figsize=(8, 6))
 
     y_pos = np.arange(n_rows)
     for i in range(n_rows):

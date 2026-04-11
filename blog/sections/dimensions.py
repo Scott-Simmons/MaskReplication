@@ -196,13 +196,8 @@ def _uncertainty_numbers() -> tuple[str, str, float, float, float]:
 @references_numbers
 @interpretation
 def uncertainty_concrete_example() -> str:
-    haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
-    return (
-        f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} holds up. "
-        f"However, claiming that {haiku_name} has a roughly {int(round(o3_errors / haiku_errors))} times lower error rate "
-        "conflates noise with real differences. This is consistent with what the parse error analysis showed: "
-        "errors are intrinsic to the Statistics questions, not something that varies across the models being assessed."
-    )
+    haiku_name, o3_name, ratio, _, _ = _uncertainty_numbers()
+    return f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} holds up."
 
 
 @interpretation
@@ -211,7 +206,7 @@ def ci_punchline() -> str:
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
         f"But without confidence intervals reported on this plot, it **would be easy to mistakenly conclude that "
-        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 2)}% vs {round(haiku_errors, 2)}%), "
+        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 4)}% vs {round(haiku_errors, 4)}%), "
         "even though this difference is likely noise."
     )
 

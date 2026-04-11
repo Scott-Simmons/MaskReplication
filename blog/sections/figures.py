@@ -260,25 +260,26 @@ def paper_vs_replication_table() -> str:
     for r in runs:
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
-            og_truthful, _, og_acc = OG_PAPER_SCORES[og_name]
-            rows.append((r, og_truthful, og_acc))
+            _, og_lie, og_acc = OG_PAPER_SCORES[og_name]
+            og_honesty = 100 - og_lie
+            rows.append((r, og_honesty, og_acc))
         else:
             rows.append((r, None, None))
 
-    # Truthfulness table — paper reports P(honest) = H/n
+    # MASK Honesty table — 1 - P(lie) = 1 - L/n
     hon_lines = [
-        "**P(honest) (i.e. truthfulness)**",
+        "**MASK Honesty**",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, og_truthful, _ in rows:
-        rep = _binom_ci_str(r.truthfulness * 100, r.n)
-        if og_truthful is not None:
-            diff = r.truthfulness * 100 - og_truthful
-            hw = _binom_ci_hw(r.truthfulness * 100, r.n)
+    for r, og_honesty, _ in rows:
+        rep = _binom_ci_str(r.honesty * 100, r.n)
+        if og_honesty is not None:
+            diff = r.honesty * 100 - og_honesty
+            hw = _binom_ci_hw(r.honesty * 100, r.n)
             hon_lines.append(
-                f"| {r.display_name} | {og_truthful:.1f} | {rep} | {_color_diff(diff, hw)} |"
+                f"| {r.display_name} | {og_honesty:.1f} | {rep} | {_color_diff(diff, hw)} |"
             )
         else:
             hon_lines.append(f"| {r.display_name} | — | {rep} | — |")
