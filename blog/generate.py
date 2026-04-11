@@ -252,6 +252,7 @@ def main() -> None:
     )
     html_text = html_text.replace("</body>", f"{version_html}\n</body>")
     (output_dir / "blog_post.html").write_text(html_text)
+    (output_dir / "mask_eval.html").write_text(html_text)
     (output_dir / "index.html").write_text(html_text)
     (output_dir / "style.css").write_text(CSS_FILE.read_text())
 

@@ -3,7 +3,7 @@ from blog.decorators import interpretation
 
 def byline() -> str:
     return (
-        '<p style="color:#666; font-size:0.95em; margin-top:-0.5em;"><a href="https://sdsimmons.com/#about-me" style="color:#666; text-decoration:none;">Scott Simmons</a></p>'
+        '<p style="color:#666; font-size:0.95em; margin-top:-0.5em;"><a href="https://sdsimmons.com/about-me" style="color:#666; text-decoration:none;">Scott Simmons</a></p>'
     )
 
 
