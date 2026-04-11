@@ -89,8 +89,7 @@ def reviewers_thanks_html() -> str:
     """Generate a thanks <p> tag for eval reviewers."""
     names = _format_names(REVIEWERS)
     return (
-        f"<p>Thanks to the <a href=\"https://ukgovernmentbeis.github.io/inspect_evals/\">Inspect Evals</a> maintainers, "
-        f"especially {names}, for the initial review of the "
+        f"<p>Thanks to {names} for the initial review of the "
         f'<a href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">MASK eval</a>.</p>'
     )
 
