@@ -13,7 +13,7 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 ## Build the blog post
 
 ```bash
-pip install -e .          # or use the .venv
+uv sync
 make build                # generates build/blog_post.html
 make serve                # local preview at localhost:9437
 ```
