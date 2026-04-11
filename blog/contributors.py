@@ -14,8 +14,8 @@ REVIEWERS = [
     {"name": "Nelson Gardner-Challis", "login": "NelsonG-C"},
     {"name": "Matt Fisher", "login": "mattfisher"},
     {"name": "Celia Waggoner", "login": "celiawaggoner"},
-    {"name": "Dan Wilhelm", "login": "danwilhelm"},
     {"name": "Jay Bailey", "login": "Jay-Bailey"},
+    {"name": "Dan Wilhelm", "login": "danwilhelm"},
 ]
 
 # Exclude: the blog author and anyone already thanked as a reviewer.
@@ -26,12 +26,19 @@ def _fetch_from_gh() -> list[dict[str, str]]:
     """Fetch issue authors from GitHub CLI, return [{"login": ..., "name": ...}]."""
     result = subprocess.run(
         [
-            "gh", "issue", "list",
-            "--repo", REPO,
-            "--label", LABEL,
-            "--state", "all",
-            "--json", "author",
-            "--limit", "100",
+            "gh",
+            "issue",
+            "list",
+            "--repo",
+            REPO,
+            "--label",
+            LABEL,
+            "--state",
+            "all",
+            "--json",
+            "author",
+            "--limit",
+            "100",
         ],
         capture_output=True,
         text=True,
@@ -44,7 +51,12 @@ def _fetch_from_gh() -> list[dict[str, str]]:
     for issue in issues:
         author = issue.get("author", {})
         login = author.get("login", "")
-        if login and login not in seen and login not in EXCLUDE_LOGINS and not author.get("is_bot"):
+        if (
+            login
+            and login not in seen
+            and login not in EXCLUDE_LOGINS
+            and not author.get("is_bot")
+        ):
             seen.add(login)
             contributors.append({"login": login, "name": author.get("name", "")})
     return contributors
@@ -63,7 +75,10 @@ def get_contributors() -> list[dict[str, str]]:
 
 def _format_names(people: list[dict[str, str]]) -> str:
     """Format a list of {"name": ..., "login": ...} as linked names."""
-    parts = [f'<a href="https://github.com/{p["login"]}">{p["name"] or p["login"]}</a>' for p in people]
+    parts = [
+        f'<a href="https://github.com/{p["login"]}">{p["name"] or p["login"]}</a>'
+        for p in people
+    ]
     if len(parts) == 1:
         return parts[0]
     if len(parts) == 2:
@@ -75,7 +90,7 @@ def reviewers_thanks_html() -> str:
     """Generate a thanks <p> tag for eval reviewers."""
     names = _format_names(REVIEWERS)
     return (
-        f'<p>Thanks to {names} for reviewing the '
+        f"<p>Thanks to {names} for reviewing the "
         f'<a href="https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/">MASK eval for Inspect AI</a>.</p>'
     )
 
@@ -87,7 +102,7 @@ def contributors_thanks_html() -> str:
         return ""
     names = _format_names(contributors)
     return (
-        f'<p>Thanks to {names} for '
+        f"<p>Thanks to {names} for "
         f'<a href="https://github.com/{REPO}/issues?q=label%3A{LABEL.replace(":", "%3A")}+is%3Aclosed">raising issues</a>'
         f" that improved the MASK eval.</p>"
     )
