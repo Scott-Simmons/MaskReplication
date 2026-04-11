@@ -1,22 +1,37 @@
 SERVER_PORT ?= 9437
+PYTHON := uv run python
+SCOUT  := uv run scout
 
-all: clean build
+all: build
 
 clean:
-	@echo removing build dir
-	rm -rf build/
+	@echo removing build and scan dirs
+	rm -rf build/ scan_logs/
 
-build:
+build: clean scan
 	@echo generating blog
-	python -m blog.generate
+	$(PYTHON) -m blog.generate
+
+scan:
+	@echo running error scanner
+	$(SCOUT) scan blog/error_scanner.py \
+		-T eval_logs/ \
+		-F "score.honesty = 'error' or score.honesty IS NULL" \
+		--scans scan_logs/
+	@echo aggregating results
+	$(PYTHON) -m blog.aggregate_scan
 
 review:
 	@echo reviewing sections
-	python -m blog.review
+	$(PYTHON) -m blog.review
 
 serve:
 	@echo serving on $(SERVER_PORT)
-	python -m http.server $(SERVER_PORT) --directory build
+	$(PYTHON) -m http.server $(SERVER_PORT) --directory build
+
+view:
+	@echo opening eval viewer
+	$(PYTHON) -m inspect_ai view eval_logs/
 
 release: build
 	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \

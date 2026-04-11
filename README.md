@@ -14,8 +14,9 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 
 ```bash
 uv sync
-make build                # generates build/blog_post.html
+make build                # scans eval_logs/, generates build/blog_post.html
 make serve                # local preview at localhost:9437
+make view                 # open eval log viewer
 ```
 
 ## Contributions welcome
