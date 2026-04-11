@@ -508,12 +508,15 @@ def _contour_pair_stats(runs):
 
 
 def _binom_ci(p_pct: float, n: int, z: float = 1.96) -> float:
-    """95% CI half-width (in %) for a proportion p (given in %) from n trials."""
+    """Wilson score 95% CI half-width (in %) for a proportion p (given in %) from n trials."""
     if n <= 0:
         return 0.0
-    p = p_pct / 100
-    p = max(min(p, 1.0), 0.0)
-    return z * np.sqrt(p * (1 - p) / n) * 100
+    p = max(min(p_pct / 100, 1.0), 0.0)
+    denom = 1 + z**2 / n
+    centre = (p + z**2 / (2 * n)) / denom
+    margin = z * np.sqrt((p * (1 - p) + z**2 / (4 * n)) / n) / denom
+    # Return half-width in percentage points
+    return margin * 100
 
 
 def _iso_hyperbolas(ax, levels, label_prefix):

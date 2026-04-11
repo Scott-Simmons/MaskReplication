@@ -6,11 +6,11 @@ def elon_tweet() -> str:
         '<div style="text-align:center; margin:1.5em 0;">'
         '<img src="assets/elon_tweet.png" alt="Elon Musk on X, April 9 2026: '
         'Grok is the AI to use if you value truth" '
-        'style="max-width:350px; border-radius:6px; margin:0 auto;">'
+        'style="max-width:150px; border-radius:6px; margin:0 auto;">'
         '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; '
         'margin-top:0.5em; font-style:italic;">'
         'Non-hallucination benchmarks like <a href="https://arxiv.org/pdf/2511.13029">AA-Omniscience</a> '
-        "measure accuracy, not honesty."
+        "measure factual recall, not honesty under pressure."
         "</p>"
         "</div>"
     )
@@ -20,7 +20,17 @@ def og_headline_result() -> str:
     from blog.plots import og_headline_result as _plot
 
     _plot()
-    return "![From the [MASK paper](https://arxiv.org/abs/2503.03750): Larger models are more accurate but not more honest](figures/og_headline_result.png)"
+    return (
+        '<div style="text-align:center; margin:1.5em 0;">'
+        '<img src="figures/og_headline_result.png" '
+        'alt="From the MASK paper: Larger models are more accurate but not more honest" '
+        'style="max-width:100%; border-radius:6px;">'
+        '<p style="color:#c0392b; font-weight:bold; font-size:0.9em; '
+        'margin-top:0.5em; font-style:italic;">'
+        'From the <a href="https://arxiv.org/abs/2503.03750">MASK paper</a>: '
+        'Larger models are more accurate but not more honest.'
+        '</p></div>'
+    )
 
 
 def replication_headline_result() -> str:
@@ -195,19 +205,33 @@ def other_1d_projections() -> str:
     )
 
 
-def _color_diff(diff: float) -> str:
+def _binom_ci_hw(p_pct: float, n: int) -> float:
+    """Return the Wilson score 95% CI half-width for a percentage.[^wilson_ci]"""
+    import numpy as np
+
+    if n <= 0:
+        return 0.0
+    z = 1.96
+    p = max(min(p_pct / 100, 1.0), 0.0)
+    denom = 1 + z**2 / n
+    margin = z * np.sqrt((p * (1 - p) + z**2 / (4 * n)) / n) / denom
+    return margin * 100
+
+
+def _color_diff(diff: float, hw: float) -> str:
     sign = "+" if diff >= 0 else ""
-    color = "green" if diff >= 0 else "red"
+    if abs(diff) <= hw:
+        color = "#999"
+    elif diff >= 0:
+        color = "green"
+    else:
+        color = "red"
     return f'<span style="color:{color}">{sign}{diff:.1f}</span>'
 
 
 def _binom_ci_str(p_pct: float, n: int) -> str:
     """Format a percentage with its 95% CI."""
-    import numpy as np
-
-    p = p_pct / 100
-    p = max(min(p, 1.0), 0.0)
-    hw = 1.96 * np.sqrt(p * (1 - p) / n) * 100 if n > 0 else 0
+    hw = _binom_ci_hw(p_pct, n)
     return f"{p_pct:.1f} ± {hw:.1f}"
 
 
@@ -223,24 +247,25 @@ def paper_vs_replication_table() -> str:
     for r in runs:
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
-            og_hon, _, og_acc = OG_PAPER_SCORES[og_name]
-            rows.append((r, og_hon, og_acc))
+            og_truthful, _, og_acc = OG_PAPER_SCORES[og_name]
+            rows.append((r, og_truthful, og_acc))
         else:
             rows.append((r, None, None))
 
-    # Honesty table
+    # Truthfulness table — paper reports P(honest) = H/n
     hon_lines = [
-        "**MASK Honesty (1 - P(Lie))**",
+        "**P(Honest) = H / n**",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, og_hon, _ in rows:
-        rep = _binom_ci_str(r.honesty * 100, r.n)
-        if og_hon is not None:
-            diff = r.honesty * 100 - og_hon
+    for r, og_truthful, _ in rows:
+        rep = _binom_ci_str(r.truthfulness * 100, r.n)
+        if og_truthful is not None:
+            diff = r.truthfulness * 100 - og_truthful
+            hw = _binom_ci_hw(r.truthfulness * 100, r.n)
             hon_lines.append(
-                f"| {r.display_name} | {og_hon:.1f} | {rep} | {_color_diff(diff)} |"
+                f"| {r.display_name} | {og_truthful:.1f} | {rep} | {_color_diff(diff, hw)} |"
             )
         else:
             hon_lines.append(f"| {r.display_name} | — | {rep} | — |")
@@ -256,8 +281,9 @@ def paper_vs_replication_table() -> str:
         rep = _binom_ci_str(r.accuracy * 100, r.n)
         if og_acc is not None:
             diff = r.accuracy * 100 - og_acc
+            hw = _binom_ci_hw(r.accuracy * 100, r.n)
             acc_lines.append(
-                f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff)} |"
+                f"| {r.display_name} | {og_acc:.1f} | {rep} | {_color_diff(diff, hw)} |"
             )
         else:
             acc_lines.append(f"| {r.display_name} | — | {rep} | — |")
@@ -329,8 +355,8 @@ def eval_config_table() -> str:
     for fname in sorted(os.listdir(logs_dir)):
         if not fname.endswith(".eval"):
             continue
-        z = zipfile.ZipFile(logs_dir / fname)
-        header = json.loads(z.read("header.json"))
+        with zipfile.ZipFile(logs_dir / fname) as z:
+            header = json.loads(z.read("header.json"))
         ev = header["eval"]
         pkgs = ev.get("packages", {})
         meta = ev.get("metadata", {})
@@ -345,10 +371,10 @@ def eval_config_table() -> str:
 
     counts = Counter(configs)
     lines = [
-        "| MASK version | Binary judge | Numeric judge | inspect_ai | inspect_evals | Eval logs |",
+        "| Count | MASK version | Binary judge | Numeric judge | inspect_ai | inspect_evals |",
         "|---|---|---|---|---|---|",
     ]
     for (mask_v, binary_j, numeric_j, ai_v, evals_v), count in counts.most_common():
-        lines.append(f"| {mask_v} | {binary_j} | {numeric_j} | {ai_v} | {evals_v} | {count} |")
-    lines.append(f"| | | | | **Total** | **{len(configs)}** |")
+        lines.append(f"| {count} | {mask_v} | {binary_j} | {numeric_j} | {ai_v} | {evals_v} |")
+    lines.append(f"| **{len(configs)}** | | | | | |")
     return "\n".join(lines)

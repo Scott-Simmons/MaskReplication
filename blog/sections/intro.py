@@ -24,7 +24,7 @@ def toc() -> str:
             "3. [Dimensions of deception](#dimensions-of-deception)\n"
             "4. [Reporting errors and uncertainty](#reporting-errors-and-uncertainty)\n"
             "5. [Try it yourself](#try-it-yourself)\n"
-            "6. [Appendix](#appendix-paper-vs-replication-differences)",
+            "6. Appendix: [Paper vs replication](#appendix-paper-vs-replication-differences) · [Eval configuration](#appendix-eval-configuration)",
         ]
     )
 
@@ -57,8 +57,8 @@ def accuracy_vs_honesty() -> str:
 def mask_contribution() -> str:
     return (
         "The [MASK benchmark](https://arxiv.org/abs/2503.03750) "
-        "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) operationalised a higher-fidelity distinction: "
-        "accuracy and honesty are different things. "
+        "([Ren et al., 2025](https://arxiv.org/abs/2503.03750)) measures something fundamentally different: "
+        "it applies prompt pressure to separate what a model believes from what it says. "
         "The MASK authors found that while scaling up AI models has made them more accurate, "
         "larger models are not more honest."
     )
@@ -66,7 +66,7 @@ def mask_contribution() -> str:
 
 def how_i_reacted() -> str:
     return (
-        "When I first saw this result, I was provoked. "
+        "When I first saw the MASK result, I was provoked. "
         "How is lying defined? How is truth established? "
         "The [paper](https://arxiv.org/abs/2503.03750) addresses many of these questions, and while some questions "
         "remain,[^open_questions] two questions I want to address in this post are:"

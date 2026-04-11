@@ -31,8 +31,8 @@ STRUCTURE = [
             intro.intro,
             intro.accuracy_vs_honesty,
             intro.mask_contribution,
-            figures.elon_tweet,
             figures.og_headline_result,
+            figures.elon_tweet,
             intro.how_i_reacted,
             intro.what_i_will_do,
         ],
@@ -107,6 +107,11 @@ STRUCTURE = [
         [
             appendix.paper_vs_replication,
             figures.paper_vs_replication_table,
+        ],
+    ),
+    (
+        "## Appendix: Eval configuration",
+        [
             appendix.eval_config_intro,
             figures.eval_config_table,
         ],
@@ -118,6 +123,7 @@ STRUCTURE = [
             footnotes.classification_dimensions_analogy,
             footnotes.open_questions,
             footnotes.pedantic_r5,
+            footnotes.wilson_ci,
             footnotes.clustering,
             footnotes.contour_math,
         ],
@@ -138,7 +144,7 @@ def generate() -> str:
             parts.append(block())
         # Skip trailing --- if next section has a ## heading (avoids double rules)
         next_heading = STRUCTURE[i + 1][0] if i + 1 < len(STRUCTURE) else None
-        if not (next_heading and next_heading.startswith("## ")):
+        if not (next_heading is None or next_heading.startswith("## ")):
             parts.append("---")
     # Remove trailing --- and any empty strings, then rejoin
     while parts and parts[-1] in ("---", ""):

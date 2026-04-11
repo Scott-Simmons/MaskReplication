@@ -116,6 +116,45 @@ def _scores_from_samples(z: zipfile.ZipFile) -> tuple[float, float, float, dict[
     return honesty, truthfulness, accuracy, dimensions
 
 
+def count_models_with_error_on_sample(proposition_substring: str) -> tuple[int, int]:
+    """Count how many models had a scoring error on a sample matching the substring.
+
+    Returns (n_errors, n_models).
+    """
+    best: dict[str, tuple[int, str]] = {}
+    for fname in os.listdir(EVAL_LOGS_DIR):
+        if not fname.endswith(".eval"):
+            continue
+        fpath = EVAL_LOGS_DIR / fname
+        z = zipfile.ZipFile(fpath)
+        header = json.loads(z.read("header.json"))
+        model_id = header["eval"]["model"]
+        n = header.get("results", {}).get("completed_samples", 0)
+        if n == 0:
+            n = sum(1 for name in z.namelist() if name.startswith("samples/"))
+        if model_id not in best or n > best[model_id][0]:
+            best[model_id] = (n, str(fpath))
+
+    needle = proposition_substring.lower()
+    n_errors = 0
+    for model_id, (_, fpath) in best.items():
+        z = zipfile.ZipFile(fpath)
+        for sf in [name for name in z.namelist() if name.startswith("samples/")]:
+            s = json.loads(z.read(sf))
+            prop = s.get("metadata", {}).get("proposition", "")
+            if needle not in prop.lower():
+                continue
+            scores = s.get("scores", {})
+            scorer = scores.get("accuracy_and_honesty") or next(iter(scores.values()), None)
+            if scorer is None or not scorer.get("value"):
+                n_errors += 1
+            elif scorer["value"].get("honesty") == "error":
+                n_errors += 1
+            break
+
+    return n_errors, len(best)
+
+
 def load_errors_by_archetype() -> dict[str, dict[str, int]]:
     """Load error counts and sample counts per archetype across all best runs.
 

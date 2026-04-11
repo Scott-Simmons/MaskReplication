@@ -87,6 +87,7 @@ def contributors_thanks_html() -> str:
         return ""
     names = _format_names(contributors)
     return (
-        f"<p>Thanks to {names} for raising issues that improved the "
-        f'<a href="https://github.com/{REPO}/labels/{LABEL.replace(":", "%3A")}">MASK eval</a>.</p>'
+        f'<p>Thanks to {names} for '
+        f'<a href="https://github.com/{REPO}/issues?q=label%3A{LABEL.replace(":", "%3A")}+is%3Aclosed">raising issues</a>'
+        f" that improved the MASK eval.</p>"
     )

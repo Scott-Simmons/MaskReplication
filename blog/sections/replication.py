@@ -12,7 +12,9 @@ def what_i_wanted_to_do() -> str:
 @references_numbers
 def differences_to_og() -> str:
     return (
-        "*The [MASK public dataset](https://huggingface.co/datasets/cais/MASK) contains 1,000 examples.*\n\n"
+        '<p style="text-align:center; color:#c0392b; font-weight:bold; font-size:0.9em; font-style:italic;">'
+        'The <a href="https://huggingface.co/datasets/cais/MASK">MASK public dataset</a> contains 1,000 examples.'
+        "</p>\n\n"
         + _differences_to_og_text()
     )
 
@@ -48,20 +50,19 @@ def caveat() -> str:
     for r in load_runs():
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
-            og_hon, _, og_acc = OG_PAPER_SCORES[og_name]
-            hon_diffs.append(r.honesty * 100 - og_hon)
+            # Tuple is (P(honest)=H/n, P(lie)=L/n, accuracy).
+            og_truthful, _, og_acc = OG_PAPER_SCORES[og_name]
+            hon_diffs.append(r.truthfulness * 100 - og_truthful)
             acc_diffs.append(r.accuracy * 100 - og_acc)
 
-    import math
-
-    hon_lo, hon_hi = math.floor(min(hon_diffs)), math.ceil(max(hon_diffs))
-    acc_lo, acc_hi = math.floor(min(acc_diffs)), math.ceil(max(acc_diffs))
+    hon_abs = int(max(abs(d) for d in hon_diffs))
+    acc_abs = int(max(abs(d) for d in acc_diffs))
 
     return (
         '::: {.note style="background:#f8f9fa; border-left:4px solid #5c6bc0; padding:1em 1.2em; margin:1.5em 0; border-radius:4px;"}\n'
         "**Note:** the headline relationship replicates: accuracy scales favourably with FLOPs, **but honesty does not.** "
-        f"But the scores differ from the paper: honesty runs higher by ~{hon_lo}-{hon_hi} percentage points, "
-        f"accuracy lower by ~{abs(acc_hi)}-{abs(acc_lo)} percentage points. "
+        f"But the scores differ from the paper: P(honest) within ~{hon_abs} percentage points, "
+        f"accuracy within ~{acc_abs} percentage points. "
         "See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model "
         "comparison.\n"
         ":::"

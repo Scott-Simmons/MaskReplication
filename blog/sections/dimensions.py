@@ -77,7 +77,7 @@ def headline_still_holds() -> str:
 
 def errors_intro() -> str:
     return (
-        "So far I have been computing metrics from raw outcome counts without questioning them. "
+        "So far I have been computing metrics from raw outcome counts. "
         "But errors and finite sample sizes both affect how those metrics should be interpreted. "
         "Here is what accounting for this looks like in practice, "
         "using tooling from the [Inspect AI ecosystem](https://inspect.aisi.org.uk/extensions/)."
@@ -129,15 +129,13 @@ def parse_error_example() -> str:
 
 
 def parse_errors_investigation() -> str:
-    return (
-        "Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html) make these failure modes transparent and auditable."
-    )
+    return "Thankfully, [Inspect AI's eval logs](https://inspect.aisi.org.uk/eval-logs.html) make these failure modes transparent and auditable."
 
 
 def parse_errors_scout() -> str:
     return (
-        "[Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
-        "helped me diagnose the *why*:"
+        "I also used [Inspect Scout](https://meridianlabs-ai.github.io/inspect_scout/) "
+        "to help diagnose the *why*:"
     )
 
 
@@ -146,14 +144,14 @@ def scout_invocation() -> str:
         "```bash\n"
         "scout scan error_scanner.py \\\n"
         "  -T eval_logs/ \\\n"
-        '  -F "score.honesty = \'error\'"\n'
+        "  -F \"score.honesty = 'error'\"\n"
         "```"
     )
 
 
 def parse_errors_not_random() -> str:
     return (
-        "When I break the errors down by question type, "
+        "When grouped by question type, "
         "the Statistics questions stick out like a sore thumb:"
     )
 
@@ -173,7 +171,7 @@ def sampling_uncertainty_subheader() -> str:
 def sampling_uncertainty_intro() -> str:
     return (
         "Even when the eval runs perfectly, finite samples mean not every difference is real. "
-        "With confidence intervals and raw counts, I can make comparisons more confidently[^clustering]."
+        "With confidence intervals[^wilson_ci] and raw counts, comparisons become more meaningful[^clustering]."
     )
 
 
@@ -198,11 +196,10 @@ def _uncertainty_numbers() -> tuple[str, str, float, int, int]:
 def uncertainty_concrete_example() -> str:
     haiku_name, o3_name, ratio, haiku_errors, o3_errors = _uncertainty_numbers()
     return (
-        f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} is valid. "
+        f"For example, the claim that {haiku_name} is more than {int(ratio)} times more truthful than {o3_name} holds up. "
         f"However, claiming that {haiku_name} has a roughly {int(round(o3_errors / haiku_errors))} times lower error rate "
-        "conflates noise with real differences. Based on my previous investigation "
-        "into parse errors, this matches what I already expect: errors are intrinsic to "
-        "the o3-mini judge, not something that varies across the models being assessed."
+        "conflates noise with real differences. This is consistent with what the parse error analysis showed: "
+        "errors are intrinsic to the Statistics questions, not something that varies across the models being assessed."
     )
 
 
@@ -211,8 +208,8 @@ def ci_punchline() -> str:
     haiku_name, _, _, haiku_errors, o3_errors = _uncertainty_numbers()
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
-        f"If confidence intervals were not on this plot, I could mistakenly assert that "
-        f"{haiku_name} is almost {error_ratio} times more reliable, "
+        f"Without confidence intervals on this plot, it would be easy to mistakenly conclude that "
+        f"{haiku_name} is almost {error_ratio} times more reliable than {o3_errors} ({round(o3_errors)} vs {round(haiku_errors)}), "
         "even though this difference is likely noise."
     )
 

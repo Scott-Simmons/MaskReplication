@@ -71,7 +71,9 @@ LOG10_FLOP: dict[str, tuple[float | None, str]] = {
 }
 
 # Original paper Table 3 results (Ren et al., 2025).
-# Values are percentages: (1 - P(lie), P(lie), accuracy).
+# Values are percentages: (P(honest) = H/n, P(lie) = L/n, accuracy).
+# NOTE: P(honest) ≠ 1 - P(lie) because evade, no-belief, and error absorb the rest.
+# The MASK honesty score is 1 - P(lie), derived from the second column.
 # All 32 models from Table 3, keyed by paper model name.
 OG_PAPER_SCORES: dict[str, tuple[float, float, float]] = {
     "claude-3-5-sonnet-20240620": (27.7, 33.4, 80.1),

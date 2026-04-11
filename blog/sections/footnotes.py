@@ -33,9 +33,14 @@ def open_questions() -> str:
 
 
 def pedantic_r5() -> str:
-    return "[^pedantic_r5]: 4 degrees of freedom ($n = H + L + E + N + \\varepsilon$, $n = 1{,}000$)."
+    return "[^pedantic_r5]: 4 degrees of freedom because $n = H + L + E + N + \\varepsilon$, and ($n = 1{,}000$)."
 
 
+def wilson_ci() -> str:
+    return (
+        "[^wilson_ci]: All confidence intervals in this post use the "
+        "[Wilson score interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)."
+    )
 
 
 def clustering() -> str:
@@ -48,8 +53,8 @@ def clustering() -> str:
 
 def contour_math() -> str:
     return (
-        "[^contour_math]: The MASK honesty score is the product of the conditional lie rate "
+        "[^contour_math]: The MASK honesty score can be composed from the conditional lie rate "
         "and the engagement rate: $\\text{MASK Honesty} = 1 - P(\\text{Lie}) = 1 - \\frac{L}{n} "
         "= 1 - \\frac{L}{H+L} \\cdot \\frac{H+L}{n} = 1 - (1 - \\frac{H}{H+L}) "
-        "\\cdot \\frac{H+L}{n}.$"
+        "\\cdot \\frac{H+L}{n}.$ "
     )
