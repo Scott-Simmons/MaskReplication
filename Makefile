@@ -29,9 +29,6 @@ serve:
 	@echo serving on $(SERVER_PORT)
 	$(PYTHON) -m http.server $(SERVER_PORT) --directory build
 
-view:
-	uv run inspect view eval_logs/
-
 release: build
 	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \
 	if [ -d "versions/$$VERSION" ]; then \
