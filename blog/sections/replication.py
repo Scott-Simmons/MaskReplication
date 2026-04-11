@@ -52,8 +52,10 @@ def caveat() -> str:
             hon_diffs.append(r.honesty * 100 - og_hon)
             acc_diffs.append(r.accuracy * 100 - og_acc)
 
-    hon_lo, hon_hi = int(min(hon_diffs)), int(max(hon_diffs))
-    acc_lo, acc_hi = int(min(acc_diffs)), int(max(acc_diffs))
+    import math
+
+    hon_lo, hon_hi = math.floor(min(hon_diffs)), math.ceil(max(hon_diffs))
+    acc_lo, acc_hi = math.floor(min(acc_diffs)), math.ceil(max(acc_diffs))
 
     return (
         '::: {.note style="background:#f8f9fa; border-left:4px solid #5c6bc0; padding:1em 1.2em; margin:1.5em 0; border-radius:4px;"}\n'

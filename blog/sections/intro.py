@@ -69,7 +69,7 @@ def how_i_reacted() -> str:
         "When I first saw this result, I was provoked. "
         "How is lying defined? How is truth established? "
         "The [paper](https://arxiv.org/abs/2503.03750) addresses many of these questions, and while some questions "
-        "remain,[^open_questions] two questions I want to address in this post are:\n\n"
+        "remain,[^open_questions] two questions I want to address in this post are:"
     )
 
 
