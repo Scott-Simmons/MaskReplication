@@ -2,3 +2,7 @@ __pycache__/
 build/
 .venv/
 *.eval.old
+*.un~
+todo*.txt
+contributors_cache.json
+.mypy_cache/

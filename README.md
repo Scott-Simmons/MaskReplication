@@ -1,0 +1,44 @@
+# Mapping Deception
+
+Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html) — a replication of the [MASK benchmark](https://arxiv.org/abs/2503.03750) for evaluating AI honesty.
+
+## What's here
+
+| Path | Description |
+|---|---|
+| `blog/` | Blog post source — sections, figures, and the build pipeline |
+| `eval_logs/` | Raw `.eval` log files from the replication runs |
+| `scans/` | Parsed error scan results used by the plots |
+| `error_scanner.py` | Scans eval logs for parse errors by question archetype |
+| `audit_eval_logs.py` | Deep audit of eval log sample data |
+| `error_analysis.py` | Error distribution analysis across models and archetypes |
+
+## Build the blog post
+
+```bash
+pip install -e .          # or use the .venv
+make build                # generates build/blog_post.html
+make serve                # local preview at localhost:9437
+```
+
+## Contributions welcome
+
+Found an error, have better data, or want to extend the analysis? Please open an issue or PR. Suggested directions:
+
+- Replicate with additional models
+- Extend the honesty dimension analysis
+- Improve the error scanner heuristics
+- Spot mistakes in the write-up
+
+The eval is also on [Inspect Evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/) if you want to run it yourself.
+
+## Citation
+
+```bibtex
+@misc{simmons2025mappingdeception,
+      title={Mapping Deception},
+      author={Scott Simmons},
+      year={2025},
+      url={https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html},
+}
+```

@@ -217,7 +217,7 @@ def main() -> None:
         "      title={Mapping Deception},\n"
         "      author={Scott Simmons},\n"
         "      year={2025},\n"
-        "      url={TODO: final hosted URL},\n"
+        "      url={https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html},\n"
         "      note={Blog post, code, and eval logs available at https://github.com/Scott-Simmons/MaskReplication},\n"
         "}"
     )
