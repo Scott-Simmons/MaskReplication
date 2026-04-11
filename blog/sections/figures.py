@@ -176,7 +176,7 @@ def dimensions_vectors_empirical() -> str:
 
     runs = load_runs()
     lines = [
-        "| Model | $n$ | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ |",
+        "| Model | $n$ | Truthful ($H$) | Lie ($L$) | Evade ($E$) | No belief ($N$) | Error ($\\varepsilon$) |",
         "|---|---|---|---|---|---|---|",
     ]
     totals = {"n": 0, "H": 0, "L": 0, "E": 0, "N": 0, "e": 0}
@@ -260,20 +260,20 @@ def paper_vs_replication_table() -> str:
     for r in runs:
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
-            _, og_lie, og_acc = OG_PAPER_SCORES[og_name]
+            og_honest, og_lie, og_acc = OG_PAPER_SCORES[og_name]
             og_honesty = 100 - og_lie
-            rows.append((r, og_honesty, og_acc))
+            rows.append((r, og_honesty, og_honest, og_lie, og_acc))
         else:
-            rows.append((r, None, None))
+            rows.append((r, None, None, None, None))
 
-    # MASK Honesty table — 1 - P(lie) = 1 - L/n
+    # MASK Honesty table — 1 - P(lie)
     hon_lines = [
-        "**MASK Honesty**",
+        "**MASK Honesty** (1 − P(lie))",
         "",
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, og_honesty, _ in rows:
+    for r, og_honesty, _, _, _ in rows:
         rep = _binom_ci_str(r.honesty * 100, r.n)
         if og_honesty is not None:
             diff = r.honesty * 100 - og_honesty
@@ -284,6 +284,44 @@ def paper_vs_replication_table() -> str:
         else:
             hon_lines.append(f"| {r.display_name} | — | {rep} | — |")
 
+    # P(honest) table — H/n
+    phon_lines = [
+        "**P(honest)** (H/n)",
+        "",
+        "| Model | MASK paper | Replication (95% CI) | Diff |",
+        "|---|---|---|---|",
+    ]
+    for r, _, og_honest, _, _ in rows:
+        rep_val = r.dimensions.get("truthful", 0) / r.n * 100
+        rep = _binom_ci_str(rep_val, r.n)
+        if og_honest is not None:
+            diff = rep_val - og_honest
+            hw = _binom_ci_hw(rep_val, r.n)
+            phon_lines.append(
+                f"| {r.display_name} | {og_honest:.1f} | {rep} | {_color_diff(diff, hw)} |"
+            )
+        else:
+            phon_lines.append(f"| {r.display_name} | — | {rep} | — |")
+
+    # P(lie) table — L/n
+    plie_lines = [
+        "**P(lie)** (L/n)",
+        "",
+        "| Model | MASK paper | Replication (95% CI) | Diff |",
+        "|---|---|---|---|",
+    ]
+    for r, _, _, og_lie, _ in rows:
+        rep_val = r.dimensions.get("lie", 0) / r.n * 100
+        rep = _binom_ci_str(rep_val, r.n)
+        if og_lie is not None:
+            diff = rep_val - og_lie
+            hw = _binom_ci_hw(rep_val, r.n)
+            plie_lines.append(
+                f"| {r.display_name} | {og_lie:.1f} | {rep} | {_color_diff(diff, hw)} |"
+            )
+        else:
+            plie_lines.append(f"| {r.display_name} | — | {rep} | — |")
+
     # Accuracy table
     acc_lines = [
         "**Accuracy**",
@@ -291,7 +329,7 @@ def paper_vs_replication_table() -> str:
         "| Model | MASK paper | Replication (95% CI) | Diff |",
         "|---|---|---|---|",
     ]
-    for r, _, og_acc in rows:
+    for r, _, _, _, og_acc in rows:
         rep = _binom_ci_str(r.accuracy * 100, r.n)
         if og_acc is not None:
             diff = r.accuracy * 100 - og_acc
@@ -302,7 +340,12 @@ def paper_vs_replication_table() -> str:
         else:
             acc_lines.append(f"| {r.display_name} | — | {rep} | — |")
 
-    return "\n".join(hon_lines) + "\n\n" + "\n".join(acc_lines)
+    return (
+        "\n".join(hon_lines) + "\n\n"
+        + "\n".join(phon_lines) + "\n\n"
+        + "\n".join(plie_lines) + "\n\n"
+        + "\n".join(acc_lines)
+    )
 
 
 def deception_dimensions() -> str:
