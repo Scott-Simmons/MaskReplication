@@ -93,6 +93,7 @@ STRUCTURE = [
             dimensions.sampling_uncertainty_intro,
             dimensions.uncertainty_concrete_example,
             figures.error_rate_plot,
+            dimensions.ci_punchline,
         ],
     ),
     (
@@ -106,6 +107,8 @@ STRUCTURE = [
         [
             appendix.paper_vs_replication,
             figures.paper_vs_replication_table,
+            appendix.eval_config_intro,
+            figures.eval_config_table,
         ],
     ),
     (

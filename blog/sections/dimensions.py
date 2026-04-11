@@ -162,7 +162,7 @@ def parse_errors_explanation() -> str:
     return (
         "The Statistics questions use a separate judge (o3-mini) to parse numerical answers. "
         "Tuning parameters like `NUMERIC_JUDGE_MODEL`, `JUDGE_REASONING_EFFORT`, or `MAX_JUDGE_TOKENS` "
-        "would likely resolve this, though this diverges from the defaults used in the original MASK eval."
+        "would likely resolve this, though these are not the defaults used in the original MASK eval."
     )
 
 
@@ -203,6 +203,17 @@ def uncertainty_concrete_example() -> str:
         "conflates noise with real differences. Based on my previous investigation "
         "into parse errors, this matches what I already expect: errors are intrinsic to "
         "the o3-mini judge, not something that varies across the models being assessed."
+    )
+
+
+@interpretation
+def ci_punchline() -> str:
+    haiku_name, _, _, haiku_errors, o3_errors = _uncertainty_numbers()
+    error_ratio = int(round(o3_errors / haiku_errors))
+    return (
+        f"If confidence intervals were not on this plot, I could mistakenly assert that "
+        f"{haiku_name} is almost {error_ratio} times more reliable, "
+        "even though this difference is likely noise."
     )
 
 

@@ -314,3 +314,41 @@ def dumb_and_diplomat() -> str:
             "| Patrick Star | 0 | 0 | 0 | $n$ | 0 | 100% | undefined |",
         ]
     )
+
+
+@references_numbers
+def eval_config_table() -> str:
+    import json
+    import os
+    import zipfile
+    from collections import Counter
+    from pathlib import Path
+
+    logs_dir = Path("eval_logs")
+    configs: list[tuple[str, str, str, str, str]] = []
+    for fname in sorted(os.listdir(logs_dir)):
+        if not fname.endswith(".eval"):
+            continue
+        z = zipfile.ZipFile(logs_dir / fname)
+        header = json.loads(z.read("header.json"))
+        ev = header["eval"]
+        pkgs = ev.get("packages", {})
+        meta = ev.get("metadata", {})
+        task_args = ev.get("task_args", {})
+        configs.append((
+            meta.get("full_task_version", "?"),
+            task_args.get("binary_judge_model", "?"),
+            task_args.get("numeric_judge_model", "?"),
+            pkgs.get("inspect_ai", "?"),
+            pkgs.get("inspect_evals", "?"),
+        ))
+
+    counts = Counter(configs)
+    lines = [
+        "| MASK version | Binary judge | Numeric judge | inspect_ai | inspect_evals | Eval logs |",
+        "|---|---|---|---|---|---|",
+    ]
+    for (mask_v, binary_j, numeric_j, ai_v, evals_v), count in counts.most_common():
+        lines.append(f"| {mask_v} | {binary_j} | {numeric_j} | {ai_v} | {evals_v} | {count} |")
+    lines.append(f"| | | | | **Total** | **{len(configs)}** |")
+    return "\n".join(lines)

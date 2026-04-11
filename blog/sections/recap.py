@@ -12,10 +12,9 @@ def recap() -> str:
             "the `.eval` files into the `eval_logs/` directory. All results in this article will regenerate with "
             "`make clean build`. Raise a PR!",
             "",
-            "Here is an invocation to get you started (you will need to use [Inspect AI](https://inspect.aisi.org.uk/#getting-started)):",
+            "Here is an invocation to get you started (you will need to install [inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#installation)):",
             "",
             "```bash",
-            "# inspect_evals 0.6.1.dev4, inspect_ai 0.3.190.dev29, mask version 3-C",
             "inspect eval inspect_evals/mask \\",
             "    --model <A_NEW_MODEL_TO_ADD> \\",
             "    --log-dir ./eval_logs \\",

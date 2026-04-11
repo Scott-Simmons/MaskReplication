@@ -29,3 +29,12 @@ def paper_vs_replication() -> str:
             "3. **Different eval judges.** My replication uses gpt-4o-mini as the judge for yes/no questions. The original paper used gpt-4o. I did this to save on costs.",
         ]
     )
+
+
+def eval_config_intro() -> str:
+    return (
+        "Here is a configuration summary, generated from the eval log headers. "
+        "The inspect_ai and inspect_evals versions differ across some runs, but that is fine. "
+        "The [MASK version](https://ukgovernmentbeis.github.io/inspect_evals/contributing/repo/TASK_VERSIONING.html#task-version-structure) "
+        "tracks changes that could affect comparability:"
+    )
