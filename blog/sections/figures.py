@@ -390,7 +390,7 @@ def dumb_and_diplomat() -> str:
             "</div>",
             "</div>",
             "",
-            "| Agent | $H$ | $L$ | $E$ | $N$ | $\\varepsilon$ | MASK Honesty $1 - \\frac{L}{n}$ | Normalised MASK Honesty $1 - \\frac{L}{H+L+E}$ |",
+            "| Agent | Honest ($H$) | Lie ($L$) | Evade ($E$) | No belief ($N$) | Error ($\\varepsilon$) | MASK Honesty $1 - \\frac{L}{n}$ | Normalised MASK Honesty $1 - \\frac{L}{H+L+E}$ |",
             "|---|---|---|---|---|---|---|---|",
             "| Jesus Christ | $n$ | 0 | 0 | 0 | 0 | 100% | 100% |",
             "| Kash Patel | 0 | 0 | $n$ | 0 | 0 | 100% | 100% |",

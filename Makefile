@@ -45,7 +45,7 @@ encrypt-log:
 	@echo "Done. git add eval_logs/$(notdir $(LOG)).enc"
 
 release: build
-	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \
+	@VERSION=$$($(PYTHON) -c "from blog.version import VERSION; print(VERSION)"); \
 	if [ -d "versions/$$VERSION" ]; then \
 		echo "ERROR: versions/$$VERSION already exists. Bump VERSION first."; \
 		exit 1; \

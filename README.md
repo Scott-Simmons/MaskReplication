@@ -20,12 +20,12 @@ make build                # decrypts eval_logs/ → eval_logs_dec/, scans, gener
 make serve                # local preview at localhost:9437
 ```
 
-## If you are interested
+## Explore the eval results
 
 Explore the raw eval logs (requires `age_private.key`):
 
 ```bash
-make decrypt              # decrypts to eval_logs_dec/
+make decrypt              # (if not already done) decrypts to eval_logs_dec/
 uv run inspect view eval_logs_dec/
 ```
 
@@ -33,23 +33,23 @@ Run the eval yourself against a model of your choice. See [usage instructions](h
 
 ## Contributions welcome
 
-Found an error, have better data, or want to extend the analysis? Please open an issue or PR. Suggested directions:
+Suggested extensions:
 
-- Replicate with additional models
-- Extend the honesty dimension analysis
+- Add additional models
+- Extend the analysis (see footnotes for some directions that I think would be interesting).
 - Spot mistakes in the write-up
 
-The eval is also on [Inspect Evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/).
+## Adding additional models: contributions encouraged!
 
-## Adding your own eval logs: contributions encouraged!
-
-The public key (`age.pub`) is in the repo. You can encrypt your own logs without needing anything from the repo owner:
+The public key (`age.pub`) is in the repo.
 
 ```bash
 make encrypt-log LOG=path/to/your.eval   # produces eval_logs/your.eval.enc
 ```
 
 Then open a PR with the `.enc` file.
+
+I will update the blog post when a good number of additional models have been added.
 
 ## Citation
 
