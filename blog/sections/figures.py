@@ -176,7 +176,7 @@ def dimensions_vectors_empirical() -> str:
 
     runs = load_runs()
     lines = [
-        "| Model | $n$ | Truthful ($H$) | Lie ($L$) | Evade ($E$) | No belief ($N$) | Error ($\\varepsilon$) |",
+        "| Model | $n$ | Honest ($H$) | Lie ($L$) | Evade ($E$) | No belief ($N$) | Error ($\\varepsilon$) |",
         "|---|---|---|---|---|---|---|",
     ]
     totals = {"n": 0, "H": 0, "L": 0, "E": 0, "N": 0, "e": 0}

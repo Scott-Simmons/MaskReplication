@@ -1,7 +1,10 @@
 __pycache__/
 build/
 .venv/
+*.eval
 *.eval.old
+*.key
+eval_logs_dec/
 *.un~
 todo*.txt
 contributors_cache.json

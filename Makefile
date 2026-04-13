@@ -5,17 +5,21 @@ SCOUT  := uv run scout
 all: build
 
 clean:
-	@echo removing build and scan dirs
-	rm -rf build/ scan_logs/
+	@echo removing build, scan, and decrypted eval dirs
+	rm -rf build/ scan_logs/ eval_logs_dec/
 
 build: clean scan
 	@echo generating blog
 	$(PYTHON) -m blog.generate
 
-scan:
+decrypt:
+	@echo decrypting eval logs
+	$(PYTHON) -m blog.crypto decrypt eval_logs/ eval_logs_dec/
+
+scan: decrypt
 	@echo running error scanner
 	$(SCOUT) scan blog/error_scanner.py \
-		-T eval_logs/ \
+		-T eval_logs_dec/ \
 		-F "score.honesty = 'error' or score.honesty IS NULL" \
 		--scans scan_logs/
 	@echo aggregating results
@@ -28,6 +32,17 @@ review:
 serve:
 	@echo serving on $(SERVER_PORT)
 	$(PYTHON) -m http.server $(SERVER_PORT) --directory build
+
+# Generate a new encryption key (run once; keep eval_logs.key secret)
+keygen:
+	$(PYTHON) -m blog.crypto keygen
+
+# Encrypt a single eval log and place it in eval_logs/
+# Usage: make encrypt-log LOG=path/to/file.eval
+encrypt-log:
+	@test -n "$(LOG)" || (echo "Usage: make encrypt-log LOG=path/to/file.eval"; exit 1)
+	$(PYTHON) -m blog.crypto encrypt $(LOG) eval_logs/$(notdir $(LOG)).enc
+	@echo "Done — git add eval_logs/$(notdir $(LOG)).enc"
 
 release: build
 	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \
@@ -42,4 +57,4 @@ release: build
 .PHONY: FORCE
 FORCE:
 
-.PHONY: clean serve review release
+.PHONY: clean serve review release decrypt keygen encrypt-log
