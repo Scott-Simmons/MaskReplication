@@ -190,8 +190,12 @@ def main() -> None:
     output_dir = Path("build")
     output_dir.mkdir(exist_ok=True)
 
+    print("Generating markdown...")
     md_text = generate()
     (output_dir / "blog_post.md").write_text(md_text)
+    print(f"  {output_dir}/blog_post.md ({len(md_text):,} chars)")
+
+    print("Running pandoc...")
     html_text = generate_html(md_text)
     # Inject version stamp at the very bottom, after pandoc renders footnotes
     from blog.version import VERSION, CHANGELOG
@@ -251,31 +255,36 @@ def main() -> None:
         "</footer>"
     )
     html_text = html_text.replace("</body>", f"{version_html}\n</body>")
-    (output_dir / "blog_post.html").write_text(html_text)
-    (output_dir / "mask_eval.html").write_text(html_text)
-    (output_dir / "index.html").write_text(html_text)
+    for name in ("blog_post.html", "mask_eval.html", "index.html"):
+        (output_dir / name).write_text(html_text)
     (output_dir / "style.css").write_text(CSS_FILE.read_text())
+    print(f"  {output_dir}/blog_post.html ({len(html_text):,} chars)")
 
+    print("Generating changelog...")
     changelog_md = changelog.changelog()
     changelog_html = generate_html(changelog_md)
     (output_dir / "changelog.html").write_text(changelog_html)
+    print(f"  {output_dir}/changelog.html")
 
+    print("Copying assets...")
     assets_dst = output_dir / "assets"
     if assets_dst.exists():
         shutil.rmtree(assets_dst)
     shutil.copytree(ASSETS_DIR, assets_dst)
+    print(f"  {assets_dst}/")
 
-    # Copy archived versions into build if they exist
     versions_src = Path("versions")
     if versions_src.exists():
+        print("Copying archived versions...")
         versions_dst = output_dir / "versions"
         if versions_dst.exists():
             shutil.rmtree(versions_dst)
         shutil.copytree(versions_src, versions_dst)
+        archived = sorted(versions_dst.iterdir())
+        for v in archived:
+            print(f"  {v}/")
 
-    print(f"Generated: {output_dir}/blog_post.md")
-    print(f"Generated: {output_dir}/blog_post.html")
-    print(f"Generated: {output_dir}/changelog.html")
+    print(f"\nBuild complete: {output_dir}/ (v{version_label})")
 
 
 if __name__ == "__main__":

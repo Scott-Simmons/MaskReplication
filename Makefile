@@ -33,7 +33,7 @@ serve:
 	@echo serving on $(SERVER_PORT)
 	$(PYTHON) -m http.server $(SERVER_PORT) --directory build
 
-# Generate a new encryption key (run once; keep eval_logs.key secret)
+# Generate a new key pair (run once; keep age_private.key secret)
 keygen:
 	$(PYTHON) -m blog.crypto keygen
 
@@ -42,7 +42,7 @@ keygen:
 encrypt-log:
 	@test -n "$(LOG)" || (echo "Usage: make encrypt-log LOG=path/to/file.eval"; exit 1)
 	$(PYTHON) -m blog.crypto encrypt $(LOG) eval_logs/$(notdir $(LOG)).enc
-	@echo "Done — git add eval_logs/$(notdir $(LOG)).enc"
+	@echo "Done. git add eval_logs/$(notdir $(LOG)).enc"
 
 release: build
 	@VERSION=$$(python -c "from blog.version import VERSION; print(VERSION)"); \

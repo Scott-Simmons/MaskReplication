@@ -8,6 +8,7 @@ eval_logs_dec/
 *.un~
 todo*.txt
 contributors_cache.json
+reviewed.json
 .mypy_cache/
 logs/
 scan_logs/

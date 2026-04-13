@@ -1,18 +1,18 @@
 # Mapping Deception
 
-Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html) — a replication of the [MASK benchmark](https://arxiv.org/abs/2503.03750) for evaluating AI honesty.
+Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html), a replication of the [MASK benchmark](https://arxiv.org/abs/2503.03750) for evaluating AI honesty.
 
 ## What's here
 
 | Path | Description |
 |---|---|
-| `blog/` | Blog post source — sections, figures, and the build pipeline |
+| `blog/` | Blog post source: sections, figures, and the build pipeline |
 | `eval_logs/` | Encrypted (`.eval.enc`) eval logs from the replication runs |
 
 ## Build the blog post
 
-The eval logs are encrypted to comply with the [MASK dataset access policy](https://huggingface.co/datasets/centerforaisafety/MASK).
-To build you need `age_private.key` (the private key) in the repo root — open an issue with your email and I'll send it.
+The eval logs are encrypted to comply with the [MASK dataset access policy](https://huggingface.co/datasets/cais/MASK).
+To build you need `age_private.key` (the private key) in the repo root. Open an issue with your email and I'll send it.
 
 ```bash
 uv sync
@@ -29,7 +29,7 @@ make decrypt              # decrypts to eval_logs_dec/
 uv run inspect view eval_logs_dec/
 ```
 
-Run the eval yourself against a model of your choice — see [usage instructions](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#usage).
+Run the eval yourself against a model of your choice. See [usage instructions](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#usage).
 
 ## Contributions welcome
 
@@ -41,7 +41,9 @@ Found an error, have better data, or want to extend the analysis? Please open an
 
 The eval is also on [Inspect Evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/).
 
-**Adding your own eval logs:** The public key (`age.pub`) is in the repo — you can encrypt your own logs without needing anything from the repo owner:
+## Adding your own eval logs: contributions encouraged!
+
+The public key (`age.pub`) is in the repo. You can encrypt your own logs without needing anything from the repo owner:
 
 ```bash
 make encrypt-log LOG=path/to/your.eval   # produces eval_logs/your.eval.enc
