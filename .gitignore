@@ -3,7 +3,7 @@ build/
 .venv/
 *.eval
 *.eval.old
-age.key
+age_private.key
 eval_logs_dec/
 *.un~
 todo*.txt

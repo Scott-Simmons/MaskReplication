@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 PUB_KEY_FILE = Path("age.pub")
-PRIV_KEY_FILE = Path("age.key")
+PRIV_KEY_FILE = Path("age_private.key")
 
 
 def _load_public_key() -> str:
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         identity = pyrage.x25519.Identity.generate()
         PRIV_KEY_FILE.write_text(str(identity) + "\n")
         PUB_KEY_FILE.write_text(str(identity.to_public()) + "\n")
-        print(f"Private key → {PRIV_KEY_FILE} (gitignored, keep secret)")
+        print(f"Private key → {PRIV_KEY_FILE} (gitignored — keep secret)")
         print(f"Public key  → {PUB_KEY_FILE} (commit this)")
 
     elif cmd == "encrypt":
