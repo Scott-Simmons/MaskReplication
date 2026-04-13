@@ -11,12 +11,12 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 
 ## Build the blog post
 
-The eval logs are encrypted to comply with the [MASK dataset access policy](https://github.com/LRNLab/MASK).
-To build you need `age_private.key` (the private key) in the repo root — contact the repo owner to request it.
+The eval logs are encrypted to comply with the [MASK dataset access policy](https://huggingface.co/datasets/centerforaisafety/MASK).
+To build you need `age_private.key` (the private key) in the repo root — open an issue with your email and I'll send it.
 
 ```bash
 uv sync
-make build                # decrypts eval_logs/, scans, generates build/blog_post.html
+make build                # decrypts eval_logs/ → eval_logs_dec/, scans, generates build/blog_post.html
 make serve                # local preview at localhost:9437
 ```
 
@@ -29,13 +29,7 @@ make decrypt              # decrypts to eval_logs_dec/
 uv run inspect view eval_logs_dec/
 ```
 
-Run the eval yourself against a model of your choice:
-
-```bash
-uv run inspect eval inspect_evals/mask --model openai/gpt-4o
-```
-
-More details on running the eval [here](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#usage).
+Run the eval yourself against a model of your choice — see [usage instructions](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#usage).
 
 ## Contributions welcome
 
