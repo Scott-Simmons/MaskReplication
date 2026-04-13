@@ -12,7 +12,7 @@ Code and data for the blog post [**Mapping Deception**](https://sdsimmons.com/as
 ## Build the blog post
 
 The eval logs are encrypted to comply with the [MASK dataset access policy](https://github.com/LRNLab/MASK).
-To build you need `age.key` (the private key) in the repo root — contact the repo owner to request it.
+To build you need `age_private.key` (the private key) in the repo root — contact the repo owner to request it.
 
 ```bash
 uv sync
@@ -22,7 +22,7 @@ make serve                # local preview at localhost:9437
 
 ## If you are interested
 
-Explore the raw eval logs (requires `age.key`):
+Explore the raw eval logs (requires `age_private.key`):
 
 ```bash
 make decrypt              # decrypts to eval_logs_dec/
