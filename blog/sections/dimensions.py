@@ -205,9 +205,8 @@ def ci_punchline() -> str:
     haiku_name, o3_name, _, haiku_errors, o3_errors = _uncertainty_numbers()
     error_ratio = int(round(o3_errors / haiku_errors))
     return (
-        f"But without confidence intervals reported on this plot, it **would be easy to mistakenly conclude that "
-        f"{haiku_name} is almost {error_ratio} times lower error rate than {o3_name}** ({round(o3_errors, 4)}% vs {round(haiku_errors, 4)}%), "
-        "even though this difference is likely noise."
+        f"But the **{error_ratio}x difference** in error rates between {haiku_name} and {o3_name} "
+        "looks more meaningful than it is. The confidence intervals make clear it is noise."
     )
 
 
