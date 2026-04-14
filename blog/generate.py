@@ -161,7 +161,7 @@ def generate_html(md_text: str) -> str:
             "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
             "--css=style.css",
             "--standalone",
-            "--metadata=title:Mapping Deception",
+            "--metadata=title:Mapping Deception: Replicating an AI Honesty Benchmark with Inspect AI",
         ],
         input=md_text,
         capture_output=True,
@@ -218,7 +218,7 @@ def main() -> None:
     )
     blog_bibtex = (
         "@misc{simmons2025mappingdeception,\n"
-        "      title={Mapping Deception},\n"
+        "      title={Mapping Deception: Replicating an AI Honesty Benchmark with Inspect AI},\n"
         "      author={Scott Simmons},\n"
         "      year={2025},\n"
         "      url={https://sdsimmons.com/assets/writing/mask-blog-post/mask_eval.html},\n"
