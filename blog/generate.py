@@ -18,7 +18,7 @@ from blog.sections import (
 
 STRUCTURE = [
     (
-        "# Mapping Deception",
+        "# Mapping Deception: Replicating an AI Honesty Benchmark with Inspect AI",
         [
             intro.byline,
             intro.tldr,
@@ -243,8 +243,8 @@ def main() -> None:
     issue_thanks = contributors_thanks_html()
     version_html = (
         '<footer style="text-align:center; margin-top:4em; padding-top:1.5em; border-top:1px solid #eee; color:#999; font-size:0.85em;">'
-        f'{reviewer_thanks}'
-        f'{issue_thanks}'
+        f"{reviewer_thanks}"
+        f"{issue_thanks}"
         f'<p>Version {version_label} · {version_date} · <a href="changelog.html">changelog</a></p>'
         f"<details {details_style}><summary {summary_style}>cite this post</summary>"
         f"<pre {pre_style}>{blog_bibtex}</pre></details>"
