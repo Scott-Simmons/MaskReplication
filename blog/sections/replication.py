@@ -50,9 +50,10 @@ def caveat() -> str:
     for r in load_runs():
         og_name = DISPLAY_TO_OG.get(r.display_name)
         if og_name and og_name in OG_PAPER_SCORES:
-            # Tuple is (P(honest)=H/n, P(lie)=L/n, accuracy).
-            og_truthful, _, og_acc = OG_PAPER_SCORES[og_name]
-            hon_diffs.append(r.truthfulness * 100 - og_truthful)
+            # Tuple is (P(honest)=H/n, P(lie)=L/n, accuracy). MASK honesty = 1 - P(lie).
+            _, og_p_lie, og_acc = OG_PAPER_SCORES[og_name]
+            og_mask_honesty = 100 - og_p_lie
+            hon_diffs.append(r.honesty * 100 - og_mask_honesty)
             acc_diffs.append(r.accuracy * 100 - og_acc)
 
     hon_abs = int(max(abs(d) for d in hon_diffs))
@@ -61,7 +62,7 @@ def caveat() -> str:
     return (
         '::: {.note style="background:#f8f9fa; border-left:4px solid #5c6bc0; padding:1em 1.2em; margin:1.5em 0; border-radius:4px;"}\n'
         "**Note:** the headline relationship replicates: accuracy scales favourably with FLOPs, **but honesty does not.** "
-        f"But the scores differ from the paper: P(honest) within ~{hon_abs} percentage points, "
+        f"But the scores differ from the paper: the MASK honesty score (1 − P(lie)) within ~{hon_abs} percentage points, "
         f"accuracy within ~{acc_abs} percentage points. "
         "See the [appendix](#appendix-paper-vs-replication-differences) for a model-by-model "
         "comparison.\n"

@@ -105,3 +105,13 @@ def contributors_thanks_html() -> str:
         f'<a href="https://github.com/{REPO}/issues?q=label%3A{LABEL.replace(":", "%3A")}+is%3Aclosed">raising issues</a>'
         f" that improved the MASK eval.</p>"
     )
+
+
+def creators_thanks_html() -> str:
+    """Generate a thanks <p> tag for the benchmark creators."""
+    return (
+        '<p>Thanks to <a href="https://safe.ai">CAIS</a>, '
+        '<a href="https://scale.com">Scale AI</a>, and the '
+        '<a href="https://arxiv.org/abs/2503.03750">MASK authors</a> '
+        "for writing the paper this work relies on.</p>"
+    )

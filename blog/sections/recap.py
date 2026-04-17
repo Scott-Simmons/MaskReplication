@@ -12,7 +12,7 @@ def recap() -> str:
             "the `.eval` files into the `eval_logs/` directory.\n\nAll results in this article will regenerate with "
             "`make clean build`. Raise a PR!",
             "",
-            "Here is an invocation to get you started (you will need to install [inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#installation)):",
+            "Here is an invocation to get you started (install [inspect_evals](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/mask/#installation) first):",
             "",
             "```bash",
             "inspect eval inspect_evals/mask \\",
@@ -26,6 +26,6 @@ def recap() -> str:
             "[abliterated models](https://huggingface.co/blog/mlabonne/abliteration), (current and future) frontier models, and xAI models, which would be "
             "interesting given their "
             '[stated emphasis](https://x.com/elonmusk/status/1948572708369039542) on building "maximally truth-seeking" AI. '
-            "Right now, with respect to honesty, Anthropic models appear to be in [another league](https://labs.scale.com/leaderboard/mask).",
+            "Right now, with respect to honesty, Anthropic models appear to be in [another league](https://labs.scale.com/leaderboard/mask) (per Scale AI, hinted at by Haiku 4.5 here).",
         ]
     )
